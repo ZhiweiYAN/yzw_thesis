@@ -1,0 +1,79 @@
+\documentclass[s4hao,a4paper,oneside,chapteropenright,hardcopy,sloppy,headings]{xjtuthesis}
+\setchapformat{\song\zihao{3}}{\zihao{3}} \graphicspath{{../figures/}}
+
+\usepackage[vlined,ruled,linesnumbered]{algorithm2e}
+\usepackage{booktabs}
+\usepackage{enumerate}
+\usepackage[left=2.6cm, right=2.6cm,top=3.0cm,bottom=2.5cm,a4paper]{geometry}
+
+\begin{document}
+\iffalse
+\title{Template of PhD Theses}
+\ctitle{博士论文模板}
+\author{Name}
+\cauthor{燕志伟} \major{Major} \cmajor{专业} \research{Research Direction}
+\cresearch{研究方向} \researchtype{Research Type} \cresearchtype{研究类型}
+\teacher[Prof.]{Supervisor} \cteacher[教授]{刘贵忠} \catID{catID}
+\security{公开}
+\datesubmitted{Submission Date}
+\cdatesubmitted{论文提交日期}
+\datedefense{Defense Date}
+\cdatedefense{论文答辩日期}
+
+\maketitle
+\begin{cabstract}
+054063029801 410711197308111547 2010-06-24写了一会
+2010-06-10今日写了一会儿。054063029801 054063029801 2010-05-18，今日30分钟。
+2010-05-13.终于又开始了。 2010-03-26，今天写了半个小时，完成了任务。
+2010-03-25.这是正式写论文的开始.这是中文摘要。
+
+
+\ckeywords{摘要}
+\end{cabstract}
+
+\begin{abstract}
+
+This is English abstract.
+
+\keywords{abstract}
+\end{abstract}
+
+\tableofcontents
+
+\mainmatter
+
+\chapter{引言}
+\fi
+\tableofcontents
+\input{../body/preface.tex}
+\iffalse
+\input{../body/cncom.tex}
+\fi
+\input{../body/cacop.tex}
+\input{../body/iccs.tex}
+
+%\appendix必须在\backmatter之前调用
+%\appendix
+
+%\chapter{高速移动中的无线网络基站切换算法}
+%本章针对在WiMAX网络中,高速移动用户基站切换的流程进行分析,建立了一个
+
+%\section{测试}
+
+%\chapter{测试}
+
+%\section{测试}
+
+\backmatter
+
+\begin{acknowledgement}
+\input{../body/ack.tex}
+\end{acknowledgement}
+
+\bibliographystyle{chinesebst}
+\bibliography{../reference/bibliography}
+
+\mypub{攻读博士期间发表相关文章列表}{chinesebst}{../reference/mypub}
+
+%\noveltyandcopyright%学位论文独创性/知识产权权属声明
+\end{document}

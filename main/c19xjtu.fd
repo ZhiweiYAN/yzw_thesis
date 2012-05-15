@@ -1,0 +1,29 @@
+% This is the file c19xjtu.fd of the CJK package
+%   for using Asian logographs (Chinese/Japanese/Korean) with LaTeX2e
+%
+% created by Werner Lemberg <wl@gnu.org>
+% modified by cxterm <cxterm@www.ctex.org>
+% modified by hooklee <hooklee@hooklee.com>
+%
+% Version 4.5.0 (01-May-2002)
+
+\def\fileversion{4.5.0}
+\def\filedate{2002/05/01}
+\ProvidesFile{c19xjtu.fd}[\filedate\space\fileversion]
+
+
+% Chinese characters (extension of GB 2312)
+%
+% character set: GBK
+% font encoding: CJK (extended)
+
+\DeclareFontFamily{C19}{xjtu}{\hyphenchar \font\m@ne}
+
+\DeclareFontShape{C19}{xjtu}{m}{n}{<-> CJK * gbksong}{}
+\DeclareFontShape{C19}{xjtu}{bx}{n}{<-> CJK * gbkhei}{}
+\DeclareFontShape{C19}{xjtu}{m}{sl}{<-> CJK * gbkfs}{}
+\DeclareFontShape{C19}{xjtu}{bx}{sl}{<-> CJKb * gbkfs}{\CJKbold}
+\DeclareFontShape{C19}{xjtu}{m}{it}{<-> CJK * gbkkai}{}
+\DeclareFontShape{C19}{xjtu}{bx}{it}{<-> CJKb * gbkkaisl}{\CJKbold}
+
+\endinput
