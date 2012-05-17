@@ -626,7 +626,8 @@ LaTeX document class for Ph. D. theses of Xi'an Jiaotong University]
 \newcounter{table}[chapter]
 \renewcommand \thetable
      {\ifnum \c@chapter>\z@ \thechapter.\fi \@arabic\c@table}
-\def\fps@table{!htb}%原为tbp
+\def\fps@table{t}%原为tbp
+%\def\fps@table{!htb}%原为tbp
 \def\ftype@table{2}
 \def\ext@table{lot}
 \def\fnum@table{\tablename\nobreakspace\thetable}
@@ -1212,7 +1213,7 @@ LaTeX document class for Ph. D. theses of Xi'an Jiaotong University]
 \csname bibliography#2\endcsname{#5}}%其他论文列表
 
 %数学支持宏包
-\RequirePackage{amsmath}
+\RequirePackage[fleqn]{amsmath}
 \RequirePackage{bm}
 \RequirePackage[amsmath,thmmarks]{ntheorem}
 \RequirePackage{mathrsfs}
