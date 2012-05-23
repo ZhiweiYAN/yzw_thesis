@@ -237,15 +237,13 @@ OFDM技术近十年来的发展，在这个问题解决起来很大的作用。
 \item 带宽利用率 (Bandwidth Utilization, BU)，指接纳进入网络后，所有被分配出去的带宽资源之和与系统的总带宽资源之间的比值。
 \end{enumerate}
 
-在早期呼叫接纳控制的研究中，研究工作主要可分为信道预留、动态带宽分配与呼叫请求的排队与调度等三个方面。
+在早期呼叫接纳控制的研究中，研究工作主要集中在信道预留与呼叫请求的排队与调度方面。
 
-\begin{enumerate}[(1)]
-\item 基于信道预留的呼叫接入控制算法：这类方法是蜂窝网络研究中的典型论题，并且进行了大量的研究。
 基于信道预留的方法的本质是对系统中不同的用户（如新用户，切换用户或是其它类别的用户）加以区分，在资源管理时对不同类别的用户分别预留一定数量的资源。
 这里所指的资源可以是带宽、信道数目或是传输的功率。
 它的优点是可以显著地提高切换用户的切换成功的概率。
-根据预留策略的不同又可细分为传统的信道预留（Conventional Guard Channel, CGC）\cite{Hong:1986} \cite{Lunayach:1982}\cite{Posner:1985}，比例信道预留（Fractional Guard Channel，FGC）\cite{Ramjee:1997} \cite{Y-G-Fang.TVT.2002}\cite{Vazquez:2006}\cite{CruzPerez:1999}，受限比例信道预留（Limited Fractional Guard Channel，LFGC）\cite{CruzPerez:1999}以及统一比例信道预留（Uniform Fractional Guard Channel，UFGC）\cite{Beigy:2004}
-这类方法的共同特点是要对不同用户的信道占用时间做出较为准确的估计，并依据估值对信道进行静态或动态预留。
+根据预留策略的不同又可细分为传统的信道预留（Conventional Guard Channel, CGC\cite{Hong:1986}\cite{Lunayach:1982}\cite{Posner:1985}，比例信道预留（Fractional Guard Channel，FGC\cite{Ramjee:1997}\cite{Y-G-Fang.TVT.2002}\cite{Vazquez:2006}，受限比例信道预留（Limited Fractional Guard Channel，LFGC）\cite{CruzPerez:1999}以及统一比例信道预留（Uniform Fractional Guard Channel，UFGC）\cite{Beigy:2004}
+这类方法的共同特点是要对不同用户（新用户或是切换用户）的信道占用时间做出较为准确的估计，并依据估值对信道进行静态或动态预留。
 最简单的方法是Hong和Rappaport提出的\cite{Hong:1986}。
 他们假定新的用户与切换的用户占用信道的平均时间是相等的，并基于这个假设为不同类别的用户预留资源。
 当然，这种方法的缺点是用户占用信道的平均时间估计其实并不准确。 所以，以后的学者采用了不同方法来对其进行改善。
@@ -254,9 +252,22 @@ OFDM技术近十年来的发展，在这个问题解决起来很大的作用。
 学者Del Re提出可以对用户的类别信息增加权重来进一步改善精度\cite{Del1995}。
 还有学者提出一个更为复杂的两维状态空间和相位合并算法来估计信道占用的概率分布函数\cite{Melikov:2006}。
 
-\end{enumerate}
+随着通信技术的发展，其承载的业务种类也逐渐增多。
+因为传统的只针对话音业务的呼叫接纳算法已经不能满足实际应用的要求，所以，支持多媒体业务（话音、视频等）的接纳控制算法也引起了研究者的重视。
+人们从业务的优先级、资源共享的公平性等方面做了大量的工作。
+学者Tseng和Hgiao首先在ATM（Asynchronous Transfer mode）网络中将话音和普通数据流通过优先级区分开。
+它把话音数据用马尔可夫模型描述，而把普通数据流通过一个混合的泊松模型描述。给话音更高优先级来使用资源\cite{Tseng:1991}。
+这种简单的方法被学者Peha进行了扩展，它引入了一个优先级令牌库（priority token bank），通过动态地调度令牌来更加公平地对待每一种业务\cite{Peha:1993}。
+学者Iera和Fernandez等人又从数据的流量特点来提出了突发型的优先级的概念\cite{Iera:1996}\cite{Fernandez:1997}。
 
-\par
+由于视频等宽带多媒体技术的发展，人们将应用层信源编码的技术引入到呼叫接纳控制算法中来。
+当无线信道的质量下降或是基站业务负载过大时，通信调整信源编码来降低码率。
+这样会保使得这些业务的速率可以动态调整，系统容量也不再是一个固定的。
+而是在一定范围内波动。传统的接纳算法也就要做相应地调整。
+例如，学者Sanjoy等提出一种基于实时和非实时业务QoS降级的算法。
+通过建立一套QoS参数的系统效用函数，确定最佳的方案。同时在接纳控制方案中采用这个效用函数，可以最大程度地改善无线资源的利用率。
+
+对带宽资源的需求较大
 \subsection{切换控制的研究现状}
 
 \par 
