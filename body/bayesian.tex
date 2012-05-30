@@ -1,5 +1,4 @@
 \chapter{基于Bayesian博弈模型的资源分配算法}
-\label{chap_bayesian}
 \label{chap_bayesian_game}
 在博弈论中有这样一种博弈：一些参与者可能不知道其他参与者的收益。
 我们将这种类型的博弈称之为不完全信息的博弈。
@@ -47,10 +46,144 @@
 我们假设这个值是一个随机的变量，且只有用户自己知道具体的数值。
 这里需要注意是，用户虽然不知道其他用户成本随机变量的具体数值，但是知道这个随机变量的分布函数。
 这里，我们假设所有用户成本随机变量是独立同分布的，并且其累积概率分布函数~$P(\cdot)$~在区间~$[C_{\min}, C_{\max}]$~是连续增函数，
-其中~$0 \leq C_{\min} < C_{\max}$~，且我们设 ~$P(C_{\min})=0$~，~$P(C_{\max})=1$~。
+%其中~$0 \leq C_{\min} < C_{\max}$~，且我们设 ~$P(C_{\min})=0$~，~$P(C_{\max})=1$~。
 
+对于一个用户而言，它的策略选择可用函数~$s_i(c_i)$~来描述。
+此函数的定义域是区间~$[C_{\min}, C_{\max}]$~，值域是集合~$\{0,1\}$~中取任意一个值。
+~$1$~表示用户愿意“贡献”；~$0$~表示用户“拒绝贡献”。
+~$i$~表示用户的序号。
+
+因此，对于用户~$i$~来说，他的收益函数可以定义为
+\begin{equation}
+ u_i(s_i, s_{-i}, c_i, b, \tau) = s_i(b - c_i) - \max\{s_{-i}\} \tau
+\label{eqn_player_payoff}     
+\end{equation}
+其中，记号~$-i$~表示除参与者~$i$~之外的其它所有参与者的集合。
+记号~$s_{-i}$~表示参与者集合~$-i$~的策略选择。
+%
 \section{Bayesian博弈分析}
-\section{仿真实验与结果}
-\section{小结}
+对于所有用户的选择来说，一个Bayesian均衡可以用一个策略向量~$( s_1^*(c_1^*), s_2^*(c_2^*), \ldots, s_N^*(c_N^*) )$~来描述。
+对于每一个理性且自私的用户，他总想通过自己的选择来使自己的收益最大化，~$\max(u_i)$~。
+如果我们使用混合策略，那么问题会转化为最大化用户的期望收益，~$\max{E(u_i)}$~。
+这里我们定义一个均衡概率的概念，~$\theta_{-i}$~。
+它表示对于用户~$i$~而言，至少有一个其他的用户的决定是贡献的概率。
+这个概率的具体形式是
+\begin{equation}
+    \theta_{-i} = \hbox{Prob} \Bigl\{ \max\{ s_{-i}^*\} = 1 \Bigr\} 
+    \label{eqn_at_least_one_probability} 
+\end{equation}
+对于一个给定的用户~$i$~，他的期望收益可以定义为如下公式：
+\begin{align}
+     E(u_i) &= \theta_{-i} [s_i(b-c_i) -\tau] + (1-\theta_{-i}) (s_i(b-c_i) - 0) \notag\\ 
+     &= s_i(b-c_i) - \theta_{-i}\tau
+    \label{eqn:player_expe_payoff}
+\end{align}
+从公式\ref{eqn:player_expe_payoff}可以看出，
+如果用户~$i$~的成本~$c_i$~小于~$b-\theta_{-i}\tau$~，那么用户~$i$~的决策就是贡献，也就是~$s_{i}^*=1$~。
+如果~$c_i > b - \theta_{-i} \tau$~，那么用户就不愿意贡献，而会选择拒绝，~$s_i^*(c_i) = 0$~。
+那么我们可以将其写为一个分段函数的形式。
+\begin{align}
+    s_i^*(c_i) = \begin{cases} 1, &\text{if $c_i < b -\theta_{-i}\tau$;}\\
+        0, &\text{if $c_i > b -\theta_{-i}\tau$.}\\ \end{cases} 
+    \label{eqn_equilibrium_strategy} 
+\end{align}
+从公式\ref{eqn_equilibrium_strategy}可以看出，用户$i$的成本对决策的影响很关键。
+如果他的成本$c_i$在区间$ [C_{\min}, c_i^*] $，用户的决策就是同意贡献。
+所以，我们又可求得用户$i$贡献的均衡概率$P(c_i^*)$。
+\begin{align}
+    P(c_i^*) = \hbox{Prob} \Bigl\{ C_{\min} < c_i \leq c_i^* \Bigr\} 
+    \label{eqn:equil_prob_c_i}
+\end{align}
+而且，
+如果存在这样一个均衡，那么它的概率可以计算出来。
+\begin{align*} 
+    \theta_{-i} &= \hbox{Prob} \Bigl\{ \max\{ s_{-i}^*\} = 1 \Bigr\} \\ 
+    &= 1- (1-P(c_1^*))(1-P(c_2^*))\cdots(1-P(c_{i-1}^*)) (1-P(c_{i+1}^*)) \cdots(1-P(c_N^*)) \\ 
+    &= 1- \prod_{j\in\{-i\}} [1-P(c_j^*)] 
+\end{align*}
+同时，从公式\ref{eqn_at_least_one_probability}和公式\ref{eqn_equilibrium_strategy}可知，
+成本 $c_i$是关键，并且要满足公式\ref{eqn_equilibrium_cost}
+\begin{align}
+    c_i^* &= b - \theta_{-i} \tau \notag\\
+    &= b - \tau + \Bigl[ \prod_{j \in\{-i\} } [1 - P(c_j^*) ] \Bigr] \tau
+    \label{eqn_equilibrium_cost} 
+\end{align}
+又因为，对于任意一个$c_i, i=1,\ldots, N$，都要满足公式\ref{eqn_equilibrium_cost}。
+所以，$c_i, i=1,\ldots, N$之间是可以互换的，也就是说如果存在一个唯一的$c^*$，且满足\ref{eqn_equilibrium_cost}，
+那么它们值是相等的且可用下面式子计算得出。
+\begin{align}  
+    c_i^* &= c^* = b - \theta_{-i} \tau \notag\\ 
+    &= b - \tau  + \Bigl[ \prod_{j \in\{-i\} } [0 - P(c_j^*) ] \Bigr] \tau \notag\\ 
+    &= b - \tau + \Bigl[ [1 - P(c^*)]^{N-1} \Bigr] \tau
+\label{ eqn_onlyone_equilibrium_cost }
+\end{align}
+%%%%%%%%%%%%%%
+\section{数值分析与讨论}
+我们对两种最常见的概率分布形式进行分析与讨论。
+\subsection{均匀分布的情况}
+均匀分布是连续概率分布函数中最常见和最简单。它在所有的概率分布中占着重要的地位。
+许多实际上重要的随机变量者服从或是近似服从均匀分布。
+此处，我们假设用户的类型的概率分布$P(\cdot)$是在区间$[C_{\min}=0, C_{\max}=1]$上的均匀分布。
+它的概率密度函数为
+\begin{align}
+    f_(c) = \begin{cases} c, &\text{if $c \in [C_{\min}=0, C_{\max}=1]$;}\\
+        0, &\text{others}\\ 
+    \end{cases} 
+    \label{eqn_equilibrium_prob} 
+\end{align}
+其中，我们假设对于用户的成本被认为是归一化的。
+则达到成本均衡$c^*$来说，它的概率为
+\begin{align} 
+    P(c^*) &= \text{Prob} \Bigl\{ 0 < c_i < c^*\Bigr\} \notag\\ 
+    &= \frac{c^*}{C_{\max}-C_{\min}} \notag\\
+    &= c^* 
+    \label{eqn_probability_of_contribution} 
+\end{align}
+我们把公式\ref{eqn_probability_of_contribution}代入公式\ref{eqn_equilibrium_prob}则有
+\begin{align*} 
+    c^* &= b - \tau + (1-c^*)^{N-1}\tau
+\end{align*}
+当我们把均衡概率图画出来，就会发现一个些有意义的理论结果，
+如图\ref{fig:bayesian_user_numb_vs_contr_prob}和图\ref{fig:bayesian_puni_para_vs_cont_prob}。
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[!htb]
+\begin{centering}
+\includegraphics[scale=0.7]{../figures/bayesian_user_number_vs_contribute_probability.eps}
+\caption{用户数目与贡献概率的关系}
+\label{fig:bayesian_user_numb_vs_contr_prob}
+\end{centering}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}[!htb]
+\begin{centering}
+\includegraphics[scale=0.7]{../figures/bayesian_punish_parameter_vs_contribute_probability.eps}
+\caption{惩罚系数与贡献概率之间的关系}
+\label{fig:bayesian_puni_para_vs_cont_prob}
+\end{centering}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+当用户数目增多时，贡献的概率会随之降低。
+这意味着，当系统中用户较少时，用户容易做出接受资源调整的决策。
+而当系统用户较多时，即使用户的收益比成本高，用户也可能会做也拒绝的决定。
+并且，从图中还可以看到均衡成本在用户数目极大时，存在极限$b-\tau$。
+另外，
+当惩罚的系数的值增大时，并不会让用户决定贡献的机率增大。这一点与我们的直觉是不同的。
+因此在系统中设置一个能够自适应网络状态的奖励参数和惩罚参数是十分必要的。
+\subsection{正态分布的情况}
+对于用户的成本类型，第二种我们假设的概率分布是对数正态分布。
+也是一个在数学、物理及工程等领域都非常重要的概率分布。
+对于用户成本随机变量$c$服从一个位置参数为$\mu$，尺度参数为$\sigma$的概率分布，
+通常可以记为
+\begin{align*}
+    c \sim N(\mu, \sigma^2)
+    \label{eqn:normal_distribution}
+\end{align*}
+服从正态分布的随机变量的概率密度函数$\f(c)$由下式给出，
+\begin{align*}
+    f(c) = \frac{1}{\sigma \sqrt{2\pi} } e^{ \frac{-(c-\mu)^2}{2\sigma^2}}
+\end{align*}<++>
 
-%chapter_end
+\section{仿真实验与结果}
+
+\section{小结}
