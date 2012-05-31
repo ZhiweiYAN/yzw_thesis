@@ -1,3 +1,4 @@
+\graphicspath{{../body/bayesian_figures/}}
 \chapter{基于Bayesian博弈模型的资源分配算法}
 \label{chap_bayesian_game}
 在博弈论中有这样一种博弈：一些参与者可能不知道其他参与者的收益。
@@ -61,7 +62,7 @@
 其中，记号~$-i$~表示除参与者~$i$~之外的其它所有参与者的集合。
 记号~$s_{-i}$~表示参与者集合~$-i$~的策略选择。
 %
-\section{Bayesian博弈分析}
+\section{Baye sian博弈分析}
 对于所有用户的选择来说，一个Bayesian均衡可以用一个策略向量~$( s_1^*(c_1^*), s_2^*(c_2^*), \ldots, s_N^*(c_N^*) )$~来描述。
 对于每一个理性且自私的用户，他总想通过自己的选择来使自己的收益最大化，~$\max(u_i)$~。
 如果我们使用混合策略，那么问题会转化为最大化用户的期望收益，~$\max{E(u_i)}$~。
@@ -115,7 +116,7 @@
     c_i^* &= c^* = b - \theta_{-i} \tau \notag\\ 
     &= b - \tau  + \Bigl[ \prod_{j \in\{-i\} } [0 - P(c_j^*) ] \Bigr] \tau \notag\\ 
     &= b - \tau + \Bigl[ [1 - P(c^*)]^{N-1} \Bigr] \tau
-\label{ eqn_onlyone_equilibrium_cost }
+\label{eqn:chap_bayesian:equilibrium_cost_equation}
 \end{align}
 %%%%%%%%%%%%%%
 \section{数值分析与讨论}
@@ -139,7 +140,7 @@
     &= c^* 
     \label{eqn_probability_of_contribution} 
 \end{align}
-我们把公式\ref{eqn_probability_of_contribution}代入公式\ref{eqn_equilibrium_prob}则有
+我们把公式\ref{eqn_probability_of_contribution}代入公式\ref{eqn:chap_bayesian:equilibrium_cost_equation}则有
 \begin{align*} 
     c^* &= b - \tau + (1-c^*)^{N-1}\tau
 \end{align*}
@@ -171,19 +172,48 @@
 当惩罚的系数的值增大时，并不会让用户决定贡献的机率增大。这一点与我们的直觉是不同的。
 因此在系统中设置一个能够自适应网络状态的奖励参数和惩罚参数是十分必要的。
 \subsection{正态分布的情况}
-对于用户的成本类型，第二种我们假设的概率分布是对数正态分布。
+对于用户的成本类型，第二种我们假设的概率分布是正态分布。
 也是一个在数学、物理及工程等领域都非常重要的概率分布。
 对于用户成本随机变量$c$服从一个位置参数为$\mu$，尺度参数为$\sigma$的概率分布，
-通常可以记为
+通常可以记为：
 \begin{align*}
     c \sim N(\mu, \sigma^2)
     \label{eqn:normal_distribution}
 \end{align*}
-服从正态分布的随机变量的概率密度函数$\f(c)$由下式给出，
-\begin{align*}
-    f(c) = \frac{1}{\sigma \sqrt{2\pi} } e^{ \frac{-(c-\mu)^2}{2\sigma^2}}
-\end{align*}<++>
-
+服从正态分布的随机变量的概率密度函数$f(x)$由公式\ref{eqn:chap_bayesian:normoal_density}和\ref{eqn:chap_bayesian:normoal_cdf}给出，
+且其概率密度函数和概率分布函数如图\ref{fig:chap_bayesian:normal_density_scheme}和\ref{fig:chap_bayesian:normal_cdf_schem}所示。
+其中，与均匀分布类似的，为了将成本随机变量控制在区间$[0,1]$，我们假设成本概率分布的均值为$\mu = 0.5$，方差$\delta = 0.1$。
+\begin{align}
+    f(x) = \frac{1}{\sigma \sqrt{2\pi} } e^{ \frac{-(c-\mu)^2}{2\sigma^2}}
+    \label{eqn:chap_bayesian:normoal_density}
+\end{align}
+\begin{align}
+    F(x) = \frac{1}{\sigma \sqrt{2\pi} } \int^x_{-\infty}e^{ \frac{-(c-\mu)^2}{2\sigma^2}}
+    \label{eqn:chap_bayesian:normoal_cdf}
+\end{align}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure} 
+  \begin{minipage}[t]{0.5\linewidth} 
+    \centering 
+    \includegraphics[width = \textwidth]{bayesian_normal_density_scheme.eps} 
+    \caption{正态分布的概率密度函数} 
+    \label{fig:chap_bayesian:normal_density_scheme} 
+  \end{minipage}% 
+  \begin{minipage}[t]{0.5\linewidth} 
+    \centering 
+    \includegraphics[width=\textwidth]{bayesian_normal_cdf_scheme.eps} 
+    \caption{正态分布的累积概率函数} 
+    \label{fig:chap_bayesian:normal_cdf_schem} 
+  \end{minipage} 
+\end{figure}
+类似的，如果将公式\ref{eqn:chap_bayesian:normoal_cdf}代入公式\ref{eqn:chap_bayesian:equilibrium_cost_equation}，
+则有，
+\begin{align*} 
+    c^* &= b - \tau + \left[ 1-\frac{1}{\sigma \sqrt{2\pi} } \int^x_{-\infty}e^{ \frac{-(c-\mu)^2}{2\sigma^2}} \right] ^{N-1}\tau
+\end{align*}
+由于正态分布函数概率密度函数不能显式积分，所以我们只能通过数值求解的方式，将收益参数、惩罚参数、用户数目与均衡概率关系画出来。
+如图所示。
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{仿真实验与结果}
 
 \section{小结}

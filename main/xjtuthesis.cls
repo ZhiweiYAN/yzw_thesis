@@ -1375,6 +1375,14 @@ LaTeX document class for Ph. D. theses of Xi'an Jiaotong University]
 \newlength{\sfigwidth}
 \setlength{\sfigwidth}{\mpwidth}
 
+\newcommand{\figuremacro}[3]{
+	\begin{figure}[!htb]
+        \centering
+		\includegraphics[width=#3\textwidth]{#1}
+		\caption{\textbf{#2}}
+		\label{fig:#1}
+	\end{figure}
+}
 \endinput
 %%
 %% End of file `xjtuthesis.cls'.
