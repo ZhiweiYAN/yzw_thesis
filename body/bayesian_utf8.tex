@@ -8,8 +8,10 @@
 例如，根据用户业务类型来进行网络资源分配的问题。
 因为随着移动互联网的发展，用户业务种类越来越多，越来越细致。
 所以，想在资源分配之前，通过集中控制单元准确获取所有用户对资源的精确需求比较困难。
-本章提出了一个基于Bayesian博弈的资源分配与管理模型。
+本章首先建立了一个基于Bayesian博弈的资源分配与管理模型，
 这个模型可以有效地描述在不完备信息下的用户资源竞争的情况。
+并且提出一个新的业务类型描述方式。
+与以往的离散业务类型描述不同，我们将用户的业务类型描述成一个连续的随机变量。
 通过建立适当的收益与惩罚机制，激励用户根据自身的业务情况做出理性的分析和决策；既可以保证自身的服务质量，
 又能让资源得到充分利用，避免贪婪用户过多地占用宝贵的系统资源。
 %
@@ -33,6 +35,7 @@
 这种分析模型与上面的完备信息博弈模型不同。
 每个用户除了对自身的情况一清二楚之外，对参加博弈的其他用户的信息并不十分了解。
 也就是说他所得到的其他用户信息是不完整的；或是说，每个用户的私有信息是受到一定程度的保护。
+\section{离散与连续的业务类型}
 \section{博弈模型}
 假设在一个无线网络基站的覆盖范围内，目前有~$N$~个在线用户正在共享无线资源进行通信。
 为了能够更加公平且有效的使用资源，基站控制器会在有新的用户进入的时候，
@@ -62,17 +65,18 @@
 
 对于我们博弈模型，我们做如下的假设：
 \begin{itemize}
-    \item 假设参与者的奖励收益是公共知识，是所有参与者提前就被广播通知的。
-    \item 假设参与者的成本是一个随机的变量，服从某个概率分布。只有参与者自身是知道具体的数值。
+    \item 假设参与者的奖励收益与惩罚是公共知识。这个信息被所有博弈参与者提前广播通知到的。
+    \item 假设参与者的成本是一个随机的变量，服从某个概率分布。同时，只有参与者本身知道自己成本具体的数值。
     因为参与者的业务类型不同，所以我们使用参与者成本表征参与者的业务类型特征。
     \item 假设对于每个参与者自身的成本，我们认为是私有的知识，其他的参与者并不知道。
     这里需要注意是，参与者虽然不知道其他参与者成本随机变量的具体数值，但是知道这个随机变量的分布函数。
-    之所以可以这样假设的原因是，在实际中我们可以通过统计的方法获得参与者类型的概率分布。
+    之所以做这样假设的原因是，在实际中我们可以通过统计的方法获得参与者类型的概率分布。这个信息也是公共知识。
     \item 假设所有参与者成本随机变量是独立同分布的，并且其累积概率分布函数~$P(\cdot)$~在区间~$[C_{\min}, C_{\max}]$~是连续增函数，
 \end{itemize}
 %其中~$0 \leq C_{\min} < C_{\max}$~，且我们设 ~$P(C_{\min})=0$~，~$P(C_{\max})=1$~。
 
-对于任意一个参与者而言，他的策略选择可以用变量~$s_i$~来描述，如式\ref{eqn:chap_bayesian_strategy_definition}所示。
+首先，我们定义博弈的策略。
+对于任意一个参与者而言，他的策略选择可以用变量~$s_i$~来描述，如\eqref{eqn:chap_bayesian_strategy_definition}所示。
 \begin{align}
     s_i = \begin{cases}
         0, \qquad\text{拒绝}\\
@@ -80,11 +84,11 @@
     \end{cases}
     \label{eqn:chap_bayesian_strategy_definition}
 \end{align}
-其中，此函数的定义域是区间~$[C_{\min}, C_{\max}]$~，值域是集合~$\{0,1\}$~中取任意一个值。
+其中，此函数的定义域是成本区间~$[C_{\min}, C_{\max}]$~，值域是集合~$\{0,1\}$~中取任意一个值。
 “~$1$~”表示参与者愿意“同意”；“~$0$~”表示参与者“拒绝”；
 ~$i$~表示参与者的序号索引。
 
-下面，我们定义博弈中具有奖惩机制的参与者收益。
+然后，我们定义博弈中具有奖惩机制的参与者收益。
 
 对于参与者~$i$~来说，他的收益函数定义为：
 \begin{equation}
@@ -94,73 +98,89 @@
 其中，记号~$-i$~表示除参与者~$i$~之外的其它所有参与者。
 记号~$s_{-i}$~表示其他参与者~$-i$~的策略选择集合。
 ~$c_i$~表示参与者~$i$~的成本。
+~$\max\{s_{-i}\}$~表示在其它所有参与者的策略中选择最大的值。
 %
 \section{Bayesian博弈分析}
-对于所有参与者的选择来说，一个Bayesian均衡可以用一个策略向量~$( s_1^*(c_1^*), s_2^*(c_2^*), \ldots, s_N^*(c_N^*) )$~来描述。
-对于每一个理性且自私的参与者，他总想通过自己的选择来使自己的收益最大化，~$\max(u_i)$~。
-如果我们使用混合策略，那么问题会转化为最大化参与者的期望收益，~$\max{E(u_i)}$~。
-这里我们定义一个均衡概率的概念，~$\theta_{-i}$~。
-它表示对于参与者~$i$~而言，至少有一个其他的参与者的决定是同意的概率。
-这个概率的具体形式是
+对于每一个理性且自私的博弈参与者，他总想通过自己的选择来使自己的收益最大化。
+如果写成纯策略的形式为~$\max(u_i)$~。
+策略形式的优点在于每个用户的选择具体直观，
+但是会使得我们的问题变成一个$N$目标优化的复杂问题，这是我们所不希望看到的。
+我们使用混合策略的技巧来避免问题的复杂化。
+如果使用混合策略，那么问题会转化为最大化参与者的期望收益，~$\max{E(u_i)}$~。
+对于所有参与者的选择来说，Bayesian均衡可以用一个策略向量~$( s_1^*(c_1^*), s_2^*(c_2^*), \ldots, s_N^*(c_N^*) )$~来描述。
+其中，策略~$s_i^*(c_i^*)$~使得~$E(u_i)$~达到最大值。
+
+
+下面我们来具体分析这个博弈。
+首先我们引入一个均衡概率的定义~$\theta_{-i}$~。
+它表示对于参与者~$i$~而言，至少有一个其他的参与者的决定是“同意”的概率。
+通过这个概率定义的引入，我们使得博弈参与者~$i$~与其它博弈参与者的决策行为相关联。
+这个概率的具体表达式如\eqref{eqn:chap_bayesian:at_least_one_probability}所示。
 \begin{equation}
     \theta_{-i} = \hbox{Prob} \Bigl\{ \max\{ s_{-i}^*\} = 1 \Bigr\} 
-    \label{eqn_at_least_one_probability} 
+    \label{eqn:chap_bayesian:at_least_one_probability} 
 \end{equation}
-对于一个给定的参与者~$i$~，他的期望收益可以定义为如下公式：
+所以，对于一个给定的博弈参与者~$i$~，他的期望收益可以定义为如下公式：
 \begin{align}
      E(u_i) &= \theta_{-i} [s_i(b-c_i) -\tau] + (1-\theta_{-i}) (s_i(b-c_i) - 0) \notag\\ 
      &= s_i(b-c_i) - \theta_{-i}\tau
     \label{eqn:player_expe_payoff}
 \end{align}
-从公式\ref{eqn:player_expe_payoff}可以看出，
-如果参与者~$i$~的成本~$c_i$~小于~$b-\theta_{-i}\tau$~，那么参与者~$i$~的决策就是同意，也就是~$s_{i}^*=1$~。
-如果~$c_i > b - \theta_{-i} \tau$~，那么参与者就不愿意同意，而会选择拒绝，~$s_i^*(c_i) = 0$~。
+
+从\eqref{eqn:player_expe_payoff}可以看出，为了使得~$E(u_i)$~尽可能大，在考虑决策的前提下，可以分成两种情况。
+如果博弈参与者~$i$~的成本~$c_i$~小于~$b-\theta_{-i}\tau$~，那么参与者~$i$~的决策就是“同意”，也就是~$s_{i}^*=1$~。
+如果~$c_i > b - \theta_{-i} \tau$~，那么参与者~$i$~会选择“拒绝”，~$s_i^* = 0$~。
 那么我们可以将其写为一个分段函数的形式。
 \begin{align}
     s_i^*(c_i) = \begin{cases} 1, &\text{if $c_i < b -\theta_{-i}\tau$;}\\
         0, &\text{if $c_i > b -\theta_{-i}\tau$.}\\ \end{cases} 
     \label{eqn_equilibrium_strategy} 
 \end{align}
-从公式\ref{eqn_equilibrium_strategy}可以看出，参与者$i$的成本对决策的影响很关键。
-如果他的成本$c_i$在区间$ [C_{\min}, c_i^*] $，参与者的决策就是同意同意。
-所以，我们又可求得参与者$i$同意的均衡概率$P(c_i^*)$。
+从\eqref{eqn_equilibrium_strategy}可以看出，参与者~$i$~的成本对决策的影响很关键。
+如果他的成本~$c_i$~在区间~$ [C_{\min}, c_i^*] $~，参与者的决策就是“同意”。
+所以，我们需要求得参与者~$i$~选择“同意”的均衡成本上限的概率~$P(c_i^*)$~。
 \begin{align}
     P(c_i^*) = \hbox{Prob} \Bigl\{ C_{\min} < c_i \leq c_i^* \Bigr\} 
-    \label{eqn:equil_prob_c_i}
+    \label{eqn:chap_bayesian:equil_prob_c_i}
 \end{align}
 而且，
-如果存在这样一个均衡，那么它的概率可以计算出来。
+如果存在这样一个均衡，
+并将\eqref{eqn:chap_bayesian:equil_prob_c_i} 代入\eqref{eqn:chap_bayesian:at_least_one_probability}，
+那么可以有：
 \begin{align*} 
     \theta_{-i} &= \hbox{Prob} \Bigl\{ \max\{ s_{-i}^*\} = 1 \Bigr\} \\ 
     &= 1- (1-P(c_1^*))(1-P(c_2^*))\cdots(1-P(c_{i-1}^*)) (1-P(c_{i+1}^*)) \cdots(1-P(c_N^*)) \\ 
     &= 1- \prod_{j\in\{-i\}} [1-P(c_j^*)] 
 \end{align*}
-同时，从公式\ref{eqn_at_least_one_probability}和公式\ref{eqn_equilibrium_strategy}可知，
-成本 $c_i$是关键，并且要满足公式\ref{eqn_equilibrium_cost}
+同时，从\eqref{eqn:chap_bayesian:at_least_one_probability}和\eqref{eqn_equilibrium_strategy}可知，
+成本 ~$c_i^*$~是上限且要满足下面\eqref{eqn_equilibrium_cost}
 \begin{align}
     c_i^* &= b - \theta_{-i} \tau \notag\\
     &= b - \tau + \Bigl[ \prod_{j \in\{-i\} } [1 - P(c_j^*) ] \Bigr] \tau
     \label{eqn_equilibrium_cost} 
 \end{align}
-又因为，对于任意一个$c_i, i=1,\ldots, N$，都要满足公式\ref{eqn_equilibrium_cost}。
-所以，$c_i, i=1,\ldots, N$之间是可以互换的，也就是说如果存在一个唯一的$c^*$，且满足\ref{eqn_equilibrium_cost}，
+又因为，对于任意一个~$c_i, i=1,\ldots, N$~，都要满足\eqref{eqn_equilibrium_cost}。
+所以，~$c_i, i=1,\ldots, N$~之间是可以互换的，
+如果存在一个唯一的~$c^*$~，且满足\eqref{eqn_equilibrium_cost}，
 那么它们值是相等的且可用下面式子计算得出。
 \begin{align}  
     c_i^* &= c^* = b - \theta_{-i} \tau \notag\\ 
-    &= b - \tau  + \Bigl[ \prod_{j \in\{-i\} } [0 - P(c_j^*) ] \Bigr] \tau \notag\\ 
+    &= b - \tau  + \Bigl[ \prod_{j \in\{-i\} } [1 - P(c_j^*) ] \Bigr] \tau \notag\\ 
     &= b - \tau + \Bigl[ [1 - P(c^*)]^{N-1} \Bigr] \tau
 \label{eqn:chap_bayesian:equilibrium_cost_equation}
 \end{align}
+
+也就是说，对于我们提出的Bayesian博弈模型而言，网络中用户成本（业务类型）的概率分布情况会对博弈结果起着关键的作用。
 %%%%%%%%%%%%%%
-\section{数值分析与讨论}
-我们对两种最常见的概率分布形式进行分析与讨论。
+\section{不同成本概率分布的分析与讨论}
+下面，我们假设用户的成本（业务类型）为两种最常见的概率分布形式，并分别对其进行分析与讨论。
 \subsection{均匀分布的情况}
 均匀分布是连续概率分布函数中最常见和最简单。它在所有的概率分布中占着重要的地位。
 许多实际上重要的随机变量者服从或是近似服从均匀分布。
-此处，我们假设参与者的类型的概率分布$P(\cdot)$是在区间$[C_{\min}=0, C_{\max}=1]$上的均匀分布。
+此处，我们假设参与者的类型的概率分布~$P(\cdot)$~是在区间~$[C_{\min}=0, C_{\max}=1]$~上的均匀分布。
 它的概率密度函数为
 \begin{align}
-    f_(c) = \begin{cases} c, &\text{if $c \in [C_{\min}=0, C_{\max}=1]$;}\\
+    f_(c) = \begin{cases} c, &\text{if ~$c \in [C_{\min}=0, C_{\max}=1]$~;}\\
         0, &\text{others}\\ 
     \end{cases} 
     \label{eqn_equilibrium_prob} 
@@ -182,7 +202,7 @@
     \label{fig:chap_bayesian:uniform_cdf_schem} 
   \end{minipage} 
 \end{figure}
-则达到成本均衡$c^*$来说，它的概率为
+则达到成本均衡~$c^*$~来说，它的概率为
 \begin{align} 
     P(c^*) &= \text{Prob} \Bigl\{ 0 < c_i < c^*\Bigr\} \notag\\ 
     &= \frac{c^*}{C_{\max}-C_{\min}} \notag\\
@@ -216,22 +236,22 @@
 当参与者数目增多时，同意的概率会随之降低。
 这意味着，当系统中参与者较少时，参与者容易做出接受资源调整的决策。
 而当系统参与者较多时，即使参与者的收益比成本高，参与者也可能会做也拒绝的决定。
-并且，从图中还可以看到均衡成本在参与者数目极大时，存在极限$b-\tau$。
+并且，从图中还可以看到均衡成本在参与者数目极大时，存在极限~$b-\tau$~。
 另外，
 当惩罚的系数的值增大时，并不会让参与者决定同意的机率增大。这一点与我们的直觉是不同的。
 因此在系统中设置一个能够自适应网络状态的奖励参数和惩罚参数是十分必要的。
 \subsection{正态分布的情况}
 对于参与者的成本类型，第二种我们假设的概率分布是正态分布。
 也是一个在数学、物理及工程等领域都非常重要的概率分布。
-对于参与者成本随机变量$c$服从一个位置参数为$\mu$，尺度参数为$\sigma$的概率分布，
+对于参与者成本随机变量~$c$~服从一个位置参数为~$\mu$~，尺度参数为~$\sigma$~的概率分布，
 通常可以记为：
 \begin{align*}
     c \sim N(\mu, \sigma^2)
     %\label{eqn:normal_distribution}
 \end{align*}
-服从正态分布的随机变量的概率密度函数$f(x)$由公式\ref{eqn:chap_bayesian:normoal_density}和\ref{eqn:chap_bayesian:normoal_cdf}给出，
+服从正态分布的随机变量的概率密度函数~$f(x)$~由公式\ref{eqn:chap_bayesian:normoal_density}和\ref{eqn:chap_bayesian:normoal_cdf}给出，
 且其概率密度函数和概率分布函数如图\ref{fig:chap_bayesian:normal_density_scheme}和\ref{fig:chap_bayesian:normal_cdf_schem}所示。
-其中，与均匀分布类似的，为了将成本随机变量控制在区间$[0,1]$，我们假设成本概率分布的均值为$\mu = 0.5$，方差$\delta = 0.1$。
+其中，与均匀分布类似的，为了将成本随机变量控制在区间~$[0,1]$~，我们假设成本概率分布的均值为~$\mu = 0.5$~，方差~$\delta = 0.1$~。
 \begin{align}
     f(x) = \frac{1}{\sigma \sqrt{2\pi} } e^{ \frac{-(c-\mu)^2}{2\sigma^2}}
     \label{eqn:chap_bayesian:normoal_density}
