@@ -1,5 +1,5 @@
 %chapter_cacop_begin
-\graphicspath{ {../figures/}}
+\graphicspath{ {../body/cacop_figures/}}
 \chapter{基于多媒体特性的呼叫接纳控制算法研究}
 \label{chap_cacop}
 
@@ -23,7 +23,7 @@
 近此年来，研究人员提出许多呼叫接纳控制的算法或方案。
 有些算法是根据基本的网络性能参数直接用来建立呼叫接纳的准则。这此参数包括比如带宽资源利用率、单位时间内的数据包的个数或在线的呼叫个数等。
 当这些参数的值达到或超过了预先设置的上限或是下限，新的呼叫将会被迫延迟接入或是拒绝接入\cite{Y-Qian.TWC.2006} \cite{G-Djuka.TELSIK.2007}。
-还有些是将一些底层（物理层或MAC层）的参数加以合并建立新的准则来应用来呼叫接纳控制算法。
+还有些是将一些底层（物理层或MAC层）的参数加以合并建立基于交叉层的新准则来应用来呼叫接纳控制算法。
 例如，学者Song和Zhuang引入了一个被称之SRPT（shortest remaining processing time）的服务准则 \cite{Song2009}。
 一个时间窗的大小被设置到一个合适的阈值来判断连接或呼叫是否被接入网络。
 学者Yilmaz 和 Chen 也提出了一个类似的思想\cite{Yilmax2009}.
@@ -31,34 +31,92 @@
 这种竞价方案是通过分析一个或多个数据流的特点来完成。
 最后提出的接纳控制方案使用一个或是多个混合分区的价格阈值，并且周期地对资源进行定价来使系统的效用最大化。
 那些不能负担资源费用的用户会被系统拒绝服务。
-In \cite{Zhai2005,Ni2009}, the problem of whether or not to accept an incoming user is transformed into a mathematical problem, which achieves the maximum resource utilization by means of establishing and analyzing a complex model of a semi-Markov decision process. 
-Zhai and Xiang regulated the arriving traffic of the IEEE802.11 network such that the network can work at an optimal point through measuring channel busyness ratio as a indicator of the network status \cite{Zhai_Chen_Fang_2006}.
+学者Zhai和Ni提出一个半马尔可夫决策过程来描述呼叫接纳过程 \cite{Zhai2005,Ni2009}。
+他们通过把呼叫过程转化为一个求解系统资源利用最大化的数学问题。
+学者Zhai和Xiang提出一个信道繁忙率（channel busyness ratio）的概念。
+通过检测信道繁忙率来为呼叫接纳提供判断的准则 \cite{Zhai_Chen_Fang_2006}。
+还有的学者是通过资源预留的方法来解决呼叫接纳的问题。
+例如，Chen和Kuo提出通过动态指派优先级的方法来接纳呼叫 \cite{Chen_Kumar_Kuo_2003,Chen_Kuo_2004}。
+学者Elsayed等将三种比例预留的策略：统一预留、容量比例预留和剩余比例预留做了详细的评估\cite{Elsayed02performanceevaluation}。
+学者El-Kadi提出的动态预留的方法 \cite{EL-Kadi2002}。
+这种方法引入用户数据在短时间内可以容忍通信质量一定程度上的下降，并且基于此提出“借和还”的比例预留方法。
+此方法与我们将在本章提出的方法有些类似，所以本章仿真实验中当作对比实验。
 
-%Call Admission Control cata2：
-The final category of algorithms is called resource reservation algorithms.
-In the algorithms, researchers made a reservation of radio resources for new incoming connections. 
-This kind of topic have been extensively examined in the last decade. 
-For example, in \cite{Chen_Kumar_Kuo_2003,Chen_Kuo_2004}, preferential admission is given to high priority calls by preserving an interference guard margin. 
-The guard margin is is dynamically adjusted by referencing traffic conditions in neighboring cells based upon users' quality of service. 
-%%a graceful degradation methodology is introduced. This means that the quality of individual connections can decrease to a certain extent to accept more connections. %% Another method involves the regulation of calls according to defined characteristics such as priority descriptors. Still another method prevents new calls from entering the network only if the resources of the central processing unit (CPU) of a particular computer or server would be overburdened by such calls. 
-El-Kadi presented such a reservation method by borrowing bandwidth from other calls in a cell for an incoming call \cite{EL-Kadi2002}. The amount of bandwidth borrowed from ongoing calls is proportional to its tolerance to bandwidth loss in the scheme. In \cite{Elsayed02performanceevaluation}, Elsayed evaluated the three resource reservation policy: the uniform reservation policy, the capacity proportional policy, and the remaining capacity proportional policy. The policies are used to map the end-to-end delay requirement into a local rate to be reserved at each switch. 
-
+以往的这些接纳控制方案中所涉及的测量参数大多都集中在物理层和MAC层上，很少从用户应用的角度来思考呼叫接纳控制。
+这主要有两个原因：一个是以前的无线网络承载的业务基本上以话音为绝大多数。其它的业务量极小。
+二是尽管可以用交叉层技术使得网络底层得到上层如应用层的流量信息，但是这样会破坏无线网络的分层结构。
+所以交叉层技术的应用范围局限性较大。
+因此要寻求其它的途径来完成这一任务。
+本章的贡献就在于此。
+本章首先构造一个简单的服务质量评估模型，将应用层信息与底层参数信息做一个适当的映射关系。
+然后，将此模型应用于接纳控制及资源分配，可以在兼顾资源利用效率的情况下，又可保证终端用户所感受到的服务质量。
 %
-However, these CAC algorithms above consider less about the features of connections from the view of application layer. Few literatures address this feature in CAC schemes. 
-Therefore, we construct a uniform QoS metric of connection in accordance with the types of multimedia applications and its allocated resources of connections in the paper. 
-And then using the metric, we propose a CAC scheme to make the network perform at an optimal point. 
+\section{MAC层业务调度类型分类}
+随着网络业务的发展，无线通信标准也开始关注业务的种类对通信质量的影响。
+譬如，在WiMAX（Worldwide Interoperability for Microwave Access）中，
+标准的制定者对MAC层数据包做了初步的分类。
+他们把数据分为五类：
+每一类业务类型有自己相应的服务质量参数，例如延迟、抖动、丢包或错包率等等。
+每一类数据的调度算法都应尽可能满足这些服务质量参数\cite{Tsagkaris_Demestichas_2009}\cite{Andrews_Ghosh_Muhamed_2007}。
+%但是同时，我们也注意到WiMAX的标准仅仅将这些数据分类而已，并没有说明如何调度这些已经分类的数据。这也给学者留下一块研究的空间。
+此处我们也参照着WiMAX标准定义，将业务分成以下几类。
 
-%
-The rest of this paper is organized as follows: Section \ref{sec_wimax} introduces the five types of application traffic defined in IEEE 802.16 scheduling services. 
-Then we develop a uniform metric of QoS level for the different traffic. 
-Especially, we describe in detail the QoS of video application based on an idea of rate distortion optimization (RDO) model in Section \ref{sec_qos_metric}. 
-Next, we prove mathematically that there is an optimum solution of bandwidth allocation if the bandwidth of connections can be adjusted dynamically in Section \ref{sec:optimum}. 
-In Section \ref{sec_alg}, CAC algorithm is proposed to determine according to the optimal solution of bandwidth allocation of connections. 
-We report the results of simulation experiments in Section \ref{sec_sim}. Finally, we conclude the paper in Section \ref{sec_cln}.
+\begin{itemize}
+\item UGS（ unsolicited grant service）业务：这种业务类型是指具有实时性要求的业务。
+    它的数据具有是周期性产生、包长固定的特点。
+    比如T1、E1以及没有静默压缩的VOIP等就属于此类业务。
+    这个特点使得UGS业务的数据流比较稳定，突发性较差。
+\item rtPS（real-time polling services）业务：这类业务也是具有实时性要求，
+    但是与UGS业务不同，它的数据包一般是变长的，同时也具有周期性。
+    这类数据包的包头也比UGS数据包的包头要大。
+    例如象MPEG（Motion Pictures Experts Group）视频或H.264视频流。
+    在调度此类数据时，采用基站指导下移动台单播轮询策略（unicast polling)。
+    基站需要通过提供足够多的轮询次数来保证业务的实时性要求。
+\item nrtPS （non-real-time polling services）业务：
+    这种业务与rtPS业务十分类似。但是它采用的是移动台竞争轮询策略（contention-based polling）。
+    如果在竞争轮询期间此类用户很多，就会出现资源申请冲突和后续的冲突避让方案。
+    所以，这种方式会引入较大的时间延迟。
+\item BE （best-effort）业务：
+    此类业务对服务质量的要求在五种业务类型中最低。往往也没有十分具体的QoS指标要求。
+    如果能够申请到资源，就进行数据发送。如果不能，则继续等待下一次的调度。
+    一般我们把普通的文字网页浏览，或是FTP文件的传送归于此类。
+\item ertPS（extended real-time polling service）业务：
+    这种业务类型是将上行数据链路的传输协议做了复用。
+    在传数据的同时，也可进行无线资源的申请。
+    这样可以保证数据量波动较大的情况下，资源能够得到及时的调度。
+\end{itemize}
 
+\section{呼叫接纳控制模型与业务流的QoS分析}
+\label{sec_qos_metric}
+因为不同的业务数据对服务质量的要求差别很大，所以要设计相应的传输机制来应对这种变化。
+本节我们将详细描述如何将接纳控制方案与资源分配方案相结合。
 
+%CAC
+\subsection{呼叫接纳控制模型}
+\label{sec_sec_model}
+前面我们提到，呼叫接纳控制的方案就是为了避免网络拥塞，决策某一个呼叫或连接通信服务是否被中断或拒绝。
+（因为呼叫一般专指话音通信，所以为避免文字概念混淆，下文一律用“连接”一词来代替“呼叫”一词。）
+此处，我们假设一个一般的呼叫接纳控制的网络模型。
+在此模型中，有一个基站和~$K$~连接，如\figref{fig_system_model_cac}所示。
 
-
+其中包括已经在线的$K-1$个连接和$1$个正在申请进入的新连接。
+这些连接根据不同的业务种类被分为五种类型，UGS，rtPS，nrtPS，BE和ertPS。
+在第$K$个连接被接入之前，所有 ($K-1$) 连接共享基站所提供的带宽资源，记为$B_{total}$。
+当第$K$个连接进入基站的覆盖范围，并提交进入和资源分配的申请后，系统触发一次接纳控制的判断过程。
+首先，服务质量评估单元（QoS Evaluator）会根据目前的连接情况，提交一份带宽资源分配的方案，记为向量 $\mathbf{b}$ 。
+其中，$b_i$ 表示第$i$个连接所分配到的带宽，那么，$\mathbf{b} = [ b_1, b_2, b_3, \dots, b_K]$ ，而且 $\sum_{i=1}^K b_i \le B_{total}$。
+然后，
+基于这个方案 $\mathbf{b}$，接纳控制单元（Call Admission Control）根据每一个连接所分配到的带宽 $b_i$来评估每一个连接的QoS水平和整个系统的QoS水平。
+最后，接纳控制单元再决定接受或拒绝这个连接的进入请求。
+%%
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.95\textwidth]{cac_qos_model_system.eps}
+\caption{ 呼叫接纳控制的系统模型} \label{fig_system_model_cac}
+\end{figure*}
+%%%%%%
+%QoS Metric
+\subsection{QoS Metric and Bandwidth Allocation}
 
 
 
