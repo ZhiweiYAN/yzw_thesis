@@ -12,85 +12,72 @@ end
 file_name = 'bayesian_normal_punish_parameter_vs_contribute_probability';
 
 %% avariable 
-N = 4; %user number
-b = 1;  %benefit if contribution
-tau = 0.1:0.1:0.9; %punishment parameter
-tau = tau.'
-
-c = zeros(length(tau),1);   %cost of the contribution
-
-%%
-%%
-mu = 0.5;
-delta = 0.2;
-X = normrnd(mu,delta, 1000,1);
-x = sort(X, 'ascend');
-y = normcdf(x,mu,delta);
-
-%% 
-for k=1:length(tau)
-    y1 = b -tau(k) + ( (1 - y).^(N-1) )*tau(k);
-    diff = abs(y1 -x);
-    minimum = min(diff);
-    index = find(minimum==diff, 1, 'first');
-    c(k) = x(index);
-end
-%%
-%% the punishment parameter and cost
-A = c';
+N = 5:2:30; %user number
+N = N.';
+c = zeros(length(N),1);   %cost of the contribution
 
 %%
 mu = 0.5;
 delta = 0.1;
 X = normrnd(mu,delta, 1000,1);
 x = sort(X, 'ascend');
-y = normcdf(x,mu,delta);
+x_right = normcdf(x,mu,delta);
 
+m = 1;
 %% 
-for k=1:length(tau)
-    y1 = b -tau(k) + ( (1 - y).^(N-1) )*tau(k);
+for k=1:length(N)
+    y1 = 1- (1-binocdf(m,N(k)-1,x_right));
     diff = abs(y1 -x);
     minimum = min(diff);
     index = find(minimum==diff, 1, 'first');
     c(k) = x(index);
 end
 %%
-%% the punishment parameter and cost
+A = c';
+
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+m = 2;
+%% 
+for k=1:length(N)
+    y1 = 1- (1-binocdf(m,N(k)-1,x_right));
+    diff = abs(y1 -x);
+    minimum = min(diff);
+    index = find(minimum==diff, 1, 'first');
+    c(k) = x(index);
+end
+%%
+%% the number of players and cost
 A = [A;c'];
 
+%% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%
-mu = 0.5;
-delta = 0.05;
-X = normrnd(mu,delta, 1000,1);
-x = sort(X, 'ascend');
-y = normcdf(x,mu,delta);
-
+m = 4;
 %% 
-for k=1:length(tau)
-    y1 = b -tau(k) + ( (1 - y).^(N-1) )*tau(k);
+for k=1:length(N)
+    y1 = 1- (1-binocdf(m,N(k)-1,x_right));
     diff = abs(y1 -x);
     minimum = min(diff);
     index = find(minimum==diff, 1, 'first');
     c(k) = x(index);
 end
 %%
-%% the punishment parameter and cost
 A = [A;c'];
 
 %% Plot the figure
-x = tau;
+x = N;
 plot(x,A(1,:), '-ko',...
     x,A(2,:), '-ks', ...
     x,A(3,:), '-kv', 'LineWidth',1, 'MarkerSize',6, 'MarkerFace', 'b'...
     );
-% axis([min(x) max(x) 0.4 0.6]);
+%axis([min(x) max(x)+1 0 1]);
 xlabel('Number of players');
-xlabel('Punishment parameter');
 ylabel('Cost');
 grid on;
-legend('\mu=0.5, \delta=0.2', '\mu=0.5, \delta=0.1', '\mu=0.5, \delta=0.05');
 figure(1);
+hold on;
 
+legend('u=0.5, \delta=0.1, m=1', 'u=0.5, \delta=0.1, m=2 ', 'u=0.5, \delta=0.1, m=4');
 h1 = figure(1);
 % print(h1,'-dtiff','-r600',strcat(main_dir_name,file_name,'.tif'));
 print(h1,'-deps',strcat(main_dir_name,file_name,'.eps'));

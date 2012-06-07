@@ -1,5 +1,5 @@
 \graphicspath{ {../body/bayesian_figures/}}
-\chapter{基于连续业务类型的Bayesian博弈分析模型}
+%\chapter{基于连续业务类型的Bayesian博弈分析模型}
 %\label{chap_bayesian_game}
 \par 
 本章的目的是，在用户信息不完备的情况下，通过用户博弈的方式
@@ -112,14 +112,17 @@ IEEE802.16e中定义了这五种业务类型：UGS，rtPS，ertPS，nrtPS，BE�
 ~$i$~表示参与者的序号索引。
 
 然后，我们定义博弈中的参与者收益。
-从前面的叙述中可知，每一个自私的参与者希望别的参与者选择“慷慨”，
+从前面的叙述中可知，在资源有限的情况下，这种博弈本质是一种零和博弈。
+每一个自私的参与者希望别的参与者选择“慷慨”，
 而自身选择“自私”，不改变目前资源的占用数量。
 如果有参与者~$i$~选择“慷慨”，那么我们认为其他选择“自私”的参与者都会因他的“慷慨的行为”而获益~$b=1$~。
 而这名博弈参与者所得的收益为~$b-c_i= 1-c_i$~。
 显然在此情况下，选择“慷慨”的参与者收益要小于选择“自私”的参与者收益。
-但是，为了鼓励参与者选择“慷慨”，我们定义，如果所有参与者都选择“自私”，不愿意“牺牲”自己的利益，那么他们的获益~$b$~为~$0$~。
+但是，为了鼓励参与者选择“慷慨”而且研究选择“慷慨”的参与者数目对博弈结果的影响，我们做如下的假定：
+如果选择“慷慨”的参与者数目小于$m$； 其它的参与者都选择“自私”，
+不愿意“牺牲”自己的利益，那么所有参与者的获益都将是~$b$~为~$0$~。
 
-对于参与者~$i$~来说，他的收益函数定义为：
+那么，对于参与者~$i$~来说，他的收益函数定义为\eqref{eqn:chap_bayesian_player_payoff}：
 \begin{equation}
  u_i(s_i, s_{-i}, c_i, m) = s_i\cdot (1 - c_i) + (1-s_i) \cdot \Phi(s_{-i},m)
 \label{eqn:chap_bayesian_player_payoff}     
@@ -143,23 +146,24 @@ IEEE802.16e中定义了这五种业务类型：UGS，rtPS，ertPS，nrtPS，BE�
 对于所有参与者的选择来说，最后的纯策略均衡可以用一个策略向量~$( s_1^*(c_1^*),\ldots, s_N^*(c_N^*) )$~来描述。
 其中，策略~$s_i^*(c_i^*)$~使得~$u_i$~达到最大值。
 
-但是，求解纯策略问题本质是一个$N$目标优化的极其复杂问题，这是我们所不希望看到的。
-所以，为了避免陷入这样情况，我们求解混合策略。
-如果使用混合策略，那么问题会转化为最大化参与者的期望收益，~$\max\{E(u_i)\}$~。
-混合策略是纯策略上的一种概率分布。每个博弈参与者的随机化及其他参与者的随机化是统计独立的。
+但是，如果直接求解收益最大化，会使问题本质变成是一个$N$目标优化的极其复杂问题，这是我们所不希望看到的。
+所以，为了避免陷入这样情况，我们转而求解参与者的期望收益最大化问题，~$\max\{E(u_i)\}$~。
+最后求解出所谓的混合策略。混合策略是纯策略上的一种概率分布。每个博弈参与者的随机化及其他参与者的随机化是统计独立的。
 相应的Bayesian博弈的解就是博弈参与者选择“慷慨”或“自私”的概率。
 
 下面我们来具体分析这个博弈。
 首先我们引入一个均衡概率的定义~$\theta_{-i}(m)$~。
 它表示对于参与者~$i$~而言，至少有~$m$~个其他的参与者的决定是“慷慨”的概率。
-通过这个概率定义的引入，我们使得博弈参与者~$i$~与其它博弈参与者的决策行为相关联。
-并通过这个定义来表征参与者之间的博弈行为。
+实际上，通过这个概率定义的引入，我们使得博弈参与者~$i$~的决策与其它博弈参与者的决策行为相关联。
+这样，参与者关于其它参与者的判断可以由自己的收益函数来决定。
+同时，也可以看作是，通过这个定义来表征参与者之间的博弈行为。
 这个概率的具体表达式如\eqref{eqn:chap_bayesian:at_least_one_probability}所示。
 \begin{equation}
-    \theta_{-i}(m) = \hbox{Prob} \Bigl\{ \Phi( s_{-i},m) = 1 \Bigr\} 
+    \theta_{-i}(m) = \hbox{Prob} \Bigl\{ \Phi( s_{-i},m) = 1 \Bigr\}, \, m\le N-1
     \label{eqn:chap_bayesian:at_least_one_probability} 
 \end{equation}
-所以，对于一个给定的博弈参与者~$i$~，他的期望收益可以定义为如下公式：
+所以，对于一个给定的博弈参与者~$i$~，他的期望收益可以由\eqref{eqn:chap_bayesian_player_payoff} 
+和\eqref{eqn:chap_bayesian:m_users_agree}定义为如下公式：
 \begin{align}
      E(u_i) &= \theta_{-i}(m)\left[s_i(b-c_i) +(1-s_i)\right] \notag \\
      & \quad + [1-\theta_{-i}(m)] [s_i(b-c_i) + 0] \notag\\ 
@@ -167,7 +171,7 @@ IEEE802.16e中定义了这五种业务类型：UGS，rtPS，ertPS，nrtPS，BE�
     \label{eqn:player_expe_payoff}
 \end{align}
 
-从\eqref{eqn:player_expe_payoff}可以看出，为了使得~$E(u_i)$~尽可能大，在考虑决策的前提下，可以分成两种情况。
+从\eqref{eqn:player_expe_payoff}可以看出，为了使得~$E(u_i)$~尽可能大，并考虑决策的前提下，可以分成两种情况。
 如果博弈参与者~$i$~的成本~$c_i$~小于~$1-\theta_{-i}(m)$~，那么参与者~$i$~的决策就是“慷慨”，也就是~$s_{i}=1$~。
 如果~$c_i > 1 - \theta_{-i} (m)$~，那么参与者~$i$~会选择“自私”，~$s_i = 0$~。
 那么我们也将其写为一个分段函数的形式。
@@ -180,41 +184,58 @@ IEEE802.16e中定义了这五种业务类型：UGS，rtPS，ertPS，nrtPS，BE�
 从\eqref{eqn_equilibrium_strategy}可以看出，参与者~$i$~的成本对决策的影响很关键。
 如果他的成本~$c_i$~在区间~$ [C_{\min}, c_i^*] $~，参与者的决策就是“慷慨”。
 其中，我们把~$c_i^*$~称为均衡临界成本。
-所以，我们需要求得参与者~$i$~选择“慷慨”概率，也就是均衡临界成本的概率~$P(c_i^*)$~。
+所以，参与者~$i$~选择“慷慨”概率，也就是均衡临界成本的概率~$P(c_i^*)$~，
+如\eqref{eqn:chap_bayesian:equil_prob_c_i}所示。
 \begin{align}
     P(c_i^*) = \hbox{Prob} \Bigl\{ C_{\min} < c_i \leq c_i^* \Bigr\} 
     \label{eqn:chap_bayesian:equil_prob_c_i}
 \end{align}
 而且，
-因为对于所有用户的成本随机变量而言，是独立同分布。
-所以，如果存在这样一个均衡临界成本，
-可以将其视~$\theta_{-i}(m)$~为一个二项分布的情况。
+%因为对于每一个博弈参与者而言，他的业务随机变量或成本随机变量而言，是独立同分布的。
+因此，如果存在这样一个均衡临界成本，
+%可以将~$\theta_{-i}(m)$~看作为一个二项分布的情况。
 我们将\eqref{eqn:chap_bayesian:equil_prob_c_i} 代入\eqref{eqn:chap_bayesian:at_least_one_probability}，
 那么就有：
-\begin{align*} 
-    \theta_{-i}(m) &= \hbox{Prob} \Bigl\{ \Phi( s_{-i},m) = 1 \Bigr\}\\ 
-    &= C_{N-1}^m [P(c^*)]^m [1-P(c^*)]^{N-m-1}
-    %&= 1- (1-P(c_1^*))(1-P(c_2^*))\cdots(1-P(c_{i-1}^*)) (1-P(c_{i+1}^*)) \cdots(1-P(c_N^*)) \\ 
-    %&= 1- \prod_{j\in\{-i\}} [1-P(c_j^*)] 
-\end{align*}
+\begin{align} 
+    \theta_{-i}(m) &= \hbox{Prob} \Bigl\{ \Phi( s_{-i},m) = 1 \Bigr\} \notag \\ 
+   % &= C_{N-1}^m [P(c^*)]^m [1-P(c^*)]^{N-m-1} \notag \\
+   % & \quad + \cdots + C_{N-1}^{N-1} [P(c^*)]^{N-1} [1-P(c^*)]^{N-(N-1)-1} \notag \\
+   % &= \sum_{k=m}^{N-1}C_{N-1}^k [P(c^*)]^k [1-P(c^*)]^{N-k-1}
+   &= P(c_1^*)P(c_2^*)\cdots P(c_{m}^*) \cdot (1-P(c_{m+1}^*)) \cdots(1-P(c_{N-1}^*)) \notag \\ 
+    & \quad +  P(c_0^*)P(c_2^*)\cdots P(c_{m+1}^*) \cdot (1-P(c_{m+2}^*)) \cdots(1-P(c_{N-1}^*)) \notag \\ 
+    & \quad + \cdots  + P(c_1^*)P(c_2^*)\cdots P(c_{N-2}^*) \cdot (1-P(c_{N-1}^*)) \notag \\
+    & \quad +  P(c_1^*)P(c_2^*)\cdots P(c_{N-1}^*)  
+    \label{eqn:chap_bayesian:two_poly_distribution}
+\end{align}
+\eqref{eqn:chap_bayesian:two_poly_distribution}表示了在其它参者个数为~$N-1$~的情况下，
+至少存在~$m$~个参与者选择“慷慨”的概率。如果
 同时，从\eqref{eqn:chap_bayesian:at_least_one_probability}和\eqref{eqn_equilibrium_strategy}可知，
 均衡临界成本 ~$c_i^*$~是用户决策的关键值。它关系到用户选择的转换。
 因此，均衡临界成本还要满足下面\eqref{eqn_equilibrium_cost}
 \begin{align}
-    c_i^* &= 1 - \theta_{-i} (m) \notag\\
-    &= 1 - C_{N-1}^m [P(c^*)]^m [1-P(c^*)]^{N-m-1}
+    c_i^* &= 1 - \theta_{-i} (m) \notag \\
+     & =1 - [P(c_1^*)P(c_2^*)\cdots P(c_{m}^*) \cdot (1-P(c_{m+1}^*)) \cdots(1-P(c_{N-1}^*)) \notag \\ 
+    & \quad +  P(c_0^*)P(c_2^*)\cdots P(c_{m+1}^*) \cdot (1-P(c_{m+2}^*)) \cdots(1-P(c_{N-1}^*)) \notag \\ 
+    & \quad + \cdots  + P(c_1^*)P(c_2^*)\cdots P(c_{N-2}^*) \cdot (1-P(c_{N-1}^*)) \notag \\
+    & \quad +  P(c_1^*)P(c_2^*)\cdots P(c_{N-1}^*) ]
     \label{eqn_equilibrium_cost} 
 \end{align}
-又因为，对于博弈中的任意一个~$c_i, i=1,\ldots, N$~，都要满足\eqref{eqn_equilibrium_cost}。
-%假设所有参与者的成本随机变量是独立同分布的，因此~$c_i, i=1,\ldots, N$~之间是可以互换的。
-所以存在一个唯一的~$c^*$~，且满足任一个\eqref{eqn_equilibrium_cost}，
-那么它们值相等，且可用\eqref{eqn:chap_bayesian:equilibrium_cost_equation}来计算得出。
+对于博弈中的任意一个~$c_i^*, i=1,\ldots, N$~，都要满足
+\eqref{eqn_equilibrium_cost}。
+又因为所有参与者的成本随机变量是独立同分布的，并且对于每一个~$c_i^*, i=1,\ldots, N$~
+在\eqref{eqn_equilibrium_cost}等号左右两边是可以任意互相交换的。
+所以对于一种分布来说，那么它们值一定相等，即~$c_1^* = c_2^* = c_3^* \cdots = c_N$~。
+则我们把这个值记为~$c^*$~。
+因此，我们可以将 \eqref{eqn_equilibrium_cost}改写为二项分布的形式，如
+\eqref{eqn:chap_bayesian:equilibrium_cost_equation}所示。我们可以通过解这个方程来计算得出~$c^*$~。
 \begin{align}  
-    c^* =  1 - C_{N-1}^m [P(c^*)]^m [1-P(c^*)]^{N-m-1}
+    c^* & =  1 - [ C_{N-1}^m [P(c^*)]^m [1-P(c^*)]^{N-m-1} \notag \\
+   & \quad + \cdots + C_{N-1}^{N-1} [P(c^*)]^{N-1} [1-P(c^*)]^{N-(N-1)-1} ]\notag \\
+   &= 1- \sum_{k=m}^{N-1}C_{N-1}^k [P(c^*)]^k [1-P(c^*)]^{N-k-1}
 \label{eqn:chap_bayesian:equilibrium_cost_equation}
 \end{align}
 
-因此，对于我们提出的Bayesian博弈模型而言，网络中博弈参与者成本（用户业务类型）的概率分布情况会对博弈结果起着关键的影响作用。
+综上所述，对于我们提出的Bayesian博弈模型而言，网络中博弈参与者成本（用户业务类型）的概率分布情况会对博弈结果起着关键的影响作用。
 %%%%%%%%%%%%%%
 \section{不同业务类型概率分布的分析与讨论}
 下面，我们假设博弈参与者成本（业务类型）为两种最常见的概率分布形式，并分别对其进行分析与讨论。
@@ -224,7 +245,7 @@ IEEE802.16e中定义了这五种业务类型：UGS，rtPS，ertPS，nrtPS，BE�
 此处，我们假设参与者的类型的概率分布~$P(\cdot)$~是在区间~$[C_{\min}=0, C_{\max}=1]$~上的均匀分布。
 它的概率密度函数为
 \begin{align}
-    f_(c) = \begin{cases} c, &\text{if ~$c \in [C_{\min}=0, C_{\max}=1]$~;}\\
+    f(c) = \begin{cases} c, &\text{if ~$c \in [C_{\min}=0, C_{\max}=1]$~;}\\
         0, &\text{others}\\ 
     \end{cases} 
     \label{eqn_equilibrium_prob} 
@@ -255,29 +276,30 @@ IEEE802.16e中定义了这五种业务类型：UGS，rtPS，ertPS，nrtPS，BE�
 \end{align}
 把\eqref{eqn_probability_of_contribution}代入\eqref{eqn:chap_bayesian:equilibrium_cost_equation}则有
 \begin{align*} 
-    c^* = 1 - C_{N-1}^m [c^*]^m [1-c^*]^{N-m-1}
+    c^* = 1- \sum_{k=m}^{N-1}C_{N-1}^k (c^*)^k [1-(c^*)]^{N-k-1}
 \end{align*}
 
 我们通过做图的方式来直观地讨论在均匀分布的情况下，各个参数对于临界成本和参与者决策的影响，
-如\figref{fig:bayesian_user_numb_vs_contr_prob}和\figref{fig:bayesian_puni_para_vs_cont_prob}所示。
-图中所涉及的奖励~$b$~，惩罚~$\tau$~都是归一化后，且为了简单起见，~$b = 1$~。
+如\figref{fig:bayesian_user_numb_vs_contr_prob}所示。
+%如\figref{fig:bayesian_user_numb_vs_contr_prob}和\figref{fig:bayesian_puni_para_vs_cont_prob}所示。
+图中所涉及的奖励~$b$~，成本~$c$~都是归一化后的，且为了简单起见，~$b = 1$~。
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[tb]
 \begin{centering}
-\includegraphics[scale=0.7]{bayesian_uniform_user_number_vs_contribute_probability.eps}
-\caption{参与者数目与临界成本的关系，$\tau=0.5, b=1$}
+\includegraphics[scale=0.6]{bayesian_uniform_user_number_vs_contribute_probability.eps}
+\caption{参与者数目与临界成本的关系（均匀分布）}
 \label{fig:bayesian_user_numb_vs_contr_prob}
 \end{centering}
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}[tb]
-\begin{centering}
-\includegraphics[scale=0.7]{bayesian_uniform_punish_parameter_vs_contribute_probability.eps}
-\caption{惩罚系数与临界成本之间的关系，$N=4, b=1$}
-\label{fig:bayesian_puni_para_vs_cont_prob}
-\end{centering}
-\end{figure}
+%\begin{figure}[tb]
+%\begin{centering}
+%\includegraphics[scale=0.7]{bayesian_uniform_punish_parameter_vs_contribute_probability.eps}
+%\caption{“慷慨”参与者数目最低要求$m$与临界成本的关系（均匀分布），$N=10$}
+%\label{fig:bayesian_puni_para_vs_cont_prob}
+%\end{centering}
+%\end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 从\figref{fig:bayesian_user_numb_vs_contr_prob}可以看到，
 当博弈的参与者总数增多时，临界成本~$c^*$~会减小。
@@ -286,10 +308,11 @@ IEEE802.16e中定义了这五种业务类型：UGS，rtPS，ertPS，nrtPS，BE�
 这意味着，当系统中参与者较少时，参与者容易做出接受资源调整的决策。
 而当系统参与者较多时，即使参与者的收益比成本高，参与者也可能会做也自私的决定。
 这说明，当用户总数目多的情况下，自私的用户都希望他人来做出资源占用的调整，而自身却“自私”调整。
-并且，从中还可以看到临界成本在参与者数目逐渐增多时，存在极限~$b-\tau$~。
 另外，
-从\figref{fig:bayesian_puni_para_vs_cont_prob}可以看到，当惩罚系数的值增大时，并不会让参与者决策均衡中“慷慨”的机率增大。这一点与我们的直觉是不同的。
-因此在系统中设置一个能够自适应网络状态的奖励参数和惩罚参数的组合是十分必要的。
+%从\figref{fig:bayesian_puni_para_vs_cont_prob}
+可以看到，当对决策“慷慨”的数目~$m$~有最低要求时，博弈参与者的“自私”决策概率会降低。
+因为大家都会担心没有人选择“慷慨”来让自己最终的收益为零。
+因此在系统中设置一个能够自适应网络状态的最低“慷慨”的参与者数目，也是调节参与者选择态度的有效手段。
 
 \subsection{正态分布的情况}
 对于参与者的成本类型，第二种我们假设的概率分布是正态分布。
@@ -329,16 +352,17 @@ IEEE802.16e中定义了这五种业务类型：UGS，rtPS，ertPS，nrtPS，BE�
 类似的，如果将\eqref{eqn:chap_bayesian:normoal_cdf}代入\eqref{eqn:chap_bayesian:equilibrium_cost_equation}，
 则有，
 \begin{align} 
-    c^* &= b - \tau + \left[ 1-\frac{1}{\sigma \sqrt{2\pi} } \int^x_{-\infty}e^{ \frac{-(c^*-\mu)^2}{2\sigma^2}} \right] ^{N-1}\tau
-    \label{eqn:chap_bayesian:cost_normal_distribution_equation}
+    c^* &= 1- \sum_{k=m}^{N-1}C_{N-1}^k \left\{\left[ \frac{1}{\sigma \sqrt{2\pi} } \int^x_{-\infty}e^{ \frac{-(c^*-\mu)^2}{2\sigma^2}})\right]^k \right. \notag \\
+    & \qquad \left. \quad \cdot \left[1- \frac{1}{\sigma \sqrt{2\pi} } \int^x_{-\infty}e^{ \frac{-(c^*-\mu)^2}{2\sigma^2}}\right]^{N-k-1} \right\}
+     \label{eqn:chap_bayesian:cost_normal_distribution_equation}
 \end{align}
-由于正态分布函数概率密度函数不能显式积分，所以我们只能通过数值求解的方式，将收益参数、惩罚参数、参与者数目与均衡概率关系画出来。
+由于正态分布函数概率密度函数不能显式积分，所以我们只能通过数值求解的方式，将收益参数、“慷慨”人数最低值、参与者数目与均衡成本关系画出来。
 如\figref{fig:bayesian_normal_user_numb_vs_contr_prob}和\figref{fig:bayesian_normal_puni_para_vs_cont_prob}所示。
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[tb]
 \begin{centering}
 \includegraphics[scale=0.6]{bayesian_normal_user_number_vs_contribute_probability.eps}
-\caption{参与者数目与临界成本的关系，$\tau=0.5, b=1$}
+\caption{参与者数目与临界成本的关系（正态分布）}
 \label{fig:bayesian_normal_user_numb_vs_contr_prob}
 \end{centering}
 \end{figure}
@@ -347,38 +371,80 @@ IEEE802.16e中定义了这五种业务类型：UGS，rtPS，ertPS，nrtPS，BE�
 \begin{figure}[!tb]
 \begin{centering}
 \includegraphics[scale=0.6]{bayesian_normal_punish_parameter_vs_contribute_probability.eps}
-\caption{惩罚系数与临界成本之间的关系，$N=4, b=1$}
+\caption{“慷慨”参与者数目最低要求$m$与临界成本的关系}
 \label{fig:bayesian_normal_puni_para_vs_cont_prob}
 \end{centering}
 \end{figure}
 
 与均匀分布的情况十分相似，
 当博弈的参与者总数增多时，临界成本~$c^*$~会减小， 如\figref{fig:bayesian_normal_user_numb_vs_contr_prob}如示。
-同样，最终混合策略的均衡中选择“慷慨”的概率~$P(c_i^*)$~也会随之降低。
+同样，博弈参与者选择“慷慨”的概率~$P(c_i^*)$~也会随之降低。
 同理，当系统中参与者较少时，参与者容易做出接受资源调整的决策。
 我们还绘制了正态分布的尺度参数~$\delta$~对临界成本的影响。
-当尺度参数的值较小时，意味着博弈参与者的类型分布集中比较集中。
-在这情况下，临界成本相比较也小。这说明当用户分类少的情况下，博弈参与者选择“慷慨”的概率也较低。
-同样，临界成本在参与者数目逐渐增多时，也会逐渐收敛到~$b-\tau$~。
+当尺度参数的取值较小时，意味着博弈参与者的类型分布集中比较集中。
+从图中可以看出，用户类型集中的情况下，博弈参与者选择“慷慨”的概率也较高。
 \figref{fig:bayesian_normal_puni_para_vs_cont_prob}也表明，
-当惩罚系数的值增大时，参与者决策均衡中“慷慨”的机率会减小。这一点与均匀分布一样。
-用户类型较多情况比用户类型较单一的情况，“慷慨”的概率下降更快。
-所以，下面我们提出一个能够自适应网络状态的奖励参数和惩罚参数的算法用来调节用户的行为的组合是十分必要的。
+当对“慷慨”参与者的数目的最低值增大时，参与者决策均衡中“慷慨”的机率会增大。这一点与均匀分布一样。
 
-\section{基于博弈的资源比例分配算法}
-根据上面分析，我们让用户来自身决定如何调整自身目前资源占用的情况。
-而控制单元，每隔一个时间间隔，收集各个参与者的业务类型值，汇总以后，进行参数估计，计算均值与方差，并广播给当前服务区的用户。
-譬如，对于参与者而言，它根据当前业务分布决策后，应将把自身的业务类型报告给资源分配单元。
-%，而不是具体的带宽值或是信道个数。，就可以得到所需的资源。
-资源分配单元只是计算一下此用户类型值大小占全部用户类型值之和的比例，然后再按这个比例协调相应的资源给这个用户。
-也就是说，这个资源的比例为：
-\begin{equation}
-    c_i = \frac{c_i}{\sum_{j=1}^N c_j}
-    \label{eqn:chap_bayesian:resource_ratio}
-\end{equation}
-此分配算法的具体流程如下：
+\section{基于博弈的自适应业务分布资源分配算法}
+至此，我们解决了在资源不足以致于不可能给每一个博弈参与者提供最好服务质量下，
+让博弈者自己来决定可以降低自己的资源需求。
+
+根据前面的分析，本节我们提出一个资源分配算法来满足每一个用户的需求。
+资源分配单元，当有用户要申请更多的资源时，收集各个参与者的业务类型或成本信息。
+根据预设的分布模型，将成本信息汇总以后，进行参数估计，求得均值与方差。
+然后确定这一时间段内的分布函数的具体形式，并广播给当前服务区的用户。
+用户收到本时段的分布函数后，可计算出当前的均衡成本值。
+然后用这个值作为选择“慷慨”的概率，做出自身的决策。
+最后将决策报告给资源分配单元，完成实际的分配工作。
+
+此分配算法的具体流程如 算法 \ref{alg:chap_bayesian:agr_cac} 所示。
+\begin{algorithm}[h]
+\SetAlgoLined
+% assume $B_{ava}=0$\;
+等待用户申请资源 \;
+如果某一个用户$i$根据自己的当前成本~$c_i$~提出新的资源申请要求$b_i$ \;
+\eIf {当前空闲资源可满足用户$i$的需求}{
+通知“资源控制分配单元”，给用户申请所需的资源 \; 
+}{
+向当前服务的所有用户广播“成本收集”消息 \;
+所有用户向 “资源控制与分配单元” 报告自己当前的成本 \;
+“资源控制与分配单元”选择预设的成本随机分布模型 \;
+对模型中参数进行参数估计（均值或方差） \;
+将业务模型及刚才得到的参数估计广播给所有用户 \;
+每个用户得到业务模型后，计算均衡成本$c^*$及选择“慷慨”的概率 \;
+按照“慷慨”的概率值做出自己的最后决策\;
+\eIf{决策为“慷慨”}{
+    向资源控制与分配单元报告自己的决策和自己对资源最低要求\;
+    }
+    {
+    向资源控制与分配单元报告自己的决策和自己目前的资源需求\;
+    }
+资源控制与分配单元接收到所有的回复报告\;
+统计用户总的需求与目前总的资源\;
+\eIf{用户总需求$\le$总资源供给}{
+    本次资源调整成功\;
+    \For{$k=1$ \KwTo $N$}{
+    给每一个在线用户分配资源\;
+    }
+    }{
+    此次资源调整失败\;
+    并通知用户$i$\;
+    }
+    本次资源调整结束\;
+}
+    转到 \bf 1\;
+\caption{基于博弈的自适应业务分布资源分配算法} 
+\label{alg:chap_bayesian:agr_cac}
+\end{algorithm}
 
 \section{仿真实验与结果}
+为了验证我们进行的理论分析结果，以及提出的分配算法有效。
+我们参照一个基站分配资源的基本功能设计以下仿真实验。
+在实验模型中，包括一个基站资源控制与分配单元和一个用户产生器。
+基站所提供的全部资源总量为$B$。
+用户产生器，可以按照预设的业务分布产生不同类型的用户。
+产生
 
 \section{小结}
 本章针对网络中业务逐渐增多的趋势，提出通过概率连续随机变量来描述用户的业务类型。

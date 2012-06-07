@@ -11,10 +11,9 @@ if(1~=isdir(main_dir_name))
 end
 
 %% avariable 
-N = 2:2:16; %user number
+N = 5:2:30; %user number
 N = N.';
-b = 1;  %benefit if contribution
-tau = 0.5; %punishment parameter
+m = 2;  %benefit if contribution
 
 c = zeros(length(N),1);   %cost of the contribution
 
@@ -23,11 +22,11 @@ mu = 0.5;
 delta = 0.2;
 X = normrnd(mu,delta, 1000,1);
 x = sort(X, 'ascend');
-y = normcdf(x,mu,delta);
+x_right = normcdf(x,mu,delta);
 
 %% 
 for k=1:length(N)
-    y1 = b -tau + ( (1 - y).^(N(k)-1) )*tau;
+    y1 = 1- (1-binocdf(m,N(k)-1,x_right));
     diff = abs(y1 -x);
     minimum = min(diff);
     index = find(minimum==diff, 1, 'first');
@@ -48,7 +47,7 @@ y = normcdf(x,mu,delta);
 
 %% 
 for k=1:length(N)
-    y1 = b -tau + ( (1 - y).^(N(k)-1) )*tau;
+    y1 = 1- (1-binocdf(m,N(k)-1,x_right));
     diff = abs(y1 -x);
     minimum = min(diff);
     index = find(minimum==diff, 1, 'first');
@@ -69,7 +68,7 @@ y = normcdf(x,mu,delta);
 
 %% 
 for k=1:length(N)
-    y1 = b -tau + ( (1 - y).^(N(k)-1) )*tau;
+    y1 = 1- (1-binocdf(m,N(k)-1,x_right));
     diff = abs(y1 -x);
     minimum = min(diff);
     index = find(minimum==diff, 1, 'first');
@@ -85,15 +84,14 @@ plot(x,A(1,:), '-ko',...
     x,A(2,:), '-ks', ...
     x,A(3,:), '-kv', 'LineWidth',1, 'MarkerSize',6, 'MarkerFace', 'b'...
     );
-% axis([min(x) max(x) 0.4 0.6]);
+axis([min(x) max(x)+1 0 1]);
 xlabel('Number of players');
 ylabel('Cost');
 grid on;
 figure(1);
 hold on;
 
-axis([min(x) max(x) 0.4 0.7]);
-legend('\mu=0.5, \delta=0.2', '\mu=0.5, \delta=0.1', '\mu=0.5, \delta=0.05');
+legend('u=0.5, \delta=0.2, m=2', 'u=0.5, \delta=0.1, m=2 ', 'u=0.5, \delta=0.05,m=2');
 %% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 

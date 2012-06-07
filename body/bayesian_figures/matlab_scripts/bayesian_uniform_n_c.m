@@ -13,41 +13,64 @@ end
 file_name = 'bayesian_uniform_user_number_vs_contribute_probability';
 
 %% avariable 
-N = 2:2:16; %user number
-N = N.';
+NA = 5:2:30; %user number
+N = NA.' -1;
 b = 1;  %benefit if contribution
-tau = 0.5; %punishment parameter
 
 c = zeros(length(N),1);   %cost of the contribution
-
+Y =[];
 %%
+X = 0:0.0001:1;
+x = X;
 %% 
+m = 1;
 for k=1:length(N)
-    eqn_str = sprintf('x = %3.2g - %3.2g + (1-x)^%d * %3.2g',...
-        b, tau, N(k), tau);
-    syms x;   
-    s = double(solve(eqn_str, 'Real', true));
-    index = find( s<=1 & s>=0, 1, 'first');
-    c(k) = s(index);
-end
-
-%%
-mu = 0.5;
-delta = 0.2;
-X = normrnd(mu,delta, 1000,1);
-x = sort(X, 'ascend');
-y = normcdf(x,mu,delta);
+    y1 = 1- (1-binocdf(m,N(k)-1,x));
+    diff = abs(y1 -x);
+    minimum = min(diff);
+    index = find(minimum==diff, 1, 'first');
+    c(k) = x(index);
+ end
 
 %%
 %% the number of players and cost
-x = N;
-y = c;
-A = [x,y]
+Y = [Y;c'];
 
+m = 2;
+for k=1:length(N)
+    y1 = binocdf(m,N(k),x);
+    diff = abs(y1 -x);
+    minimum = min(diff);
+    index = find(minimum==diff, 1, 'first');
+    c(k) = x(index);
+ end
+
+%%
+%% the number of players and cost
+Y = [Y;c'];
+
+m = 4;
+for k=1:length(N)
+    y1 = binocdf(m,N(k)-1,x);
+    diff = abs(y1 -x);
+    minimum = min(diff);
+    index = find(minimum==diff, 1, 'first');
+    c(k) = x(index);
+ end
+
+%%
+%% the number of players and cost
+Y = [Y;c'];
+
+
+x = NA;
 %% Plot the figure
-plot(x,y, 'k',... 
-    x,y, 'ko', 'LineWidth',1, 'MarkerSize',6, 'MarkerFace', 'k');
-axis([min(x) max(x) 0.4 0.6]);
+plot(x,Y(1,:), '-ko',...
+    x,Y(2,:), '-ks', ...
+    x,Y(3,:), '-kv', 'LineWidth',1, 'MarkerSize',6, 'MarkerFace', 'b'...
+    );
+% axis([min(x) max(x) 0.4 0.6]);
+legend('m=1', 'm=2', 'm=4');
 xlabel('Number of players');
 ylabel('Cost');
 grid on;
