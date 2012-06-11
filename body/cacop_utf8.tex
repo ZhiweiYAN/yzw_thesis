@@ -294,11 +294,308 @@ $B$表示当前连接要求的带宽数量。
 \includegraphics[width=0.75\textwidth] {cacop_qos_rate_cac.eps}
 \end{center}
 \caption{视频连接PSNR与码率的关系} 
-\label{fig:chap:cacop:qos_rate_cac}
+\label{fig:chap_cacop:qos_rate_cac}
 \end{figure}
 
 \item 其它类型业务与QoS评价
-
+对于BE类型的业务，网页浏览HTTP应用或文件传输FTP应用是典型的例子。
+HTTP（Hypertext Transfer Protocol）是互联网数据传输中最重要的应用层协议之一\cite{Fielding_1999}。 
+由于其简捷、快速的方式特点，适用于分布式超媒体信息系统。
+FTP是用于在网络上进行文件传输的一套标准协议。它属于网络协议组的应用层。用于Internet上的控制文件的双向传输。
+同时，它也是一个应用程序（Application）。用户可以通过它把自己的PC机与世界各地所有运行FTP协议的服务器相连，访问和下载服务器上的大量程序和信息 \cite{Postel_Reynolds_1985}。
+这两类业务应用的共同点是对用户对服务质量的要求取决于在发送端发送数据的总量与接收端已接收数据量的多少。
+所以，我们把这类应用的服务质量简单地定义为，如\eqref{eqn:chap_cacop:BE_metric} 所示。
+%
+\begin{equation}
+\label{eqn:chap_cacop:BE_metric}
+\alpha^{others} = \frac{b}{B}
+\end{equation}
+%
+其中，$b$是分配得到的带宽资源，$B$是对于BE类应用而言所需的带宽资源。
+它们的比值就可以表示这类应用连接的服务质量水平。
+对于最后两类业务nrtPS与ertPS，我们假定他们的业务与BE的类型类似，也用 \eqref{eqn:chap_cacop:BE_metric} 表示。
 \end{enumerate}
+
+综上所述，因为各类业务的服务质量的计算公式差别不大，下面我们将它们总结一下。
+我们注意到\eqref{eqn:chap_cacop:qos_level_users}在业务特征值$\rho$趋向于无穷大时存在极限，且恰是BE业务的服务质量计算公式。
+%
+\begin{equation}
+\label{eqn:BE_limit}
+\lim\limits_{\rho \to 0 } \frac{1- e^{-\rho \frac{b}{B} }}{1-e^{-\rho}} = \frac{b}{B}
+\end{equation}
+
+所以将\eqref{eqn:chap_cacop:BE_metric}其可以改写为\eqref{eqn:chap_cacop:BE_metric_2}
+%
+\begin{equation}
+\label{eqn:chap_cacop:BE_metric_2}
+\alpha^{others} = \frac{b}{B} = \frac{1- e^{-\rho \frac{b}{B} }}{1-e^{-\rho}} \quad \text{if} \quad \rho \to 0
+\end{equation}
+%
+最后我们将各种业务类型的服务质量评估公式整理可得 \eqref{eqn:chap_cacop:alltype_metric}
+%
+\begin{equation}
+\alpha = 
+\begin{cases}
+\delta_{b}(B), &\text{for UGS traffic} \\
+\frac{1- e^{-\rho \frac{b}{B} }}{1-e^{-\rho}}, \rho > 0& \text{for rtPS traffic}\\
+\frac{1- e^{-\rho \frac{b}{B} }}{1-e^{-\rho}}, \rho>0, \rho \to 0, &\text{for BE, nrtPS, ertPS traffic}\\
+\end{cases}
+\label{eqn:chap_cacop:alltype_metric}
+\end{equation}
+\section{资源分配的优化分析}
+接纳控制的本质是为了保证各个连接的通信服务质量，防止新连接占用资源后对在线连接产生负面的影响。
+一个好的接纳控制方法应该在充分利用资源的前提下，使用户的服务质量最大化。
+这个问题可归结为如下的一个优化问题。
+假设在系统中有$M$个 UGS连接，$N$个 rtPS 连接和 $Q$个其它类型的连接，而且，这些连接之间是彼此无关的。
+那么所有连接的QoS之和可以表示为基站的效用，如\eqref{eqn:chap_cacop:bs_qos} 所示。
+\begin{align}
+U_{BS} &= \displaystyle \sum_{i=1}^K \alpha_i \nonumber \\
+&= \sum_{i=1}^M\alpha_i^{UGS} + \sum_{i=1}^N\alpha_i^{rtPS} + \sum_{i=1}^Q\alpha_i^{others} \nonumber \\
+&=\displaystyle M^\prime + \sum_{i=1}^N \left( \frac{1- e^{-\rho_i^r
+\frac{b_i}{B_i} }}{1-e^{-\rho_i^r}} \right)
+ + \sum_{i=1}^Q \left( \frac{1- e^{-\rho_i^o
+\frac{b_i}{B_i} }}{1-e^{-\rho_i^o}} \right),
+\label{eqn:chap_cacop:bs_qos}
+\end{align}
+其中，$M^\prime(\le M)$ 表示$M^\prime$ UGS连接分配到了所需的带宽资源。
+$\rho_i^r$ 是第$i$个rtPS连接的数据流特征。 
+$\rho_i^o$ 表示BE类型的连接特征。此处我们假定这个很小且接近于零。
+为了表示方便，我们用符号$\rho_i$来统一表示$\rho_i^r$ 和$\rho_i^o$。
+$U_{BS}$ 表示基站在给$K$个连接提供服务所能收获的效用。
+如果$U_{BS}$有最大值, 那么一定存在一个资源分配的优化解
+$\mathbf{b}$ 。
+我们会把这个解做为接纳控制的判决条件。
+因此，这个优化问题可定义为如下形式。
+\begin{align}
+\mathbf{b}^* &= \arg \max \left\{ U_{BS}(\mathbf{b}) \big| \mathbf{b} = [b_1, b_2, \dots, b_K] \right\} \label{eqn_u_bs_qos}\\
+&\text{subject to:}\nonumber\\
+&\displaystyle\sum_{i=1}^{K}b_i + B_{ava}= B_{total} \nonumber
+\end{align}
+其中， $\mathbf{b}^*$ 是资源分配的优化解。
+$B_{total}$ 是系统所能提供的全部带宽。
+$ B_{ava} $是剩余的带宽资源。
+
+因为接纳控制通常是在业务负载大的情况下产生作用，所以为了简单起见，
+我们剩余资源为零。同时，因为UGS类型的连接对带宽的要求严格，所以这些连接必须按照申请的数量分配。
+我们则将上面的优化问题改写为 \eqref{eqn:chap_cacop:final_opt_qos}
+\begin{align}{}
+\label{eqn:chap_cacop:final_opt_qos}
+\mathbf{b}^* &= \arg \max \left\{ U_{BS}(\mathbf{b}) \big| \mathbf{b} = [B_1, B_2, \dots,B_M,\right.
+ \left. b_{M+1}, \ldots, b_K] \right\} \\
+&\text{subject to:}\notag \\
+&\sum_{i=1}^M B_i + \sum_{i=M+1}^{K}b_i= B_{total} \notag
+\end{align}
+
+下面我们来解这个优化问题。
+先说明这个优化问题存在解。
+为了方便书写，引入一个新的变量$x$来表示$\frac{b}{B}$。
+\begin{equation*}
+\begin{split}
+x_i = \frac{b_i}{B_i} , i \in [M+1, K].
+\end{split}
+\end{equation*}
+我们引入拉格朗日乘子$\lambda$，然后写出所需的拉格朗日方程，如
+\eqref{eqn:chap_cacop:lagrange_defination}.
+%%%
+\begin{align}
+&\displaystyle F(x_{M+1}, x_{M+2}, \dots, x_K, \lambda)= \sum^{M+N}_{i=M+1}
+\left( \frac{1-e^{-\rho_i x_i}}{1-e^{-\rho_i}} \right) \nonumber \\
+& \qquad \displaystyle +\sum_{i=M+N+1}^K\left( \frac{1-e^{-\rho_i x_i}}{1-e^{-\rho_i}} \right) 
+ + \lambda
+\left(B_{total} - \sum_{i=1}^M B_i -\sum^K_{i=M+1} x_i B_i \right).
+\label{eqn:chap_cacop:lagrange_defination}
+\end{align}
+%%%
+而后，对上面方程求两阶导数$\frac{\partial ^2F}{\partial x_i \partial x_j}$得Hermitian矩阵${M}$.
+%%%
+\begin{eqnarray*}
+{M} = & 
+\left[
+\begin{array}{cccc}
+\frac{\partial ^2F}{\partial x_{M+1} ^2} &\frac{\partial ^2F}{\partial x_{M+1} \partial x_{M+2}} & \dotsi & \frac{\partial ^2F}{\partial x_{M+1} \partial x_K} \\
+\frac{\partial ^2F}{\partial x_{M+2} \partial x_{M+1}}& \frac{\partial ^2F}{\partial x_{M+2} ^2}& \dotsi & \frac{\partial ^2F}{\partial x_{M+2} \partial x_K}\\
+\vdots & \vdots & \ddots & \vdots \\
+
+\frac{\partial ^2F}{\partial x_{K} \partial x_{M+1} } &\frac{\partial ^2F}{\partial x_{K} \partial x_{M+2}} & \dotsi&\frac{\partial ^2F}{\partial x_K ^2}\\
+\end{array}
+\right] \\
+=&
+\left[
+\begin{array}{cccc}
+\frac{-\rho_{M+1}^2 e^{-\rho_{M+1} x_{M+1}}}{(1-e^{-\rho_{M+1}})} & & & \text{{\huge{0}}}\\
+&&\ddots\\
+\text{{\huge{0}}} &&& \frac{-\rho_{K}^2 e^{-\rho_{K} x_{K}}}{(1-e^{-\rho_{K}})}\\
+\end{array}
+\right] 
+\end{eqnarray*}
+很明显，如果$\rho >0$ 那么$1-e^{-\rho} >0$。
+矩阵${M}$是负定的（negative-definite）。
+因此对于BS的效用$U_{BS}$来说，存在局部极大值点。
+下面我们来具体求解这个问题。
+首先让对方程两连求一阶导数，并置为零，
+$dF = 0$，则有下面一系列等式。
+%%%
+\begin{subequations}
+\label{eqn_derivate}
+\begin{align} &\frac{\partial F}{\partial x_{M+1}} =
+\frac{\rho_{M+1} e^{-\rho_{M+1} x_{M+1}}}{(1-e^{-\rho_{M+1}})} - \lambda B_{M+1} = 0 \tag{\theequation -M+1}\\
+&\frac{\partial F}{\partial x_{M+2}} =
+\frac{\rho_{M+2} e^{-\rho_{M+2} x_{M+2}}}{(1-e^{-\rho_{M+2}})} - \lambda B_{M+2} = 0 \tag{\theequation -M+2}\\
+\nonumber & \qquad \vdots \qquad \vdots \qquad \vdots \\
+&\frac{\partial F}{\partial x_K} =
+\frac{\rho_K e^{-\rho_K x_K}}{(1-e^{-\rho_K})} - \lambda B_K = 0 \tag{\theequation -K}\\
+&\frac{\partial F}{\partial \lambda} = B_{total} - \sum_{i=1}^M B_i -
+\sum^K_{i=1}x_iB_i = 0 \tag{\theequation -K+1}
+\end{align}
+\end{subequations}
+%%%
+根据公式 (\ref{eqn_derivate})，我们有
+%%%
+\begin{equation*}
+\begin{split}
+&\frac{\partial F}{\partial x_i} = \frac{\rho_i e^{-\rho_i
+x_i}}{(1-e^{-\rho_i})} - \lambda B_i = 0\\
+%\implies &\rho_i e^{-\rho_i x_i} =\lambda B_i(1-e^{-\rho_i})\\
+%\implies &\ln\rho - \rho x_i = \ln [\lambda B_i (1-e^{-\rho_i})]\\
+\implies &x_i = \frac{1}{\rho_i} \ln \left[ \frac{\rho_i}{\lambda B_i(1-e^{-\rho_i})} \right] \\
+\end{split}
+\end{equation*}
+%%
+
+再将 $x_i$ 代入公式 (\ref{eqn_derivate}-K+1)，则又有
+%%%
+%
+\begin{equation}
+\begin{split}
+&B_{total} -\sum_{i=1}^MB_i = \sum_{i=M+1}^K x_i B_i \\
+&= \sum_{i=M+1}^K \frac{B_i}{\rho_i} \ln \left[ \frac{\rho_i}{\lambda B_i(1-e^{-\rho_i})} \right] \\
+%&= \sum^K_{i={M+1}}\left[- \frac{1}{\rho_i}\ln \lambda - \frac{1}{\rho_i}
+%\ln (B_i) - \frac{1}{\rho_i} \ln (1-e^{-\rho_i}) + \frac{1}{\rho_i}
+%\ln
+%\rho_i \right] B_i\\
+%&= \sum^K_{i={M+1}}\left[- \frac{B_i}{\rho_i} \ln \lambda -
+%\frac{B_i}{\rho_i} \ln (B_i) - \frac{B_i}{\rho_i} \ln (1-e^{-\rho_i})
+%+ \frac{B_i}{\rho_i} \ln
+%\rho_i \right]\\
+%&= -{\ln \lambda}\sum^K_{i={M+1}} \frac{B_i}{\rho_i} 
+%- \sum^K_{i={M+1}} \frac{B_i \ln (B_i)}{\rho_i} 
+%- \sum_{i={M+1}}^K \frac{B_i\ln(1-e^{-\rho_i})}{\rho_i} \\ 
+%& \hspace{5mm}+ \sum^K_{i={M+1}} \frac{ B_i\ln \rho_i} {\rho_i} \\
+\end{split}
+\label{eqn_find_mu}
+\end{equation}
+
+%%%
+基于公式 (\ref{eqn_find_mu}), 我们可以解出$\lambda$.
+%%%
+\begin{equation*}
+\begin{split}
+\lambda &= \exp \left( \frac{\sum_{i=M+1}^K \frac{B_i}{\rho_i} \ln \left[ \frac{\rho_i}{B_i(1-e^{-\rho_i})} \right]
+}{\sum_{i=M+1}^K \frac{B_i}{\rho_i}} \right.
++ \left. \frac{ 
+\sum_{i=1}^M B_i - B_{total}}{\sum_{i=M+1}^K \frac{B_i}{\rho_i}} \right)\\
+\end{split}
+\end{equation*}
+%%%
+
+然后，可以求得
+%%%
+%
+\begin{equation}
+\begin{split}
+x_i & = \frac{1}{\rho_i} \ln \frac{\rho_i}{B_i(1-e^{-\rho_i})} \\
+&-\frac{1}{\rho_i}\left( \frac{\sum_{j=M+1}^K \frac{B_j}{\rho_j} \ln \left[\frac{\rho_j}{B_j(1-e^{-\rho_j})}\right] 
+}{\sum_{j=M+1}^K \frac{B_j}{\rho_j}} \right)
+-\frac{1}{\rho_i}\left( \frac{ 
+\sum_{j=1}^M B_j - B_{total}}{\sum_{j=M+1}^K \frac{B_j}{\rho_i}} \right) \\
+\end{split}
+\end{equation}
+%
+%%%
+
+最后，整理可得带宽分配的解。
+%
+\begin{equation}
+\begin{split}
+\mathbf{b^*}& = [b^*_{M+1}, \cdots, b^*_{K}]\\
+b_i^* & = x_iB_i = \frac{B_i}{\rho_i} \ln \frac{\rho_i}{B_i(1-e^{-\rho_i})} \\
+&-\frac{B_i}{\rho_i}\left( \frac{\sum_{j=M+1}^K \frac{B_j}{\rho_j} \ln \left[\frac{\rho_j}{B_j(1-e^{-\rho_j})}\right] 
+}{\sum_{j=M+1}^K \frac{B_j}{\rho_j}} \right)
+ -\frac{B_i}{\rho_j}\left( \frac{ 
+\sum_{j=1}^M B_j - B_{total}}{\sum_{j=M+1}^K \frac{B_j}{\rho_i}} \right), i \in [M+1, \cdots, K] \\
+\end{split}
+\label{eqn:b_i_bw}
+\end{equation}
+%
+\section{提出的接纳控制算法}
+\label{sec_alg}
+基于上一节所得到的带宽分配方案，我们提出一个接纳控制算法。
+在此算法中，我们假设分配到资源数量应该大于业务所需的最小数量，即
+$b_i^* \ge B_i^{\min}$. 
+这个最小值与业务的类型相关。不同业务均有所不同。
+例如，对于话音应用来说，它所需的带宽的最小值就被设置为它申请值。
+对于象视频这样的rtPS应用，一般$b_i>=B_i^{\min}$
+对于新用户$K$而言，
+如果$b_K^*$ 小于所需的资源的最小值$B_K^{\min}$，系统会拒绝这个连接进入。
+因为如果按这样的资源量分配给连接$K$，服务质量会很差，用户肯定不满意。
+另外，
+在我们的算法，使用了优级的概念。我们假定在线连接的优先级要比新连接的优先级要高。这样的假定会造成在我们的算法中在线用户的通信不会被系统中断。
+
+由于上述的两个假定，我们的算法会在带宽分配的过程中出现迭代。
+比如，如果一个在线的连接由分配算法（\ref{xxxx}）计算所得的资源数目小于它的最小资源需求数目，我们认为这个连接应该受到保护。
+接纳算法会将取消此次计算过程，将此连接和它占用的资源排除在外，
+然后再重新启动新一轮的带宽计算过程。
+直到不再出现在线连接所分配的资源会小于它最低要求。
+对于连接$K$来说，如果最后的结果大于其最低要求，则允许其进入系统；否则，这个连接会被系统阻塞（blocked)。
+
+算法的详细流程如流程{\bf{算法 \ref{agr_cac}}}所示。
+
+\begin{algorithm}[!htpb]
+\SetAlgoLined
+% assume $B_{ava}=0$\;
+等待一个新的连接进入请求\;
+新连接$K$申请进入；假定此时系统中有$K-1$连接正在进行通\;
+\eIf {$B_K<= B_{ava}$}{
+允许连接$K$进入系统，被分配带宽$B_K$\;
+}{
+
+Calculate the optimum bandwidth value $\bf b^*$ according to Eqn.(\ref{eqn:b_i_bw}) \;
+\If{$b_i^* < B_i^{\min} $}{
+The $i$th connection is excluded for the bandwidth allocation this time,
+and $B_{total} = B_{total} - b_i^{old}$
+, $K = K-1$ \;
+{\bf{go to 6}}\;
+}
+\eIf{$b_K< B_K^{min}$}{
+Block the new connection request\;
+{\bf{go to 1}}\;
+}{
+Accept the new connection request\;
+\For{$i=1$ \KwTo $K-1$}{
+The connections excluded by CAC scheduler keep their original resources.\;
+Adjust the bandwidth of connections based on the optimum bandwidth value ${b_i^*}$ \;
+}
+Allocate the bandwidth $b_K^*$ to the new connection\;
+}
+}
+{\bf{go to 1}}\;
+\caption{Proposed CAC scheme} \label{agr_cac}
+\end{algorithm}
+
+After a new incoming connection sends its request of entry to a BS, CAC process starts. 
+If the BS has the available bandwidth enough for the its demand at that time, the new connection $K$ will be given the access right and its required resource is allocated to it.
+Otherwise, the optimum value of bandwidth $\bf{b^*}$ for the connections.
+Under a lack of resource, if a connection is accepted, two conditions should be satisfied. 
+One is that the value $b_K^*$ is greater than the threshold $B_K^{min}$ for the new connection. 
+The other is that allocated bandwidth $b_i^*$ is greater than $B_i^{\min}$ for the ongoing connections. 
+After the allocated bandwidth $\bf b^*$ is ready, we adjust allocated bandwidth of other $K-1$ ongoing connections using their optimum values. 
+And then we allocate the $b_K^*$ bandwidth to the new connection to the end. 
+Thus, we can keep the QoS level of the BS as high as possible all the time. 
+The step 7, 8 ,9 mean that we exclude the specific ongoing connection from the process of bandwidth allocation, whose optimal value of allocate bandwidth is less than its lowest limit. 
+The iterated bandwidth allocation will not stop until the reminder connections satisfy the conditions, $b_i^* \ge B_i^{\min}$.
+
+%
+%%
+%%
 
 
