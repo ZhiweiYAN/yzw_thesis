@@ -524,11 +524,13 @@ b_i^* & = x_iB_i = \frac{B_i}{\rho_i} \ln \frac{\rho_i}{B_i(1-e^{-\rho_i})} \\
  -\frac{B_i}{\rho_j}\left( \frac{ 
 \sum_{j=1}^M B_j - B_{total}}{\sum_{j=M+1}^K \frac{B_j}{\rho_i}} \right), i \in [M+1, \cdots, K] \\
 \end{split}
-\label{eqn:b_i_bw}
+\label{eqn:chap_cacop:b_i_bw}
 \end{equation}
 %
 \section{提出的接纳控制算法}
 \label{sec_alg}
+
+
 基于上一节所得到的带宽分配方案，我们提出一个接纳控制算法。
 在此算法中，我们假设分配到资源数量应该大于业务所需的最小数量，即
 $b_i^* \ge B_i^{\min}$. 
@@ -541,16 +543,8 @@ $b_i^* \ge B_i^{\min}$.
 另外，
 在我们的算法，使用了优级的概念。我们假定在线连接的优先级要比新连接的优先级要高。这样的假定会造成在我们的算法中在线用户的通信不会被系统中断。
 
-由于上述的两个假定，我们的算法会在带宽分配的过程中出现迭代。
-比如，如果一个在线的连接由分配算法（\ref{xxxx}）计算所得的资源数目小于它的最小资源需求数目，我们认为这个连接应该受到保护。
-接纳算法会将取消此次计算过程，将此连接和它占用的资源排除在外，
-然后再重新启动新一轮的带宽计算过程。
-直到不再出现在线连接所分配的资源会小于它最低要求。
-对于连接$K$来说，如果最后的结果大于其最低要求，则允许其进入系统；否则，这个连接会被系统阻塞（blocked)。
 
-算法的详细流程如流程{\bf{算法 \ref{agr_cac}}}所示。
-
-\begin{algorithm}[!htpb]
+\begin{algorithm}[H]
 \SetAlgoLined
 % assume $B_{ava}=0$\;
 等待一个新的连接进入请求\;
@@ -558,42 +552,202 @@ $b_i^* \ge B_i^{\min}$.
 \eIf {$B_K<= B_{ava}$}{
 允许连接$K$进入系统，被分配带宽$B_K$\;
 }{
-
-Calculate the optimum bandwidth value $\bf b^*$ according to Eqn.(\ref{eqn:b_i_bw}) \;
+根据资源分配\eqref{eqn:chap_cacop:b_i_bw}计算$\bf b^*$\;
 \If{$b_i^* < B_i^{\min} $}{
-The $i$th connection is excluded for the bandwidth allocation this time,
-and $B_{total} = B_{total} - b_i^{old}$
+连接$i$被系统列入本次的保护范围，且
+$B_{total} = B_{total} - b_i^{old}$
 , $K = K-1$ \;
 {\bf{go to 6}}\;
 }
 \eIf{$b_K< B_K^{min}$}{
-Block the new connection request\;
+拒绝新连接的请求\;
 {\bf{go to 1}}\;
 }{
-Accept the new connection request\;
+允许新连接$K$进入系统\;
 \For{$i=1$ \KwTo $K-1$}{
-The connections excluded by CAC scheduler keep their original resources.\;
-Adjust the bandwidth of connections based on the optimum bandwidth value ${b_i^*}$ \;
+被保护的连接保持原有的资源不变\;
+对于其它的连接按计算的优化资源分配方案$b_i$执行\;
 }
-Allocate the bandwidth $b_K^*$ to the new connection\;
+分配资源$b_K^*$ 给新连接$K$\;
 }
 }
 {\bf{go to 1}}\;
-\caption{Proposed CAC scheme} \label{agr_cac}
+\caption{提出的接纳控制算法} \label{alg:chap_cacop:agr_cac}
 \end{algorithm}
 
-After a new incoming connection sends its request of entry to a BS, CAC process starts. 
-If the BS has the available bandwidth enough for the its demand at that time, the new connection $K$ will be given the access right and its required resource is allocated to it.
-Otherwise, the optimum value of bandwidth $\bf{b^*}$ for the connections.
-Under a lack of resource, if a connection is accepted, two conditions should be satisfied. 
-One is that the value $b_K^*$ is greater than the threshold $B_K^{min}$ for the new connection. 
-The other is that allocated bandwidth $b_i^*$ is greater than $B_i^{\min}$ for the ongoing connections. 
-After the allocated bandwidth $\bf b^*$ is ready, we adjust allocated bandwidth of other $K-1$ ongoing connections using their optimum values. 
-And then we allocate the $b_K^*$ bandwidth to the new connection to the end. 
-Thus, we can keep the QoS level of the BS as high as possible all the time. 
-The step 7, 8 ,9 mean that we exclude the specific ongoing connection from the process of bandwidth allocation, whose optimal value of allocate bandwidth is less than its lowest limit. 
-The iterated bandwidth allocation will not stop until the reminder connections satisfy the conditions, $b_i^* \ge B_i^{\min}$.
 
+由于上述的两个假定，我们的算法会在带宽分配的过程中出现迭代。
+比如，如果一个在线的连接由资源分配 \eqref{eqn:chap_cacop:b_i_bw}计算所得的资源数目小于它的最小资源需求数目，我们认为这个连接应该受到保护。
+接纳算法会将取消此次计算过程，将此连接和它占用的资源排除在外，
+然后再重新启动新一轮的带宽计算过程。
+直到不再出现在线连接所分配的资源会小于它最低要求。
+对于连接$K$来说，如果最后的结果大于其最低要求，则允许其进入系统；否则，这个连接会被系统阻塞（blocked)。
+
+
+当一个新连接提出进入系统的申请时，接纳控制单元启动判断过程。
+如果当前的空闲资源大于新连接$K$所需的资源数量，
+那么新连接会被允许进入系统接受服务，并分配给资源$B_K$。
+否则，系统进入优化资源分配的计算过程。
+在一个空闲资源缺乏的情况下，一个新连接被系统接纳需要满足两个条件：
+一是对于新连接$K$来说，优化的资源分配值$b_K$要大于最低资源需求$b_K^{\min}$。
+另一个是对于其它在线的连接所分配到是优化资源值$b_i$也要大于各自的最低资源需求。
+因此这个算法会尽可能将基站系统的效用保持较高的水平。
+算法的详细流程如流程{\bf{算法 \ref{alg:chap_cacop:agr_cac}}}所示。
+其中，步骤7、8、9用来将那些需求保护的连接排除出分配方案中。
+%%算法描述
+
+
+\section{仿真实验与分析}
+\begin{figure*}[tb]
+\centering
+\includegraphics {cacop_simulator.eps}
+\caption{系统仿真模型} 
+\label{fig:chap_cacop:sim_cfg}
+\end{figure*}
+我们通过构造一个系统的仿真模型来评估所提出的算法。
+这个仿真的模型如\figref{fig:chap_cacop:sim_cfg} 所示。
+为了能够去除一些仿真中的随机因素，仿真脚本被运行多次来得到一个统计意义的结果。
+
+\subsection{仿真模型}
+我们根据本章第三小节介绍呼叫接纳控制模型，建立了这样一个仿真模型。
+模型包括下面几个组成部分：
+\begin{itemize}
+\item 伪连接产生单元（Pseudo Connection Generators）: 它能够按照泊松分布产生新的连接，就象在排队论中“顾客”。
+    时间间隔$T$来自于一个指数分布，如\eqref{eqn:chap_cacop:exp_model}定义。
+%
+\begin{equation}
+\label{eqn:chap_cacop:exp_model}
+F_T(t) = 1 - P_0(t) = 1 - e^{-\lambda t}
+\end{equation}
+%
+\begin{table}[tb]
+\caption{连接的业务类型} \label{tb:chap_cacop:sim_cfg}
+\begin{center}
+\begin{tabular}{cccccc}
+\toprule
+业务类型 &$\rho$ &所需的 & 最小的 &到达 &接受服务时间 \\
+Type & &bandwidth & bandwidth & rate & time \\
+&&(Kbps)& (Kbps) & (/hour) &(seconds) \\
+\midrule
+UGS& N/A &64 &64 & 100 &600\\
+BE & 0.01&90 &64 &90 &700\\
+rtPS &4& 128 &64 &80 &800\\
+rtPS &5& 256 &128 &70 &900\\
+BE &0.01& 384 &192 &60 &1000\\
+nrtPS &0.01& 768 &384 &50 &1100\\
+nrtPS &0.01& 1024 &512 &40 &1200\\
+rtPS &6& 1512 &756 &40 &1200\\
+rtPS &7& 1768 &884 &30 &1500\\
+rtPS &8& 2048 &1024 &30 &1500\\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{table}
+到达率根据不同业务类型及应用假设为每小时 $30 \text{ to } 100 $。
+每个连接都设置有最小带宽需求与业务类型特征值。
+带宽需求数量在64Kbps到2Mbps之间。
+并且，假设接受服务的时间为一个均值为600到1500秒指数分布的随机变量。
+表\ref{tb:chap_cacop:sim_cfg}详细地列出其中的各项参数。
+
+\item 在线连接管理单元（Ongoing Connection Management）: 当一个连接被系统接入后，会放入一个队列中进行管理。当它的服务时间结束时，管理单元会将它从队列中删除。
+
+\item 呼叫接纳控制单元（Call Admission Control Scheduler）: 此单元负责计算每一个连接应分配的资源数量，并分配总共$B_{total}=75Mbps$的带宽资源。 
+\end{itemize}
+作为对比算法，我们使用了两种常见的方法。
+第一个标记为“Baseline”。这种方法在进行接纳判断时，只是根据剩余的空闲带宽能否满足新连接的要求。
+如果空闲带宽足够，则接入；否则，则拒绝进入。
+另外一种是由学者EL Kadi提出的资源保留算法。该算法在系统的总资源中保留一定比例专门针对新连接的接入\cite{EL-Kadi2002}。
+%%%%%
+\subsection{仿真结果}
+%
+\begin{table}[htbp]
+\caption{仿真结果汇总} \label{tb:chap_cacop:res_sim}
+\begin{center}
+\begin{tabular}{lrrr}
+\toprule
+&Baseline &Elkadi &Proposed\\
+\midrule
+阻塞率 (\%) &4.15 & 0 &0.82\\
+资源利用率(\%) &86.70 &83.57 &88.42\\
+系统连接容量 &137.55 &145.60 &144.01\\
+连接的平均QoS &1.00 &0.94 &0.98\\
+基站系统的效用 &137.55 &136.28 &141.19\\
+\bottomrule
+\end{tabular}
+\end{center}
+\end{table}
+表 \ref{tb:chap_cacop:res_sim} 汇总了三种方法的仿真结果。
+我们在仿真过程中，不但考察了传统的性能指标，如新连接的阻塞率，资源利用率以及系统连接容量，而且还评估了本章所提出的QoS的测量值，以及基站系统的整体效用。
+在三种方法中，本文所提出的算法在资源利用率及系统效用方面性能表现最好，
+资源利用率分别比其它高出$2\%$和$4\%$；系统整体效用值比其它两个方法高约4和5。
+在阻塞率真这一项，所提出的方法与基准方法“Baseline”相比较，阻塞率下降了五倍，从$4.15\%$ 降至为 $0.82\%$。
+因为在ELKadi的资源预留方法中，资源对新连接总是优先使用的，所以这种方法会将新连接的阻塞率降为零。而所提出的方法为$0.82\%$，与ELKadi方法十分接近。
+从各项指标的整体来看，我们所提出的方法综合的性能较优。
+%The baseline method maximizes the average QoS level of the ongoing connections, because it must block new connections in the heavy traffic load condition. 
+%%%%%%%
+%
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.65\textwidth] {cacop_block_rate.eps}
+\caption{新连接的阻塞} \label{fig:chap_cacop:clock_accept_block_drop}
+\end{figure}
+
+%%%%%%%
+%
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.65\textwidth] {cacop_conns_sum.eps}
+\caption{系统的连接容量}\label{fig:chap_cacop:clock_onging_call_sum}
+\end{figure}
+
+%%%%%%%
+% 
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.65\textwidth]{cacop_bw_utilization.eps}
+\caption{系统资源利用率}\label{fig:chap_cacop:clock_bs_availble_bw}
+\end{figure}
+
+%%%%%%%
+%
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.65\textwidth] {cacop_qos_sum.eps}
+\caption{基站系统整个效用}\label{fig:chap_cacop:clock_bs_qos_sum}
+\end{figure}
+
+%%%%%%%
+% 
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.65\textwidth] {cacop_avg_qos.eps}
+\caption{连接平均QoS水平}\label{fig:chap_cacop:clock_avg_call_qos}
+\end{figure}
+
+
+%On contrast, the proposed method can increase by up to 6 \% bandwidth utilization by making the slight degradation of block rate. The performance of the QoS level of BS can achieve the best one among them to 141.4 while the average QoS level of connections is kept as 0.984, just to decrease by 0.16 in comparison with maximum value, one. 
+
+另一方面，\figref{fig:chap_cacop:clock_accept_block_drop} 到 \figref{fig:chap_cacop:clock_avg_call_qos} 显示了各个指标在整个仿真过程中实时的情况。
+这里的每一幅图中我们绘制了六条线。其中，水平的虚线是各个算法的均值。
+
+如\figref{fig:chap_cacop:clock_accept_block_drop}所示，新连接的阻塞率在整个仿真的过程中均保持着很低的水平。
+同时，还可清楚的看到“Baseline”算法的阻塞率的值波动较大。
+\figref{fig:chap_cacop:clock_onging_call_sum} 显示了在线连接的容量数目，可以看出，ElKadi方法与本文所提算法曲线非常接近，且明显优于基准算法。
+对于资源利用率，与其它二个算法相比较，ElKadi的性能最差。这也可以看出，预留算法的缺陷。由于在高业务负载下，预留算法为了保证新连接能够及时的接入，使得一部分的资源未得到充分地利用，如 \figref{fig:chap_cacop:clock_bs_availble_bw}所示。
+ 
+从用户的角度看，QoS水平曲线对于单个用户更有意义一些。
+如\figref{fig:chap_cacop:avg_qos}所示，
+这些曲线表示的是在线用户的QoS水平和满意度。，我们所提出的方法明显优于ElKadi的算法。同时，我们还可看出，基准算法的平均QoS水平总是最高的，始终维持在常量最大值$1$。基准算法通过牺牲新连接服务质量使得在线用户服务质量得到了最大程度的保证。
+从这些仿真结果，我们清楚地看到，在一个资源受限的系统中，系统性能指标之间是存在矛盾的。通常将其中一个性能指标得到改善和提高的同时，会使得另外一个性能指标下降。譬如在线用户的QoS水平与新用户的阻塞率。从仿真的结果来看，我们所提出的算法在平衡相互矛盾的系统指标方面，比其它两种方法要好。我们的算法兼顾了新用户与在线用户的利益，并进行了很好的平衡与折衷。
+
+\section{小结}
+本章研究的是基于多媒体业务下的呼叫接纳控制问题。
+首先我们通过分析不同的多媒体业务特点，
+建立一个针对网络底层资源分配参数与网络高层的业务QoS水平的映射机制，
+实现不同业务用户的QoS测度以及系统整体性能的有效测量。
+并且，基于这个映射模型，提出了一个基于在线用户和与新用户利益兼顾呼叫接纳控制与资源分配的优化算法，
+实现不同业务Qos以及系统资源的在线管理。
+该算法以用户服务质量效用为最大化目标，在高负荷下依据用户业务负载情况调整接纳与分配策略，达到各项性能指标的一个较好平衡也折衷。
 %
 %%
 %%
