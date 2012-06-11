@@ -111,7 +111,7 @@
 %%
 \begin{figure*}[t]
 \centering
-\includegraphics[width=0.95\textwidth]{cac_qos_model_system.eps}
+\includegraphics[width=0.95\textwidth]{cacop_qos_model_system.eps}
 \caption{ 呼叫接纳控制的系统模型} \label{fig_system_model_cac}
 \end{figure*}
 %%%%%%
@@ -229,8 +229,75 @@ PSNR在视频编码解码研究领域广泛使用。
 
 最简单的情况下，我们可以类比网络吞吐量的比值，将$\frac{b}{B}$当做是评估视频连接的QoS。不幸的是，视频质量与比值$\frac{b}{B}$并不是简单的线性关系
  \cite{He1013856}。
-我们要寻找别的替代方案。这个替代方案要能够反应视频质量PSNR的关系，又可在MAC层方便的计算。
+我们要寻找别的替代方案。这个替代方案要能够反应出服务质量与视频质量PSNR的关系，又能在MAC层中方便地实现。
+我们发现，率失真优化（rate distortion optimization，RDO）思想可以应用到我们的问题中。
+率失真优化是一种研究码率与压缩视频质量关系的方法
+\cite{He1013856}\cite{E-H-Yang.TIP.2007} \cite{J-Y-Liu.ICIP.2009} 。
+这种方法的目的是要建立视频的失真（损失）与所分配的码率之间的关系模型。
+通过考察这个模型来对编码的码率做出指导。
+从资源分配的角度看，视频质量与带宽分配之间的存在着紧密的联系。
+为了能够找到一个合适的模型来描述视频质量与带宽分配之间的关系，我们构造与比较了一些典型的拟合模型，结果如表\ref{tb:chap_cacop:fit_functions} 如示。
+\begin{table}[tb]
+\caption{拟合模型} 
+%\caption{Fitting Model Types} 
+\label{tb:chap_cacop:fit_functions}
+\centering
+\begin{tabular}{llcc}
+\toprule
+ID& $f(x)$ & SSE & Adjusted R-square\\
+\midrule
+1&$ae^{bx}$ & 594.8 &0.4233\\
+2&$p_1 x + p_2$ & 505.7 & 0.5096\\
+3&$a_1e^{-((x-b1)/c1)^2}$&339.1&0.6243\\
+4&$a_0 + a_1\cos(xw) + b_1\sin(xw)$&217.5&0.7317\\
+5&$p_1x^2 + p_2x + p_3$ &207.5 & 0.7701\\
+6&$p_1x^3 + p_2x^2 + p_3x + p_4$&62.04&0.9465\\
+7&$a(1-e^{ \rho \frac{x}{\max(x)}})$ &19.83 & 0.9808\\
+8&$p_1x^4 + p_2x^3 + p_3x^2 + p_4x + p_5$&14.93 &0.9871\\
+\bottomrule
+\end{tabular}
+\end{table}
+表中的数据显示了不同拟合函数模型下，对视频测试序列“Forman”的拟合结果。
+从表中的结果可以看到，函数模型$7$和$8$性能明显优于其它模型。
+如果我们从数学的拟合效果(SSE 和Adjusted R-square）来考虑，模型$8$ （$p_1x^4 + p_2x^3 + p_3x^2 + p_4x + p_5$）会更准确。
+但是，此处我们选择模型 $7$，$a(1-e^{ \rho \frac{x}{\max(x)}})$。 
+选择它原因有三个：
+一是，多项式模型保用了较多的系数来描述视频的特性。
+而指数模型只有一个系数$\rho$来描述业务的特性。从模型的简洁程度来看，
+指数模型更简单。
+二是，指数模型尽管不如多项式模型$8$，但是它远优于其它的函数模型。
+这里我们在简洁与准确性之间做了适当的折衷。
+三是，指数模型可以涵盖其它类型的业务。这样我们可以用统一的模型来表达多种业务的服务质量，下面小节中我们会详细解释。
 
+为了表示方便起见，我们将指数模型进行归一化的处理，如
+\eqref{eqn:chap_cacop:qos_level_users}所示。
+\begin{equation}
+\alpha^{rtPS} = \frac{PSNR_b}{PSNR_B} \approx \frac{1- e^{-\rho \frac{b}{B} }}{1-e^{-\rho}}, \rho > 0
+\label{eqn:chap_cacop:qos_level_users}
+\end{equation}
+其中，
+$\alpha^{rtPS}$ 表示归一化后的视频流或rtPS数据流的服务质量。
+$PSNR_b$ 和 $PSNR_B$ 分别表示编码的码率为$b$ 和 $B$的视频质量。
+$\rho$ 代表 rtPS连接的数据流特征值。
+每一个rtPS都会自己的特征值$\rho$。我们假定它在传输之前可以确定下来。
+$b$表示
+$e^{-\rho \frac{b}{B}}$部分表示失真。
+$1- e^{\rho \frac{b}{B}}$ rtPS连接的QoS值。
+分母$1-e^{-\rho}$是用来做归一化处理的。
+$b$ 表示当前连接所分配到的带宽数量，并且要求它大于它的最低带宽要求$B_{\min}$。
+$B$表示当前连接要求的带宽数量。
+为了进一步验证此模型有效，我们对不同标准视频序列按不同码率编码，结果如 \ref{fig:chap_cacop:qos_rate_cac}所示。
+为了比较，我们在结果图中增多一条$\rho=4$的曲线。
+从结果的各条曲线可以看到，所提出的以带宽参数值$b,B$及业务特征值$\rho$为基础的服务质量评估的模型可以做为rtPS或视频连接的服务质量的估计。
+\begin{figure}[tb]
+\begin{center}
+\includegraphics[width=0.75\textwidth] {cacop_qos_rate_cac.eps}
+\end{center}
+\caption{视频连接PSNR与码率的关系} 
+\label{fig:chap:cacop:qos_rate_cac}
+\end{figure}
+
+\item 其它类型业务与QoS评价
 
 \end{enumerate}
 
