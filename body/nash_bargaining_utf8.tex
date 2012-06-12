@@ -65,8 +65,8 @@
 纳什证明，存在着唯一的一个解~$\mathbf{u^*}$~满足以下公理，解的存在性和唯一性分别由效用向量集合是紧集和凸集的性质保证。
 (Nash, 1950)：
 \begin{itemize}
-\item 公理一：个体理性（Individual Rationality）
-    对于用户~$i$~而言， ~$u_i \ge d_i$~
+\item 公理一：个体理性（Individual Rationality） 
+    对于用户~$i$~而言， ~$u_i^* \ge d_i$~
 \item 公理二：可行性（Feasibility），解满足关系式~$\mathbf{u}^* \in \phi$~
 \item 公理三：弱帕累托最优性质(Weak Pareto Optimality)\\
 如果~$\mathbf{u} \in \phi$~，而且~$\mathbf{u} \ge \mathbf{u}^*$~，那么可以推导得到 ~$\mathbf{u} = \mathbf{u}^*$~
@@ -142,10 +142,60 @@ $\rho$表示业务的特征值。
     \mathbf{X} &=\left( (U(b_1), U(b_2), \ldots, U(b_n) \right)
     = \left( \rho_1 \frac{b_1}{B_1},\rho_2 \frac{b_2}{B_2},\ldots, \rho_n \frac{b_n}{B_n} \right) \in \mathbf{S} \\
     \mathbf{Y} &=\left( (U(b_1^\prime), U(b_2^\prime), \ldots, U(b_n\prime) \right)
-    = \left( \rho_1 \frac{b_1^\prime}{B_1},\rho_2 \frac{b_2^\prime}{B_2},\ldots, \rho_n \frac{b_n^\prime}{B_n} \right) \in \mathbf{S} \\
-    \label{eqn:chap_nash:two_elements}
+    = \left( \rho_1 \frac{b_1^\prime}{B_1},\rho_2 \frac{b_2^\prime}{B_2},\ldots, \rho_n \frac{b_n^\prime}{B_n} \right) \in \mathbf{S} 
+    %\label{eqn:chap_nash:two_elements}
 \end{align*}
-其中，
+其中，$(b_1, b_2, \ldots, b_n)$和 $(b_1^\prime, b_2^\prime, \ldots, b_n^\prime)$是分配的资源数量，且满足$b_i \ge 0$ ，$b_i^\prime \ge 0$, $i = 1, \ldots, n$。
+则有，
+\begin{align*}
+    U(b_i) &= \rho_i \frac{b_i}{B_i} \Rightarrow b_i = \frac{U(b_i)B_i}{\rho_i} \\
+    U(b_i^\prime) & \rho_i \frac{b_i^\prime} {B_i} \Rightarrow b_i^\prime = \frac{U(b_i^\prime) B_i}{\rho_i}
+\end{align*}
+由于资源是受限的，所以还要满足下面的不等式关系
+\begin{align*}
+    \sum_{i=1}^n b_i \le B_{total} \Rightarrow \sum_{i=1}^n \frac{U(b_i)B_i}{\rho_i} \le B_{total}\\
+    \sum_{i=1}^n b_i^\prime \le B_{total}\Rightarrow \sum_{i=1}^n \frac{U(b_i^\prime)B_i}{\rho_i} \le B_{total}
+    %\label{eqn:chap_nash:in-equation}
+\end{align*}
+接下来对于凸组合$\mathbf{Z}$ 则有，
+\begin{align*}
+    \mathbf{Z} = \left( \theta U(b_1) + (1-\theta) U(b_1^\prime),   \theta U(b_2) + (1-\theta) U(b_2^\prime), \ldots,  \theta U(b_n) + (1-\theta) U(b_n^\prime) \right)
+\end{align*}
+因此，如果$\mathbf{Z}$属于集合$\mathbf{S}$，那么一定会存在等价命题，即，
+\begin{align}
+    \sum_{i=1}^{n} \frac{ \theta U(b_i) + (1-\theta) U(b_i^\prime)}{\rho_i}  \le B_{total}
+    \label{eqn:chap_nash:proof_z_in_s}
+\end{align}
+为了证明\eqref{eqn:chap_nash:proof_z_in_s} 成立，则让
+\begin{align*}
+    &\sum_{i=1}^{n} \frac{ \theta U(b_i) + (1-\theta) U(b_i^\prime)}{\rho_i} - B_{total} \\
+    &= \theta \sum_{i=1}^n \frac{U(b_i)B_i}{\rho_i} + (1-\theta) \frac{U(b_i^\prime)B_i}{\rho_i} -B_{total} \\
+    &\le \theta B_{total} + (1-\theta)B_{total} - B_{total}\\
+    & \le 0
+\end{align*}
+所以，
+凸组合$\mathbf{Z}$也是属于集合$\mathbf{S}$的，集合$\mathbf{S}$是凸集。至此，证明完毕。
+
+\subsection{非对称纳什议价解}
+对于资源的分配而言，由于假设博弈参与者的业务不同，所以，博弈参与者对于资源需求程度也就有所不同。
+在议价博弈中，可以假设博弈的参与者在博弈过程中的议价能力不同。这样的假设会使得对称性公理不能满足。
+一般我们把不满足对称性公理的议价解称之为非对称纳什议价解(Asymmetric Nash Bargaining Solution)。
+
+我们知道，博弈的解从数学上的表示，其实是一个映射函数，即：$F: \mathbf{S} \rightarrow R^n$。
+其中，我们假定每个博弈参与者的议价能力用$\alpha_i$来表示。
+因为求解纳什积的最大化问题与纳什议价解问题是等价的，所以，
+对于系统中的$n$个用户而言，纳什积函数可以写为
+\begin{align}
+    G(\mathbf{X}) = \prod_{i=1}^N (U(b_i) - d_i)^{\alpha_i}
+    \label{eqn:chap_nash:nash_product}
+\end{align}
+我们通过求解纳什积问题，得到议价解的求
+
+我们将此种解写成数学形式
+我们将对于博弈的结果，本文使用最常用的纳什议价解。
+
+
+
 
 
 
