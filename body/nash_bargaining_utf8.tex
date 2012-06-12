@@ -101,8 +101,51 @@
 在一个资源受限的系统中，存在有~$n$~个用户。
 他们以合作的方式或“议价”的方式来分配网络所提供的资源，例如带宽。
 每一个用户都有自己的效用函数~$U_i(b_i)$~。
-效用函数由它当前分配到的带宽~$b_i$~、期望申请到的带宽~$b_i^{\max}$~和一个最低效用~$U_i(b_{0i})$~决定。
+效用函数由它当前分配到的带宽~$b_i$~、期望申请到的带宽~$B_i$~和一个最低效用~$U_i(b_{0i})$~决定。
 最低效用也被定义为“分歧点”；用户为了防止最终没能达成合作协议时预先确定会得到的效用。
 令~$S = \{ \mathbf{U} \} \subset R^n$~为效用的集合，其中，~$\mathbf{U} =(U_1(b_1), \ldots, U_n(b_n))$~。令~$\mathbf{d} = (d_1, \ldots, d_n)$~是用户的分歧点，其中，~$d_i = U_i(b_{0i})$~。
 所以，我们可将此博弈问题定义为 ~$(\mathbf{S,d})$~。
+接下来我们来描述博弈的细节。
+
+首先是博弈参与者效用的定义。
+在前面章节（呼叫接纳控制算法）中，我们曾经定义过服务质量水平。
+此处我们延用指数函数归一化形式来定义用户连接的QoS水平，如\eqref{eqn:chap_nash:qos_definition} 所示。
+\begin{equation}
+QoS = \frac{1- e^{-\rho \frac{b}{B} }}{1-e^{-\rho}}, \rho > 0
+\label{eqn:chap_nash:qos_definition}
+\end{equation}
+其中，$b$ 表示博弈参与者最终分配到的资源。
+$B$表示博弈者在提交申请时，希望能够分配到的资源数量。
+$\rho$表示业务的特征值。
+
+因为QoS的大小与$\rho \frac{b}{B}$紧密相关，
+且\eqref{eqn:chap_nash:qos_definition}是单调增函数，
+所以我们定义如下效用的简化计算公式，如 \eqref{eqn:chap_nash:utility_definition}所示。
+\begin{align}
+    U_i(b_i) = \rho_i \frac{b_i}{B_i}
+    \label{eqn:chap_nash:utility_definition}
+\end{align}
+其中，下标$i$是指系统中的第$i$个博弈参与者。
+因为$b_i\ge 0$，且$B_i$和$\rho$都大于零，所以$U_i(b_i)\ge0$。
+另一方面，由于系统的资源是有限的，所以要求$\sum_i^n \le B_{total}$
+其中，$B_{total}$是系统所能提供的资源数量。
+
+其次我们来证明上面定义的效用向量集合$\mathbf{S}$是凸集（convex set)。
+
+定理：如果效用向量集合$\mathbf{S}$如\eqref{eqn:chap_nash:utility_definition}所定义，那么它是一个凸集。
+
+证明：我们知道，如果一个集合$\mathbf{S}$是凸集，
+那么对这个集合中的任意两个元素，$\mathbf{x}$和$\mathbf{y}$，以及一个任意的数$\theta$， $0\le \theta\le 1$来说，凸组合$\mathbf{z}=\theta \mathbf{x} + (1-\theta) \mathbf{y}$所构成的元素也属于集合$\mathbf{S}$。
+
+我们用大写记号$\mathbf{X}$ 和$\mathbf{Y}$表示博弈效用集合中的任意两个元素，则有
+\begin{align*}
+    \mathbf{X} &=\left( (U(b_1), U(b_2), \ldots, U(b_n) \right)
+    = \left( \rho_1 \frac{b_1}{B_1},\rho_2 \frac{b_2}{B_2},\ldots, \rho_n \frac{b_n}{B_n} \right) \in \mathbf{S} \\
+    \mathbf{Y} &=\left( (U(b_1^\prime), U(b_2^\prime), \ldots, U(b_n\prime) \right)
+    = \left( \rho_1 \frac{b_1^\prime}{B_1},\rho_2 \frac{b_2^\prime}{B_2},\ldots, \rho_n \frac{b_n^\prime}{B_n} \right) \in \mathbf{S} \\
+    \label{eqn:chap_nash:two_elements}
+\end{align*}
+其中，
+
+
 
