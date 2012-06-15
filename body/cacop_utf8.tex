@@ -438,9 +438,9 @@ x_i = \frac{b_i}{B_i} , i \in [M+1, K].
 \end{eqnarray*}
 很明显，如果~$\rho >0$~ 那么~$1-e^{-\rho} >0$~。
 矩阵~${M}$~是负定的（negative-definite）。
-因此对于BS的效用~$U_{BS}$~来说，存在局部极大值点。
-下面我们来具体求解这个问题。
-首先让对方程两连求一阶导数，并置为零，
+因此对于BS的效用~$U_{BS}$~来说，如果有驻点存在，则是局部极大值点。
+下面我们来尝试求一阶导数为零时的驻点。
+首先让对拉格朗日函数求一阶导数，并置为零，
 ~$dF = 0$~，则有下面一系列等式。
 %%%
 \begin{subequations}
@@ -534,6 +534,7 @@ b_i^* & = x_iB_i = \frac{B_i}{\rho_i} \ln \frac{\rho_i}{B_i(1-e^{-\rho_i})} \\
 \end{split}
 \label{eqn:chap_cacop:b_i_bw}
 \end{equation}
+综上所述，可知存在一个资源分配方案使得基站系统的效用取得最大值。
 %
 \section{提出的接纳控制算法}
 \label{sec_alg}
