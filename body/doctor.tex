@@ -1,0 +1,124 @@
+% multiple1902 <multiple1902@gmail.com>
+% doctor.tex
+% Copyright 2011~2012, multiple1902 (Weisi Dai)
+% https://code.google.com/p/xjtuthesis/
+% 
+% It is strongly recommended that you read documentations located at
+%   http://code.google.com/p/xjtuthesis/wiki/Landing?tm=6
+% in advance of your compilation if you have not read them before.
+%
+% This work may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either version 1.3
+% of this license or (at your option) any later version.
+% The latest version of this license is in
+%   http://www.latex-project.org/lppl.txt
+% and version 1.3 or later is part of all distributions of LaTeX
+% version 2005/12/01 or later.
+%
+% This work has the LPPL maintenance status `maintained'.
+% 
+% The Current Maintainer of this work is Weisi Dai.
+%
+\documentclass[
+    doctor,
+    truefont,
+    %nofont, % remember to manally set the fonts
+    pdflinks,
+    %colorlinks,
+    %compact,
+    ]{xjtuthesis}
+
+\usepackage[vlined,ruled,linesnumbered]{algorithm2e}    
+\usepackage{booktabs}
+\renewcommand{\eqref}[1]{公式（\ref{#1}）}
+\newcommand{\figref}[1]{图~\ref{#1}~}
+\renewcommand{\algorithmcfname}{\bf 算法}
+
+
+\ifnum 4>3
+%明审
+\def\authornames{\BlindPeerReviewOFF}
+\def\swithON{\BlindPeerReviewOFF}
+\else
+%盲审
+\def\authornames{\BlindPeerReview}
+\def\swithON{\BlindPeerReviewON}
+\fi
+\graphicspath{{figures/}}
+
+\begin{document}
+
+\input{../body/meta.tex}
+
+\xjtuchead
+\xjtuehead
+\xjtucinfopage
+\xjtueinfopage
+\xjtutoc
+\xjtutoe
+\clearpage
+
+\input{../body/denotation_utf8.tex}
+
+\xjtucontent
+
+\input{../body/preface_utf8.tex}
+
+\input{../body/handover_utf8.tex}
+%
+\input{../body/cacop_utf8.tex}
+%
+\input{../body/nash_bargaining_utf8.tex}
+%
+\input{../body/bayesian_utf8.tex}
+%
+\input{../body/conclusions_utf8.tex}
+
+\xjtuendcontent
+
+\xjtubib{../reference/Mendeley_Collection}
+
+\xjtuappendix
+
+    %\input{pages/appendice.tex}
+
+\xjtuendappendix
+
+\xjtuspchapter{致谢}{致\qquad 谢}{Acknowledgements}
+
+\ifx\authornames\swithON
+    \input{../body/ack_utf8.tex}
+%明审
+\else
+%盲审
+\fi
+
+    
+
+\xjtuspchapter{攻读博士期间取得的研究成果}{攻读博士期间取得的研究成果}{Achievements}
+
+\ifx\authornames\swithON
+      \begin{enumerate}
+        \item ZW Yan, L Huang, CCJ Kuo.   Seamless high-velocity handover support in mobile
+WiMAX networks[C].  11th IEEE  International Conference on Communication Systems.  IEEE Computer Society, 2008:1680 -1684 (EI:20091411996161)
+	\item ZW Yan, GZ Liu, R Su,  A simulation
+mechanism for video delivery researches[C]. Fourth International Conference on Communications and Networking in China. IEEE Press, 2009: 1-5 (EI:)
+    \end{enumerate}
+%明审
+\else
+%盲审
+    \begin{enumerate}
+        \item Seamless high-velocity handover support in mobile
+WiMAX networks[C].  11th IEEE  International Conference on Communication Systems.  IEEE Press 2008:1680 -1684 (EI)
+	\item A simulation
+mechanism for video delivery researches[C]. Fourth International Conference on Communications and Networking in China. IEEE Press, 2009: 1-5(EI)
+    \end{enumerate}
+\fi
+
+
+
+\xjtuacademicintegrity
+
+
+\end{document}
+

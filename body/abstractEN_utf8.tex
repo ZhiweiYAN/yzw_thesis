@@ -1,34 +1,22 @@
 \eabstract{
+With the development of the Internet in recent years, 
+popular demand is to keep their links to the Internet anytime and anywhere. 
+People are experiencing the changes of their lives influenced by new technologies about broadband network and wireless networks.
+However, the scarcity of radio-spectrum resource does challenge the demand of the increasing multiple media traffic from users. 
+Therefore, it also challenges the intelligence of researchers for radio resource management.
 
-随着互联网的迅猛发展，极大地推动了人们对无线互联网应用的需求。
-同时，无线频谱资源的稀缺性与日益增多的多媒体业务需求之间的矛盾，
-给无线资源管理提出了新的挑战。
-
-本文从理论与应用相结合的角度出发，以无线网络MAC层中资源管理为背景，
-对高速移动台的基站切换协议设计、基于多媒体业务的呼叫接纳控制算法以及资源分配的博弈论算法，进行了深入细致地研究工作。主要的研究工作包括以四个方面。
-
+This dissertation focuses on the resource management in data link layer over wireless networks, especially for the three important problems: 
+handover algorithm with high velocity mobile station,  the mechanism of resource allocation in call admission control, and the application of game theory for the resource allocation.
+The main work in this dissertation includes the several parts in the following:
 \begin{enumerate}[(1.)]
-\item 
-针对高速移动台切换问题，建立了以移动速度为基础的切换成功概率模型。
-通过该模型来考察速度对切换协议信令影响的关系。
-提出一个自适应的FEC保护方案来匹配不同移动速度，进而改善切换成功率。
-仿真实验证明该方法简单有效。
+    \item The probability model of handover between base stations is built with the velocity of mobile station. We investigate the relationship between the velocity value and the handover operation flow by means of the model. Then, a new adaptive  redundancy protection scheme with forward error correction is proposed to improve the probability of handover success according to the velocity of mobile station.
 
-\item 
-根据多媒体业务的不同，
-建立一个针对网络底层资源分配参数与网络高层的业务服务质量的映射模型，
-实现不同业务用户的QoS测度以及系统整体性能的有效测量。
-并且，基于这个映射模型，提出了一个基于系统效用和用户自身效用兼顾呼叫接纳控制与资源分配的算法，
-实现不同业务Qos以及系统资源的在线管理。
-该算法以用户服务质量效用为最大化目标，在高负荷下依据用户业务负载情况调整接纳与分配策略。
+    \item According to the characteristic of multimedia traffic, the mapping model is proposed to examine the relationship between the resource management configuration in the data link layer and the quality of service in the application layer, perceived by  users. And we develop a new call admission control algorithm with the proposed mapping model. The new algorithm can manage both ongoing connections or calls and new ones efficiently. It also balances the utility of individual users and the utility of a system, especially under heavy load traffic.  
 
-\item 
-针对网络中业务逐渐增多的趋势，提出通过概率连续随机变量来描述用户的业务类型。
-与传统的离散分类不同，新的方法可以连续细致地刻化用户业务特征。
-并且根据网络的实际情况，提出在不完备信息的情况下通过构造Bayesian博弈模型的方法来寻求使用户满意的资源分配策略。
-通过理论分析与仿真实验证明，所提出的业务描述方法及博弈算法，可以有效地解决在多用户竞争下的资源分配问题。
+    \item In order to deal with the competition of resource among selfish users over wireless networks, we proposed a new competing model of game theory and its resource allocation algorithm. The game model introduces the Nash bargaining solution to solve the problem of competition. The proposed definition of utility of users can construct the convex utility set, which satisfy the Nash axioms. Then the bargaining powers of users are discussed. The results of following simulations confirms the validity of the game model, and the allocation of resource among selfish users are fair. 
 
-\item 
+    \item We proposed a new concept that the characteristic of traffic of user can be described by a continuous random variable because the number of traffic type is increasing sharply. It changes the range of description from current discrete traffic descriptions. Then, we analyze the change and  build a Bayesian game model with incomplete information to depict the situation.
+Through adaptively adjusting the estimated traffic type random distribution, the resource management unit can allocate the resource into users more efficiently than before.
 \end{enumerate}
 
 }

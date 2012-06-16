@@ -169,14 +169,14 @@ R = 93. 4 - I_d ( T_a ) -I_e ( codec, loss )
 %\caption{R-Factor vs. Packet Loss} \label{tb:R_factor}
 \caption{R因子与丢包率} \label{tb:R_factor}
 \begin{center}
-%\footnotesize
-\begin{tabular*}{0.7\textwidth}{lcccccccccccc}
-%\begin{tabular*}{0.5\textwidth}{lp{9mm}}
+\wuhao
+\begin{tabularx}{0.99\textwidth}{lXXXXXXXX}
+%\begin{tabularx}{0.5\textwidth}{lp{9mm}}
 \toprule 
-丢包率(\%):& 0& 0.1& 0.3& 0.5& 0.7& 0.9& 1& 2\\
+丢包率(\%): & 0& 0.1& 0.3& 0.5& 0.7& 0.9& 1& 2\\
 R-因子: &93.2& 84.6& 71.3& 61.5& 54.1& 48.2& 45.2& 29.9\\ 
 \bottomrule
-\end{tabular*}
+\end{tabularx}
 \end{center}
 \end{table}
 
@@ -247,7 +247,8 @@ MSE = \frac{1}{MN} \sum_{i=0}^{M-1}\sum_{j=0}^{N-1} \left[I(i,j) - K(i,j)\right]
 %\caption{Fitting Model Types} 
 \label{tb:chap_cacop:fit_functions}
 \centering
-\begin{tabular}{llcc}
+\wuhao
+\begin{tabularx}{0.99\linewidth}{XXXX}
 \toprule
 ID& $f(x)$ & SSE & Adjusted R-square\\
 \midrule
@@ -260,7 +261,7 @@ ID& $f(x)$ & SSE & Adjusted R-square\\
 7&$a(1-e^{ \rho \frac{x}{\max(x)}})$ &19.83 & 0.9808\\
 8&$p_1x^4 + p_2x^3 + p_3x^2 + p_4x + p_5$&14.93 &0.9871\\
 \bottomrule
-\end{tabular}
+\end{tabularx}
 \end{table}
 表中的数据显示了不同拟合函数模型下，对视频测试序列“Forman”的拟合结果。
 从表中的结果可以看到，函数模型~$7$~和~$8$~性能明显优于其它模型。
@@ -632,10 +633,11 @@ F_T(t) = 1 - P_0(t) = 1 - e^{-\lambda t}
 \begin{table}[tb]
 \caption{连接的业务类型} \label{tb:chap_cacop:sim_cfg}
 \begin{center}
-\begin{tabular}{cccccc}
+\wuhao
+\begin{tabularx}{0.99\linewidth}{XXXXXX}
 \toprule
-业务类型 &~$\rho$~ &所需的 & 最小的 &到达 &接受服务时间 \\
-Type & &bandwidth & bandwidth & rate & time \\
+业务类型 &~$\rho$~ &所需的带宽 & 最小的带宽 &到达率 &接受服务时间 \\
+%Type & &bandwidth & bandwidth & rate & time \\
 &&(Kbps)& (Kbps) & (/hour) &(seconds) \\
 \midrule
 UGS& N/A &64 &64 & 100 &600\\
@@ -649,7 +651,7 @@ rtPS &6& 1512 &756 &40 &1200\\
 rtPS &7& 1768 &884 &30 &1500\\
 rtPS &8& 2048 &1024 &30 &1500\\
 \bottomrule
-\end{tabular}
+\end{tabularx}
 \end{center}
 \end{table}
 到达率根据不同业务类型及应用假设为每小时 ~$30 \text{ to } 100 $~。
@@ -672,7 +674,8 @@ rtPS &8& 2048 &1024 &30 &1500\\
 \begin{table}[htbp]
 \caption{仿真结果汇总} \label{tb:chap_cacop:res_sim}
 \begin{center}
-\begin{tabular}{lrrr}
+\wuhao
+\begin{tabularx}{0.99\textwidth}{XXXX}
 \toprule
 &Baseline &Elkadi &Proposed\\
 \midrule
@@ -682,7 +685,7 @@ rtPS &8& 2048 &1024 &30 &1500\\
 连接的平均QoS &1.00 &0.94 &0.98\\
 基站系统的效用 &137.55 &136.28 &141.19\\
 \bottomrule
-\end{tabular}
+\end{tabularx}
 \end{center}
 \end{table}
 表 \ref{tb:chap_cacop:res_sim} 汇总了三种方法的仿真结果。
@@ -745,7 +748,7 @@ rtPS &8& 2048 &1024 &30 &1500\\
 对于资源利用率，与其它二个算法相比较，ElKadi的性能最差。这也可以看出，预留算法的缺陷。由于在高业务负载下，预留算法为了保证新连接能够及时的接入，使得一部分的资源未得到充分地利用，如 \figref{fig:chap_cacop:clock_bs_availble_bw}所示。
  
 从用户的角度看，QoS水平曲线对于单个用户更有意义一些。
-如\figref{fig:chap_cacop:avg_qos}所示，
+如\figref{fig:chap_cacop:clock_avg_call_qos}所示，
 这些曲线表示的是在线用户的QoS水平和满意度。，我们所提出的方法明显优于ElKadi的算法。同时，我们还可看出，基准算法的平均QoS水平总是最高的，始终维持在常量最大值~$1$~。基准算法通过牺牲新连接服务质量使得在线用户服务质量得到了最大程度的保证。
 从这些仿真结果，我们清楚地看到，在一个资源受限的系统中，系统性能指标之间是存在矛盾的。通常将其中一个性能指标得到改善和提高的同时，会使得另外一个性能指标下降。譬如在线用户的QoS水平与新用户的阻塞率。从仿真的结果来看，我们所提出的算法在平衡相互矛盾的系统指标方面，比其它两种方法要好。我们的算法兼顾了新用户与在线用户的利益，并进行了很好的平衡与折衷。
 
