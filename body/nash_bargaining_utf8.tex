@@ -349,6 +349,62 @@ $\mathbf{\phi}$也是有界且是闭的（bounded and close)。又因最终的�
     \label{eqn:chap_nash:bargaining_power_definition}
 \end{align}
 \section{仿真实验与分析}
+\subsection{实验系统描述}
+首先，我们假定在一个简单的系统中有多个用户的业务正在竞争总量为$????$的资源。
+每一个用户的业务数据是相互独立的，且每一个用户只有一种业务。
+\subsubsection{业务描述}
+为了能够使仿真实验的结果能和接近真实的情况相比较，以及结果更真实可靠。
+我们以视频传输为例，对多个QCIF大小的标准视频测试序列，以不同的码率进行编码。
+编码器采用的H.264/AVC的参考编码程序JM16。
+编码的配置是采用的是Baseline档。在这个档次中，利用I帧和P帧支持帧内或帧间编码，
+支持利用基于上下文的自适应的变长编码进行的熵编码（CAVLC)。
+主要用于可视电话、电视会议和无线通信等实时的视频通信场合\cite{BiHouJie2009}。
+其中，编码的帧结构是IPPPPP，帧率为25帧每秒。
+因为要控制编码的平均码率，使用了JM内部的码率控制算法。
+编码的结果，如 \figref{fig:chap_nash:video_psnr1}，\figref{fig:chap_nash:video_psnr2}所示。
+\begin{figure}[tb] 
+  \begin{minipage}[t]{0.5\linewidth} 
+    \centering 
+    \includegraphics[width = \textwidth]{chap_nash_videobitrate_psnr1.eps} 
+    \caption{视频流编码结果1} 
+    \label{fig:chap_nash:video_psnr1} 
+  \end{minipage}% 
+  \begin{minipage}[t]{0.5\linewidth} 
+    \centering 
+    \includegraphics[width=\textwidth]{chap_nash_videobitrate_psnr2.eps} 
+    \caption{视频流编码结果2} 
+    \label{fig:chap_nash:video_psnr2} 
+  \end{minipage} 
+\end{figure}
+
+根据编码的结果，我们先将以最大码率的PSNR为分母对每一个码率下的PSNR值做归一化处理。
+然后，再通过前一章介绍的拟合方式，如\eqref{eqn:chap_nash:qos_level_video}所示，对业务特征值进行估计。
+\begin{equation}
+QoS = \frac{PSNR_b}{PSNR_B} \approx \frac{1- e^{-\rho \frac{b}{B} }}{1-e^{-\rho}}, \rho > 0
+\label{eqn:chap_nash:qos_level_video}
+\end{equation}
+这些视频业务的特征估计值，如表\ref{tab:chap_nash:rho_values} 所示。
+\begin{table}[h]
+    \wuhao
+    \caption{业务特征值表}
+    \centering
+    %\begin{tabular}{p{0.25\textwidth}p{0.25\textwidth}p{0.25\textwidth}p{0.25\textwidth}}
+    \begin{tabular*}{0.98\textwidth}{cccccccc}
+        \toprule
+       视频名称 & $\rho$ &视频名称 & $\rho$ & 视频名称 & $\rho$ &视频名称 & $\rho$ \\
+        \midrule
+        Akiyo & 11.02 & Carphone & 8.81 & Clarie & 13.47 & Coastguard & 12.00 \\
+        Container & 13.29 & Forman & 6.78 & Grandma & 12.31 & Hall &10.14 \\
+        Miss America & 19.46 & Mobile  & 4.81 & Mother \&  Daughter & 12.47 & News & 8.64\\
+        Salesman & 8.29 & Silent & 8.64 & Suzie & 11.36 & & \\
+        \bottomrule
+    \end{tabular*}
+    \label{tab:chap_nash:rho_values}
+\end{table}
+然后，以这些估计出来的特征值，进而计算出相应的每一个议价能力系数，以及其纳什议价解下的分配的带宽值。
+而且，我们对分配的带宽值进行用JM编码器进行第二次编码。其各个视频流相应的结果如下。
+
+
 
 \section{小结}
 本章我们提出了一个基于纳什议价博弈的资源分配新算法。
@@ -361,4 +417,3 @@ $\mathbf{\phi}$也是有界且是闭的（bounded and close)。又因最终的�
 新算法在保证系统资源利用的同时，也平衡了各个用户之间的利益。
 
 
-\cite{yanzw_1}\cite{yanzw_2}
