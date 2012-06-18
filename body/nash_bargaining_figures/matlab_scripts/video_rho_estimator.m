@@ -1,5 +1,5 @@
 %%
-clf; %clear figures
+% clf; %clear figures
 clc; %clear command windows history;
 clear all;
 
@@ -21,9 +21,9 @@ A = nlinfit(x,y,myfun,[-3, 1]);
 a = A(2);
 lambda = -A(1);
 x1 = 0:0.1:1;
-y1 = (a-exp(-lambda*x1))./(a-exp(-lambda));
-plot(x,y,'-o',x1,y1,'-s');
-hold on;
+y1 = ((a-exp(-lambda*x1)))./((a-exp(-lambda)));
+% plot(x,y,'-o',x1,y1,'-s');
+%hold on;
 fprintf(1, 'akiyo lambad = %.2f\n', lambda);
 video_lambda(1) = lambda;
 video_b_min(1) = 6.65;
@@ -45,7 +45,7 @@ a = A(2);
 lambda = -A(1);
 x1 = 0:0.1:1;
 y1 = (a-exp(-lambda*x1))./(a-exp(-lambda));
-plot(x,y,'-o',x1,y1,'-s');
+% plot(x,y,'-o',x1,y1,'-s');
 fprintf(1, 'carphone lambda = %.2f\n', lambda);
 video_lambda(2) = lambda;
 video_b_min(2) = 9.30;
@@ -65,7 +65,7 @@ a = A(2);
 lambda = -A(1);
 x1 = 0:0.1:1;
 y1 = (a-exp(-lambda*x1))./(a-exp(-lambda));
-plot(x,y,'-o',x1,y1,'-s');
+% plot(x,y,'-o',x1,y1,'-s');
 fprintf(1, 'clarie lambda = %.2f\n', lambda);
 video_lambda(3) = lambda;
 video_b_min(3) = 6.35;
@@ -85,7 +85,7 @@ a = A(2);
 lambda = -A(1);
 x1 = 0:0.1:1;
 y1 = (a-exp(-lambda*x1))./(a-exp(-lambda));
-plot(x,y,'-o',x1,y1,'-s');
+% plot(x,y,'-o',x1,y1,'-s');
 fprintf(1, 'coastguard lambda = %.2f\n', lambda);
 video_lambda(4) = lambda;
 video_b_min(4) = 35.78;
@@ -105,7 +105,7 @@ a = A(2);
 lambda = -A(1);
 x1 = 0:0.1:1;
 y1 = (a-exp(-lambda*x1))./(a-exp(-lambda));
-plot(x,y,'-o',x1,y1,'-s');
+% plot(x,y,'-o',x1,y1,'-s');
 fprintf(1, 'container lambda = %.2f\n', lambda);
 video_lambda(5) = lambda;
 video_b_min(5) = 7.21;
@@ -124,7 +124,7 @@ a = A(2);
 lambda = -A(1);
 x1 = 0:0.1:1;
 y1 = (a-exp(-lambda*x1))./(a-exp(-lambda));
-plot(x,y,'-o',x1,y1,'-s');
+% plot(x,y,'-o',x1,y1,'-s');
 fprintf(1, 'forman lambda = %.2f\n', lambda);
 video_lambda(6) = lambda;
 video_b_min(6) = 18.23;
@@ -144,7 +144,7 @@ a = A(2);
 lambda = -A(1);
 x1 = 0:0.1:1;
 y1 = (a-exp(-lambda*x1))./(a-exp(-lambda));
-plot(x,y,'-o',x1,y1,'-s');
+% plot(x,y,'-o',x1,y1,'-s');
 fprintf(1, 'grandma lambda = %.2f\n', lambda);
 video_lambda(7) = lambda;
 video_b_min(7) = 6.79;
@@ -164,7 +164,7 @@ a = A(2);
 lambda = -A(1);
 x1 = 0:0.1:1;
 y1 = (a-exp(-lambda*x1))./(a-exp(-lambda));
-plot(x,y,'-o',x1,y1,'-s');
+% plot(x,y,'-o',x1,y1,'-s');
 fprintf(1, 'hall lambda = %.2f\n', lambda);
 video_lambda(8) = lambda;
 video_b_min(8) = 9.93;
@@ -184,7 +184,7 @@ a = A(2);
 lambda = -A(1);
 x1 = 0:0.1:1;
 y1 = (a-exp(-lambda*x1))./(a-exp(-lambda));
-plot(x,y,'-o',x1,y1,'-s');
+% plot(x,y,'-o',x1,y1,'-s');
 fprintf(1, 'Miss America lambda = %.2f\n', lambda);
 video_lambda(9) = lambda;
 video_b_min(9) = 6.21;
@@ -204,7 +204,7 @@ a = A(2);
 lambda = -A(1);
 x1 = 0:0.1:1;
 y1 = (a-exp(-lambda*x1))./(a-exp(-lambda));
-plot(x,y,'-o',x1,y1,'-s');
+% plot(x,y,'-o',x1,y1,'-s');
 fprintf(1, 'Mobile lambda = %.2f\n', lambda);
 video_lambda(10) = lambda;
 video_b_min(10) = 85.08;
@@ -224,7 +224,7 @@ a = A(2);
 lambda = -A(1);
 x1 = 0:0.1:1;
 y1 = (a-exp(-lambda*x1))./(a-exp(-lambda));
-plot(x,y,'-o',x1,y1,'-s');
+% plot(x,y,'-o',x1,y1,'-s');
 fprintf(1, 'Mother and Daughter = %.2f\n', lambda);
 video_lambda(11) = lambda;
 video_b_min(11) = 6.83;
@@ -244,7 +244,7 @@ a = A(2);
 lambda = -A(1);
 x1 = 0:0.1:1;
 y1 = (a-exp(-lambda*x1))./(a-exp(-lambda));
-plot(x,y,'-o',x1,y1,'-s');
+% plot(x,y,'-o',x1,y1,'-s');
 fprintf(1, 'News lambda = %.2f\n', lambda);
 video_lambda(12) = lambda;
 video_b_min(12) = 17.16;
@@ -264,7 +264,7 @@ a = A(2);
 lambda = -A(1);
 x1 = 0:0.1:1;
 y1 = (a-exp(-lambda*x1))./(a-exp(-lambda));
-plot(x,y,'-o',x1,y1,'-s');
+% plot(x,y,'-o',x1,y1,'-s');
 fprintf(1, 'Salesman lambda = %.2f\n', lambda);
 video_lambda(13) = lambda;
 video_b_min(13) = 16.53;
@@ -284,7 +284,7 @@ a = A(2);
 lambda = -A(1);
 x1 = 0:0.1:1;
 y1 = (a-exp(-lambda*x1))./(a-exp(-lambda));
-plot(x,y,'-o',x1,y1,'-s');
+% plot(x,y,'-o',x1,y1,'-s');
 fprintf(1, 'Silent lambda = %.2f\n', lambda);
 video_lambda(14) = lambda;
 video_b_min(14) = 17.16;
@@ -304,7 +304,7 @@ a = A(2);
 lambda = -A(1);
 x1 = 0:0.1:1;
 y1 = (a-exp(-lambda*x1))./(a-exp(-lambda));
-plot(x,y,'-o',x1,y1,'-s');
+% plot(x,y,'-o',x1,y1,'-s');
 fprintf(1, 'Suzie lambda = %.2f\n', lambda);
 video_lambda(15) = lambda;
 video_b_min(15) = 8.99;
@@ -322,10 +322,10 @@ video_b = video_b_min + video_power *(B_total-sum_b_min);
 qos = (1 - exp(-lambda.*(video_b./video_b_req)) ) ./ ( 1 -exp(-lambda) );
 
 [m,n] = size(video_lambda);
-for i=1:m
-    fprintf(1, '%s\t power= %.4f,\t B_min=%.2f\n', video_name(i,:), video_power(i), ...
-        video_b_min(i) );
-end
+% for i=1:m
+%     fprintf(1, '%s\t power= %.4f,\t B_min=%.2f\n', video_name(i,:), video_power(i), ...
+%         video_b_min(i) );
+% end
 
 % for i=1:m
 %     fprintf(1, '%s\t & %.4f & %.4f & %.2f & %.2f & %.2f &%.4f\\\\ \n', video_name(i,:), video_lambda(i),  video_power(i), ...
@@ -333,10 +333,10 @@ end
 % end
 
 
-for i=1:m
-    fprintf(1, '%s\t & %.4f & %.4f & %.2f & %.2f  \\\\ \n', video_name(i,:), video_lambda(i),  video_power(i), ...
-        video_b_min(i), video_b_req(i));
-end
+% for i=1:m
+%     fprintf(1, '%s\t & %.4f & %.4f & %.2f & %.2f  \\\\ \n', video_name(i,:), video_lambda(i),  video_power(i), ...
+%         video_b_min(i), video_b_req(i));
+% end
 
 %%Equal rate
 m = 15;
@@ -344,18 +344,67 @@ B_total = 1.1 * sum_b_min;
 video_ear_b = B_total/15 * ones(1, m);
 video_nbs_b = video_b_min + video_power *(B_total-sum_b_min);
 video_ksbs_b = video_b_min + 1/m *(B_total-sum_b_min);
-fprintf(1, '\n -------------------------\n');
-for i=1:m
-    fprintf(1, '%s\t & %.2f & %.2f & %.2f \\\\ \n', video_name(i,:), video_ear_b(i),  video_ksbs_b(i), ...
-        video_nbs_b(i));
-end
-fprintf(1, '\n -------------------------\n');
-for i=1:m
-    fprintf(1, '%d  ', uint32(video_ksbs_b(i)*1000) );
-end
+
+video_ear_psnr_realb = [37.688,    18.91; 32.667,    19.22; 39.767,    19.14; 28.869,    21.36; 35.125,    19.12; ...
+    30.705,    21.48; 36.808,    19.70; 34.904,    19.06; 40.676,    19.40; 24.369,   27.92; ...
+    37.350,    19.92; 32.513,    19.21; 32.102, 19.63 ; 32.614,    20.76; 34.889,    21.80;
+ ];
+video_ksbs_psnr_realb = [34.404,  9.52; 31.000,  13.96; 36.204,  8.51; 30.474,  38.34; 32.932,  10.50; 
+    30.974,  22.51; 33.915,  9.89; 33.329,  13.80; 37.156,  8.37; 29.962,  87.06; 
+    34.125,  9.85;  32.510,  19.20; 32.008,  19.21; 32.614,  20.76; 33.128,  14.01;
+];
+video_nbs_psnr_realb = [34.354, 9.36; 31.029, 13.55; 36.057, 8.40; 30.447, 38.09; 32.718, 9.83; 
+    31.092, 22.92; 33.823, 9.60; 33.329, 13.80; 36.965, 7.70; 30.118, 89.98; 
+    34.061, 9.69; 32.940, 20.35; 32.044, 19.34; 32.564, 20.76; 33.076, 13.89;];
 
 fprintf(1, '\n -------------------------\n');
 for i=1:m
-    fprintf(1, '%d  ', uint32(video_nbs_b(i)*1000) );
+    fprintf(1, '%s\t & %.2f(%.2f)& %.2f(%.2f)&%.2f(%.2f)  &%.2f  &%.2f  &%.2f \\\\ \n', video_name(i,:), ...
+        video_ear_b(i), video_ear_psnr_realb(i,2),  ...
+        video_ksbs_b(i), video_ksbs_psnr_realb(i,2),  ...
+        video_nbs_b(i), video_nbs_psnr_realb(i,2), ...
+        video_ear_psnr_realb(i,1), video_ksbs_psnr_realb(i,1), video_nbs_psnr_realb(i,1) ...
+        );
 end
+sum_EAR_Real_Traffic = sum(video_ear_psnr_realb(:,1));
+avg_EAR_PSNR = mean(video_ear_psnr_realb(:,1));
+var_EAR_PSNR = var(video_ear_psnr_realb(:,1));
+
+sum_KSBS_Real_Traffic = sum(video_ksbs_psnr_realb(:,1));
+var_KSBS_PSNR = var(video_ksbs_psnr_realb(:,1));
+avg_KSBS_PSNR = mean(video_ksbs_psnr_realb(:,1));
+
+
+sum_NBS_Real_Traffic = sum(video_nbs_psnr_realb(:,1));
+var_NBS_PSNR = var(video_nbs_psnr_realb(:,1));
+avg_NBS_PSNR = mean(video_nbs_psnr_realb(:,1));
+
+
+fprintf(1, 'avgEAR_PSNR = %.2f, avgKSBS_PSNR = %.2f, avg_NBS_PSNR=%.2f\n', ...
+    avg_EAR_PSNR, avg_KSBS_PSNR, avg_NBS_PSNR);
+
+fprintf(1, 'varEAR_PSNR = %.2f, varKSBS_PSNR = %.2f, var_NBS_PSNR= %.2f\n', ...
+    var_EAR_PSNR, var_KSBS_PSNR, var_NBS_PSNR);
+
+fprintf(1, 'sum_EAR_Real_Traffic= %.2f,  sum_KSBS_Real_Traffic=%.2f, sum_NBS_Real_Traffic=%.2f \n', ...
+    sum_EAR_Real_Traffic, sum_KSBS_Real_Traffic, sum_NBS_Real_Traffic );
+fprintf(1, '\n -------------------------\n');
+fprintf(1, '\n -------------------------\n');
+QoS_EAR = (1 - exp(-lambda.*(video_ear_psnr_realb(:,1)./video_b_req)) ) ./ ( 1 -exp(-lambda) );
+QoS_KSBS = (1 - exp(-lambda.*(video_ksbs_psnr_realb(:,1)./video_b_req)) ) ./ ( 1 -exp(-lambda) );
+QoS_NBS = (1 - exp(-lambda.*(video_nbs_psnr_realb(:,1)./video_b_req)) ) ./ ( 1 -exp(-lambda) );
+for i=1:m
+    fprintf(1, '%s\t & %.2f & %.2f  &%.2f\\\\ \n', video_name(i,:), ...
+        QoS_EAR(i), QoS_KSBS(i) , QoS_NBS(i)...
+        );
+end
+% clf;
+% for i=1:m
+%     fprintf(1, '%d  ', uint32(video_ksbs_b(i)*1000) );
+% end
+% 
+% fprintf(1, '\n -------------------------\n');
+% for i=1:m
+%     fprintf(1, '%d  ', uint32(video_nbs_b(i)*1000) );
+% end
 

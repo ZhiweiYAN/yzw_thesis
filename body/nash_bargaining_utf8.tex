@@ -421,39 +421,110 @@ Suzie           	 & 11.3603 & 0.0570 & 8.99 & 28.45  \\
 
 为了比较我们的方案性能，我们使用了两种其它资源分配的方案，一种是最简单按用户数目平均资源分配方案（Equal Allocation Solution，EAS），
 另外一种是由学者Park和van der Schaar提出的另外一种纳什议价分配模型 （Kalai–Smorodinsky  bargaining  solution），此处我们称之为KSBS \cite{ParkVanderSchaar2007}。此外，我们的方案记作QoS-NBS方案。
+为了模拟一个在资源缺乏的情况，我们将资源总量设置为业务最小需求之和的$1.1$倍的情况。
+其次，为了对这三种方案进行详细的比较，我们对分配的带宽值进行用JM编码器进行重新编码，以得到视频评价性能指标 PSNR。
+仿真的结果如 表\ref{tab:chap_nash:resource_allocation_comparision} 所示。
+其中，应该注意到分配的带宽有两个值。没有括号的值是我们编码前在编码配置中设置的码率，有括号的值是JM编码器真正编码码率。
+例如，对于视频Carphone，它对于EAS方案的设置码率为18.93，而真正编码码率为19.22。
+这是因为JM编码器的码率控制单元不能够精确地把码率控制到比特级，而是在一个比较小的范围内。
+我们从表中结果也可以看到，大多数的真正的编码码率比设置的编码码率会稍大一些。
+因此在实际的应用中，要注意到这个不同，提前设置一部分余量。
 
-而我们将资源总量设置为业务最小需求之和的$1.1, 1.3, 1.5$倍的情况。
+从表中结果中可以看出，由于使用了更加合理的分配方案，方案KSBS和QoS-NBS方案对于那些运动更剧烈的视频流的资源要求会更合理。
+例如，对于视频Mobile，KSBS和QoS-NBS分别使用了87.06Kbps和89.98Kbps的资源来应对，从而使得它们的PSNR值比EAS高出5.59dB和5.75dB，
+极大程度上改善了视频质量。
+
+为了更进一步对三者进行比较。我们对这些结果做了统计处理，如表\ref{tab:chap_nash:statis_three_schemes} 如示。
+表中结果表明，如果表面上单从平均PSNR来看，EAS方案最优，它均超过了其它两个方案。
+但是，这种性能优势的取得是通过分配给那些本来QoS质量已经较好的视频业务。例如，象Miss America的PSNR达到了40dB。
+而对那些由于本身特性，的确需要资源的业务却没有经予足够的资源支持，导致其质量很差，如Mobile的PSNR低到了24dB。
+这种表面上的用户公平性，其实并不能实现更合理的公平，也不能使得这些用户真正满意。
+如果从我们定义的归一化QoS指标中，更容易看到这一点，如表\ref{tab:chap_nash:qos_3_schemes}所示。
+
+
+从表中第二列的方差可以清晰地看到这一点。EAS的方差高达18dB。这说明用户质量分布较大。
+相比较而言KSBS方案与QoS-NBS方案较好，方差较小。其中，我们的方案QoS-NBS，方差可以降到4dB以下，同时PSNR的均值却与KSBS的结果相当。
+这说明，QoS-NBS方案对于单个用户的资源需求给予了更公平的对待。
+与此同时，QoS-NBS的方案在系统资源的总量上没有增加，保持在494.62Kbps的位置，与KSBS相当。
+这表明我们的方法在兼顾单个用户业务的同时，又能较好地平均整个系统的性能。
+所以说，我们的方法在综合性能上优于其它两者对比方案。
+
+\begin{table}[tb]
+    \wuhao
+    \centering
+    \caption{资源分配方案结果比较}
+    \begin{tabular*}{\textwidth}{p{3cm}llp{2.5cm}lll}
+    \toprule
+    视频名称 & \multicolumn{3}{c}{设定分配码率（真实编码码率）（Kbps）} &  \multicolumn{3}{c}{PSNR（dB）} \\
+    \cmidrule{2-7}
+             &  EAS & KSBS & QOS-NBS&  EAS & KSBS & QOS-NBS \\
+    \midrule
+Akiyo           	 & 18.93(18.91)& 8.37(9.52)&8.17(9.36)  &37.69  &34.40  &34.35 \\ 
+Carphone        	 & 18.93(19.22)& 11.02(13.96)&11.20(13.55)  &32.67  &31.00  &31.03 \\ 
+Clarie          	 & 18.93(19.14)& 8.07(8.51)&7.59(8.40)  &39.77  &36.20  &36.06 \\ 
+Coastguard      	 & 18.93(21.36)& 37.50(38.34)&37.17(38.09)  &28.87  &30.47  &30.45 \\ 
+Container       	 & 18.93(19.12)& 8.93(10.50)&8.47(9.83)  &35.13  &32.93  &32.72 \\ 
+Foreman         	 & 18.93(21.48)& 19.95(22.51)&20.70(22.92)  &30.70  &30.97  &31.09 \\ 
+Grandma         	 & 18.93(19.70)& 8.51(9.89)&8.15(9.60)  &36.81  &33.91  &33.82 \\ 
+Hall            	 & 18.93(19.06)& 11.65(13.80)&11.58(13.80)  &34.90  &33.33  &33.33 \\ 
+Miss America    	 & 18.93(19.40)& 7.93(8.37)&7.07(7.70)  &40.68  &37.16  &36.97 \\ 
+Mobile          	 & 18.93(27.92)& 86.80(87.06)&88.56(89.98)  &24.37  &29.96  &30.12 \\ 
+Mother\&daughter	 & 18.93(19.92)& 8.55(9.85)&8.17(9.69)  &37.35  &34.13  &34.06 \\ 
+News            	 & 18.93(19.21)& 18.88(19.20)&19.10(20.35)  &32.51  &32.51  &32.94 \\ 
+Salesman        	 & 18.93(19.63)& 18.25(19.21)&18.55(19.34)  &32.10  &32.01  &32.04 \\ 
+Silent          	 & 18.93(20.76)& 18.88(20.76)&19.10(20.76)  &32.61  &32.61  &32.56 \\ 
+Suzie           	 & 18.93(21.80)& 10.71(14.01)&10.46(13.89)  &34.89  &33.13  &33.08 \\ 
+\bottomrule
+    \end{tabular*}
+    \label{tab:chap_nash:resource_allocation_comparision}
+\end{table}
+
+\begin{table}[t]
+    \wuhao
+    \centering
+    \caption{归一化QoS水平比较}
+    \begin{tabular*}{\textwidth}{ p{.2\textwidth} p{.25\textwidth} p{.25\textwidth} p{.25\textwidth} }
+        \toprule
+     视频名称&   EAS& KSBS & QoS-NBS \\
+     \midrule
+Akiyo           	 & 1.00 & 1.00  &1.00\\ 
+Carphone        	 & 1.00 & 1.00  &1.00\\ 
+Clarie          	 & 1.00 & 1.00  &1.00\\ 
+Coastguard      	 & 0.97 & 0.98  &0.98\\ 
+Container       	 & 1.00 & 1.00  &1.00\\ 
+Foreman         	 & 1.00 & 1.00  &1.00\\ 
+Grandma         	 & 1.00 & 1.00  &1.00\\ 
+Hall            	 & 1.00 & 1.00  &1.00\\ 
+Miss America    	 & 1.00 & 1.00  &1.00\\ 
+Mobile          	 & 0.89 & 0.93  &0.93\\ 
+Mother\&daughter	 & 1.00 & 1.00  &1.00\\ 
+News            	 & 1.00 & 1.00  &1.00\\ 
+Salesman        	 & 1.00 & 1.00  &1.00\\ 
+Silent          	 & 1.00 & 1.00  &1.00\\ 
+Suzie           	 & 1.00 & 1.00  &1.00\\ 
+\bottomrule
+    \end{tabular*}
+    \label{tab:chap_nash:qos_3_schemes}
+\end{table}
+
+
 \begin{table}
     \wuhao
     \centering
-    \begin{tabular}{cccc}
-    \toprule
-    视频名称 & EAS & KSBS & QoS-NBS\\
-    \midrule
-Akiyo           	 & 18.93 & 8.37 & 8.17 \\ 
-Carphone        	 & 18.93 & 11.02 & 11.20 \\ 
-Clarie          	 & 18.93 & 8.07 & 7.59 \\ 
-Coastguard      	 & 18.93 & 37.50 & 37.17 \\ 
-Container       	 & 18.93 & 8.93 & 8.47 \\ 
-Foreman         	 & 18.93 & 19.95 & 20.70 \\ 
-Grandma         	 & 18.93 & 8.51 & 8.15 \\ 
-Hall            	 & 18.93 & 11.65 & 11.58 \\ 
-Miss America    	 & 18.93 & 7.93 & 7.07 \\ 
-Mobile          	 & 18.93 & 86.80 & 88.56 \\ 
-Mother\&daughter	 & 18.93 & 8.55 & 8.17 \\ 
-News            	 & 18.93 & 18.88 & 19.10 \\ 
-Salesman        	 & 18.93 & 18.25 & 18.55 \\ 
-Silent          	 & 18.93 & 18.88 & 19.10 \\ 
-Suzie           	 & 18.93 & 10.71 & 10.46 \\ 
-\bottomrule
-    \end{tabular}
-    \caption{资源分配方案比较}
-    \label{tab:<+label+>}
-\end{table}<++>
-则可以得到这些视频业务在提出的议价博弈模型中纳什议价资源分配方案，如表 所示。
-而且，我们对分配的带宽值进行用JM编码器进行第二次编码。其各个视频流相应的结果如下。
-
-
+    \caption{三种方案的统计结果比较}
+    \begin{tabular*}{\textwidth}{ p{.2\textwidth}p{.25\textwidth}p{.25\textwidth}p{.3\textwidth}}
+        \toprule
+        & PSNR均值（dB） &PSNR方差（dB） &总带宽需求（Kbps） \\
+        \midrule
+        EAS & 34.07 & 18.06 & 511.05 \\
+        KSBS &32.98 & 4.06 & 494.73 \\
+        QoS-NBS & 32.97 & 3.74 & 494.62 \\
+        \bottomrule
+    \end{tabular*}
+    \label{tab:chap_nash:statis_three_schemes}
+\end{table}
+\iffalse
+\fi
 
 \section{小结}
 本章我们提出了一个基于纳什议价博弈的资源分配新算法。
