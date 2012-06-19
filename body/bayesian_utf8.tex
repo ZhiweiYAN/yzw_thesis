@@ -294,7 +294,7 @@ IEEE802.16e中定义了这五种业务类型：UGS，rtPS，ertPS，nrtPS，BE�
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[tb]
 \begin{centering}
-\includegraphics[scale=0.6]{bayesian_uniform_user_number_vs_contribute_probability.eps}
+\includegraphics[scale=0.5]{bayesian_uniform_user_number_vs_contribute_probability.eps}
 \caption{参与者数目与临界成本的关系（均匀分布）}
 \label{fig:bayesian_user_numb_vs_contr_prob}
 \end{centering}
@@ -370,7 +370,7 @@ IEEE802.16e中定义了这五种业务类型：UGS，rtPS，ertPS，nrtPS，BE�
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[tb]
 \begin{centering}
-\includegraphics[scale=0.6]{bayesian_normal_user_number_vs_contribute_probability.eps}
+\includegraphics[scale=0.5]{bayesian_normal_user_number_vs_contribute_probability.eps}
 \caption{参与者数目与临界成本的关系（正态分布）}
 \label{fig:bayesian_normal_user_numb_vs_contr_prob}
 \end{centering}
@@ -379,7 +379,7 @@ IEEE802.16e中定义了这五种业务类型：UGS，rtPS，ertPS，nrtPS，BE�
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[!tb]
 \begin{centering}
-\includegraphics[scale=0.6]{bayesian_normal_punish_parameter_vs_contribute_probability.eps}
+\includegraphics[scale=0.5]{bayesian_normal_punish_parameter_vs_contribute_probability.eps}
 \caption{“慷慨”参与者数目最低要求$m$与临界成本的关系}
 \label{fig:bayesian_normal_puni_para_vs_cont_prob}
 \end{centering}
@@ -448,7 +448,7 @@ IEEE802.16e中定义了这五种业务类型：UGS，rtPS，ertPS，nrtPS，BE�
 \label{alg:chap_bayesian:agr_cac}
 \end{algorithm}
 
-\section{仿真实验与结果}
+\section{仿真实验与结果分析}
 \esection{Simulation and Results}
 为了验证我们进行的理论分析结果，以及提出的分配算法有效。
 我们参照基站分配资源的基本功能设计以下仿真模型。
@@ -549,7 +549,7 @@ IEEE802.16e中定义了这五种业务类型：UGS，rtPS，ertPS，nrtPS，BE�
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[!tb] 
    \centering
-  \begin{minipage}[t]{0.5\linewidth} 
+  \begin{minipage}[t]{0.55\linewidth} 
     \centering 
     \includegraphics[width=\textwidth]{bayesian_time_vs_ongoing_user_number.eps} 
     \caption{系统在线用户容量} 
@@ -569,6 +569,6 @@ IEEE802.16e中定义了这五种业务类型：UGS，rtPS，ertPS，nrtPS，BE�
 本章针对网络中业务逐渐增多的趋势，提出通过概率连续随机变量来描述用户的业务类型。
 与传统的离散分类不同，新的方法可以更加细致地刻化用户业务特征。
 并且根据网络的实际情况，我们提出在不完备信息的情况下通过构造Bayesian博弈模型的方法来寻求使得所有用户满意的资源分配混合策略。
-通过理论的分析与仿真实验证明，所提出的业务描述方法及博弈算法，为有效地解决在多用户竞争下的资源分配问题提供另外一条新的途径。
+通过理论的分析与仿真实验证明，所提出的业务描述方法及博弈算法，为有效地解决在多用户竞争下的资源分配问题提供一条新的途径。
 
 
