@@ -1,9 +1,9 @@
 \graphicspath{ {../body/handover_figures/}}
-\chapter{高速移动用户的基站切换算法}
-\echapter{Handover Algorithm for High Speed Mobile User}
+\chapter{高速移动用户的基站切换}
+\echapter{Handover or High Velocity Mobile Station}
 \label{chap_iccs_handover_alogrithm}
 本章研究的内容是，
-高速移动用户基站切换算法。
+高速移动用户基站切换问题。
 首先以移动WiMAX网络为例，
 对移动用户切换的所涉及的具体流程与信令进行了细致地描述与分析。
 然后，建立了一个切换信令协议的交互概率模型；
@@ -13,7 +13,7 @@
 
 
 \section{引言}
-\esection{Chapter Preface}
+\esection{Introduction}
 \label{section_iccs_handover_algorithm_introduction}
 在蜂窝通信网络中，
 术语“切换”是指将一个正在通话或是进行数据传输业务的移动用户从一个通信的信道转到另一个通信信道的过程。
@@ -85,11 +85,11 @@ Chen等学者为了减少切换过程中的延时，提出了一种预协商的�
 最后通过建立一个简单实用的自适应前向纠错方法来提高切换的效率。
 
 
-\section{基站切换性能与移动台的移动性分析}
+\section{基站切换成功概率模型}
 \label{section_iccs_handover_algorithm_mobility_analysis}
-\esection{Handover Performance and Mobility of Mobile Station}
+\esection{Probability Model of Handover}
 切换的性能与效率通常可以用一个切换的成功率来描述。我们通过统计在切换过程中每次信令交换成功概率来计算出最后完成整个切换过程概率。在高速运动的切换过程中，移动速度会对切换造成非常大的影响。它不但反映移动台切换延时情况，也在研究切时用户丢包模型中扮演着重要的角色。
-\subsection{切换的流程}
+\subsection{切换的流程建模分析}
 \esubsection{Hanover Protocols in WiMAX}
 \label{subsection_iccs_handover_algorithm_mobility_analysis_handover_flow}
 在IEEE 802.16e的标准中，切换信令的交换流程如图\ref{fig:chap_iccs_handover_algorithm_handover_flow}所示。
@@ -117,7 +117,7 @@ Chen等学者为了减少切换过程中的延时，提出了一种预协商的�
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{切换成功概率与误比特率的关系分析}
+\subsection{切换成功概率建模与误比特率}
 \esubsection{Probability of Handover Success and Bit Error Rate}
 根据上面的分析，我们考虑一个这样的切换过程模型。
 不失一般性，我们假设在一次移动台的切换过程中~$M$~（$M \ge 2 $）个信令需要交换。
@@ -186,7 +186,7 @@ p_{i}=[1-P_{b}(\gamma_{b})]^{L_{i}}.
 这里，我们给出公式（\ref{eq:chap_iccs_handover_algorithm_Pro_basic_final}）的一个例子，如图 \ref{fig:chap_iccs_handover_algorithm_PBER} 所示。
 可以明显地看出，对于固定的~$N_i$~，切换的成功概率~$P_{succ}$~随着误比特概率~$P_b(\gamma_b)$~的增大而降低。当误比特率较大时（在~$10^{-4}$~到~$10^{-2}$~之间），使用重传策略会有效地改善切换的成功率。
 
-\subsection{切换成功概率与移动台速度的关系}
+\subsection{切换成功概率模型与移动台速度}
 \esubsection{Probability of Handover Success and Velocity of MS}
 上一节的分析指出了切换成功概率也两个重要的参数有关：一是信道的误比特率，二是信令消息的重传次数。
 在一个实际的WiMAX网络中，这二者都与移动台的移动速度有关。
@@ -311,7 +311,7 @@ P_{succ}=\left\{
 
 从图中可明显看出，随着移动的速度增快，切换成功概率会显著下降。这样会极大地影响了切换的过程。所以说，如果在高速移动状态下，切换对于移动台来说需要额外的处理。
 
-\section{高速移动下的切换方案}
+\section{基于切换成功概率模型的切换方案}
 \esection{Handover Scheme with High Velocity MS}
 在高速移动状态下，为了提高移动台的切换成功概率，除了可以增加重传的次数以外，我们也需要建立更加可靠的通信链路的传输机制来传送信令消息。
 本节我们讨论了前向纠错编码的特点，并采用此技术来改善传输的误码率。
@@ -412,7 +412,7 @@ FEC  & Reed-Solomon code\tabularnewline
 \end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{小结}
+\section{本章小结}
 \esection{Chapter Summary}
 在本章中，我们以WiMAX网络为例分析了移动台的移动速度对切换成功率的影响。分析的结果表明，由于移动台的速度增加会导致无线传输的信道变差，进而使得切换信令不能正常收发。又由于切换操作是时间受限的，所以在设计切换时要两方面同时考虑。根据理论分析，我们提出了一个简单有效的自适应前向纠错方案，通过理论计算就可以提前在不同速度下所需的冗余比特数，可以满足在不同移动速度下的切换设计需要。最后仿真实验验证了我们的理论分析和所提出前向纠错方案的正确性。
 %chapter_end
