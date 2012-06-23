@@ -1,5 +1,5 @@
 \graphicspath{ {../body/nash_bargaining_figures/} }
-\chapter{基于议价博弈的多用户资源分配算法}
+\chapter{基于议价博弈的多用户资源分配策略}
 \echapter{Bargaining Game on Resource Allocation for Multiple Users}
 %\label{chap_nash_bargain}
 在带宽资源受限的无线网络中，多用户的多媒体应用，诸如视频点播、在线游戏或网页浏览等都十分常见。
@@ -11,8 +11,8 @@
 对于资源分配的问题，我们的博弈模型也得到的纳什议价解是一个公平且优化的解决方案。
 这个解可以使系统利用率充分，同时又能保证各个用户资源分配的公平性。
 
-\section{前言}
-\esection{Chapter Preface}
+\section{引言}
+\esection{Introduction}
 博弈论解决问题的方式不仅仅是利益冲突的情况，也在寻求合作框架下的解决方案。
 议价博弈理论就是合作博弈论的一个方面。
 它最初提出的原因是为了要解决在经济活动中，双边垄断市场结构下的价格决定问题。
@@ -57,6 +57,8 @@
 
 \section{资源分配博弈模型}
 \esection{Game Model of Resource Allocation}
+\subsection{议价博弈建模}
+\esubsection{Modelling the Bargaining Game}
 类似的，在一个资源受限的无线网络系统中，存在有~$n$~个用户。
 他们以合作的方式或“议价”的方式来分配网络所提供的资源，例如带宽。
 每一个用户都有自己的效用函数~$U_i(b_i)$~。
@@ -129,8 +131,7 @@ QoS = \frac{1- e^{-\rho \frac{b}{B} }}{1-e^{-\rho}}, \rho > 0
 因为在此情况下，符合帕累托最优的议价解不止一个，经济学家纳什提出了如果满足一些条件，
 那么就可以确定一个唯一的、更合理的解\cite{Nash_1950}。
 
-\subsection{纳什公理化议价博弈理论}
-\esubsection{Nash Axioms}
+这些条件也称之为纳什公理。
 这里先以两个参与者为例描述一下。
 在一个博弈过程中存在两个参与者。
 每个博弈的参与者追求使自己的效用最大化。
@@ -175,7 +176,8 @@ QoS = \frac{1- e^{-\rho \frac{b}{B} }}{1-e^{-\rho}}, \rho > 0
 \label{eqn:chap_nash:nash_product}
 \end{align}
 
-
+\subsection{议价博弈模型求解}
+\esubsection{Solution of Game Model}
 由博弈的定义可看出，我们博弈模型首先可以满足公理一、二、四。
 因为公理三、五和六所描述的内容，从数学上来首先要求效用集合是凸集。
 所以，我们下面证明我们所定义资源分配的效用向量集合~$\mathbf{\phi}$~是凸集（convex set)。
@@ -324,8 +326,8 @@ QoS = \frac{1- e^{-\rho \frac{b}{B} }}{1-e^{-\rho}}, \rho > 0
     \label{eqn:chap_nash:nbs}
 \end{align}
 
-\section{议价能力}
-\esection{Power of Bargaining Game}
+\subsection{模型中的议价能力对资源分配的影响}
+\esubsection{Power of Bargaining Game}
 由\eqref{eqn:chap_nash:nbs}知，
 %纳什议价解与资源比例分配算法的结果十分类似。
 %在比例分配算法中权重与纳什议价解中的议价能力起到的作用是相同的。
@@ -537,7 +539,7 @@ Suzie           	 & 1.00 & 1.00  &1.00\\
 \iffalse
 \fi
 
-\section{小结}
+\section{本章小结}
 \esection{Chapter Summary}
 本章我们提出了一个基于纳什议价博弈的资源分配新算法。
 首先，我们简单介绍了议价博弈中的基本概念。

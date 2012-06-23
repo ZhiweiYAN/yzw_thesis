@@ -1,5 +1,5 @@
 \graphicspath{ {../body/bayesian_figures/}}
-\chapter{基于连续业务类型的Bayesian博弈资源分配算法}
+\chapter{基于连续业务类型的Bayesian博弈资源分配策略}
 \echapter{Resource Allocation Algorithm with Bayesian Game}
 %\label{chap_bayesian_game}
 \par 
@@ -68,8 +68,8 @@ IEEE802.16e中定义了这五种业务类型：UGS，rtPS，ertPS，nrtPS，BE�
 每一种现实存在的业务类型都可以对应这个随机的变量的一个取值。
 下面我们将这种业务分类连续定义思想应用到Bayesian博弈的分析模型中，并考察业务类型对博弈结果的影响。
 
-\subsection{博弈模型}
-\esubsection{Game Model}
+\subsection{Bayesian博弈模型}
+\esubsection{Bayesian Game Model}
 假设在一个无线网络基站的覆盖范围内，目前有~$N$~个在线用户正在共享无线资源进行通信。
 为了能够更加公平且有效的使用资源，基站控制器会在有新的用户进入的时候，
 触发一次资源调整的方案。调整的目的是让用户根据目前自身的业务情况，重新申请合适的资源数量，
@@ -145,7 +145,7 @@ IEEE802.16e中定义了这五种业务类型：UGS，rtPS，ertPS，nrtPS，BE�
 \end{align}
 
 %
-\section{Bayesian博弈分析}
+\section{Bayesian博弈模型求解}
 \esection{Analysis of Bayesian Game}
 对于每一个理性且自私的博弈参与者，他总想通过自己的选择来使自己的收益最大化。
 可以表示为~$\max(u_i)$~。
@@ -471,14 +471,14 @@ IEEE802.16e中定义了这五种业务类型：UGS，rtPS，ertPS，nrtPS，BE�
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[!tb] 
     \centering
-   \begin{minipage}[t]{0.5\linewidth} 
+   \begin{minipage}[t]{0.6\linewidth} 
     \centering 
     \includegraphics[width = \textwidth]{bayesian_normal_bandwidth_vs_user_number} 
     \caption{在线用户数目} 
     \label{fig:chap_bayesian:normal_bandwidth_vs_user_number} 
   \end{minipage}% 
 
-  \begin{minipage}[t]{0.5\linewidth} 
+  \begin{minipage}[t]{0.6\linewidth} 
     \centering 
     \includegraphics[width = \textwidth]{bayesian_normal_bandwidth_vs_generosity} 
     \caption{用户决策“慷慨”概率} 
@@ -488,14 +488,14 @@ IEEE802.16e中定义了这五种业务类型：UGS，rtPS，ertPS，nrtPS，BE�
 
 \begin{figure}[!tb] 
     \centering
- \begin{minipage}[t]{0.5\linewidth} 
+ \begin{minipage}[t]{0.6\linewidth} 
     \centering 
     \includegraphics[width = \textwidth]{bayesian_normal_bandwidth_vs_avg_benefit.eps} 
     \caption{用户平均收益} 
     \label{fig:chap_bayesian:normal_bandwidth_vs_avg_benefit} 
   \end{minipage}% 
 
-  \begin{minipage}[t]{0.5\linewidth} 
+  \begin{minipage}[t]{0.6\linewidth} 
     \centering 
     \includegraphics[width=\textwidth]{bayesian_normal_bandwidth_vs_success_probability.eps} 
     \caption{博弈成功概率} 
@@ -549,7 +549,7 @@ IEEE802.16e中定义了这五种业务类型：UGS，rtPS，ertPS，nrtPS，BE�
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[!tb] 
    \centering
-  \begin{minipage}[t]{0.55\linewidth} 
+  \begin{minipage}[t]{0.7\linewidth} 
     \centering 
     \includegraphics[width=\textwidth]{bayesian_time_vs_ongoing_user_number.eps} 
     \caption{系统在线用户容量} 
@@ -557,14 +557,14 @@ IEEE802.16e中定义了这五种业务类型：UGS，rtPS，ertPS，nrtPS，BE�
   \end{minipage} 
 
   \centering
-  \begin{minipage}[t]{0.5\linewidth} 
+  \begin{minipage}[t]{0.7\linewidth} 
     \centering 
     \includegraphics[width=\textwidth]{bayesian_time_vs_bw_utilization.eps} 
     \caption{系统资源利用率} 
     \label{fig:chap_bayesian:time_vs_bw_utilization} 
   \end{minipage} 
 \end{figure}
-\section{小结}
+\section{本章小结}
 \esection{Chapter Summary}
 本章针对网络中业务逐渐增多的趋势，提出通过概率连续随机变量来描述用户的业务类型。
 与传统的离散分类不同，新的方法可以更加细致地刻化用户业务特征。

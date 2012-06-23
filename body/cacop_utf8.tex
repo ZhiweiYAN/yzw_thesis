@@ -1,7 +1,7 @@
 %chapter_cacop_begin
 \graphicspath{ {../body/cacop_figures/}}
-\chapter{基于多媒体特性的呼叫接纳控制算法}
-\echapter{Call Admission Control Algorithm Based on Multimedia Characteristics}
+\chapter{基于多媒体特性的呼叫接纳控制}
+\echapter{Call Admission Control  Based on Multimedia Characteristics}
 \label{chap_cacop}
 
 从无线网络通信的发展趋势看，多媒体数据业务将会逐渐取代目前无线通信中话音业务为主的状况。
@@ -10,8 +10,8 @@
 本章针对这一问题，首先细致地分析了不同类型多媒体业务的数据特点，并提出了不同业务类型的服务质量水平（QoS Level）的归一化定义方法。这个方法从应用层的角度把服务质量估计映射到数据链路层的资源分配参数上。
 然后根据这一方法提出了以系统服务质量及效用最优的呼叫接纳控制原则，以及其相应的接纳控制算法。
 
-\section{前言}
-\esection{Chapter Preface}
+\section{引言}
+\esection{Introduction}
 呼叫接纳控制本质是一个管理呼叫连接并进行资源分配与管理的技术。
 这项技术以往常常在无线话音网络，如GSM网络，或VoIP（Voice over Internet Protocol）的网络中使用\cite{Perros1996}\cite{Mase2004}
 \cite{Systems_2001}\cite{Y-G-Fang.TVT.2002}\cite{Y-Xiao.IEICE.TC.2001}。
@@ -89,8 +89,8 @@
 %   这样可以保证数据量波动较大的情况下，资源能够得到及时的调度。
 \end{itemize}
 
-\section{呼叫接纳控制模型与业务流的QoS分析}
-\esection{ Analysis of Traffic QoS and CAC Model}
+\section{呼叫接纳控制模型与多媒体业务流的QoS水平映射模型}
+\esection{ CAC Model and Mapping Model of Multimedia Traffic QoS level }
 \label{sec_qos_metric}
 因为不同的业务数据对服务质量的要求差别很大，所以要设计相应的传输机制来应对这种变化。
 本节我们将详细描述如何将接纳控制算法、用户的QoS以及资源分配方案之间的关系。
@@ -122,8 +122,8 @@
 \end{figure*}
 %%%%%%
 %QoS Metric
-\subsection{带宽分配与QoS之间关系分析}
-\esubsection{Analysis of QoS and Resource Allocation}
+\subsection{带宽分配与QoS水平映射模型}
+\esubsection{QoS Level Mapping Model and Resource Allocation}
 在以往的大多数文献中，也出现了一些关于接纳控制方面的QoS研究工作。
 他们对用户或系统的QoS评价指标一般直接从网络底层，如物理层或MAC层，直接获得。
 譬如，带宽资源的利用率、掉话率或呼叫中断概率等等。
@@ -358,8 +358,10 @@ FTP是用于在网络上进行文件传输的一套标准协议。它属于网�
 \label{eqn:chap_cacop:alltype_metric}
 \end{equation}
 
-\section{资源分配的优化分析}
-\esection{Optimum Analysis of Resource Allocation}
+\section{基于QoS水平映射模型的资源分配的优化与相应的接纳控制算法}
+\esection{Optimum of Resource Allocation and CAC alogorithm with QoS Level Mapping Model}
+\subsection{资源分配的优化}
+\esubsection{Optimum of Resource Allocation}
 接纳控制的本质是为了保证各个连接的通信服务质量，防止新连接占用资源后对在线连接产生负面的影响。
 一个好的接纳控制方法应该在充分利用资源的前提下，保证用户的服务质量最大化。
 我们将这个问题归结为如下的一个优化问题。
@@ -452,34 +454,37 @@ x_i = \frac{b_i}{B_i} , i \in [M+1, K].
 首先让对拉格朗日函数求一阶导数，并置为零，
 ~$dF = 0$~，则有下面一系列等式。
 %%%
-\begin{subequations}
-\label{eqn_derivate}
-\begin{align} &\frac{\partial F}{\partial x_{M+1}} =
-\frac{\rho_{M+1} e^{-\rho_{M+1} x_{M+1}}}{(1-e^{-\rho_{M+1}})} - \lambda B_{M+1} = 0 \tag{\theequation -M+1}\\
-&\frac{\partial F}{\partial x_{M+2}} =
-\frac{\rho_{M+2} e^{-\rho_{M+2} x_{M+2}}}{(1-e^{-\rho_{M+2}})} - \lambda B_{M+2} = 0 \tag{\theequation -M+2}\\
-\nonumber & \qquad \vdots \qquad \vdots \qquad \vdots \\
-&\frac{\partial F}{\partial x_K} =
-\frac{\rho_K e^{-\rho_K x_K}}{(1-e^{-\rho_K})} - \lambda B_K = 0 \tag{\theequation -K}\\
-&\frac{\partial F}{\partial \lambda} = B_{total} - \sum_{i=1}^M B_i -
-\sum^K_{i=1}x_iB_i = 0 \tag{\theequation -K+1}
+\begin{align} 
+\begin{dcases}
+\frac{\partial F}{\partial x_{M+1}} =
+\frac{\rho_{M+1} e^{-\rho_{M+1} x_{M+1}}}{(1-e^{-\rho_{M+1}})} - \lambda B_{M+1} = 0 \\
+\frac{\partial F}{\partial x_{M+2}} =
+\frac{\rho_{M+2} e^{-\rho_{M+2} x_{M+2}}}{(1-e^{-\rho_{M+2}})} - \lambda B_{M+2} = 0 \\
+\qquad \vdots \qquad \vdots \qquad \vdots \\
+\frac{\partial F}{\partial x_K} =
+\frac{\rho_K e^{-\rho_K x_K}}{(1-e^{-\rho_K})} - \lambda B_K = 0 \\
+\frac{\partial F}{\partial \lambda} = B_{total} - \sum_{i=1}^M B_i -
+\sum^K_{i=1}x_iB_i = 0 
+\end{dcases}
+\label{eqn:chap_cacop:derivate}
 \end{align}
-\end{subequations}
 %%%
-根据公式 (\ref{eqn_derivate})，我们有
+
+
+根据\eqref{eqn:chap_cacop:derivate}，我们有
 %%%
 \begin{equation*}
 \begin{split}
 &\frac{\partial F}{\partial x_i} = \frac{\rho_i e^{-\rho_i
 x_i}}{(1-e^{-\rho_i})} - \lambda B_i = 0\\
-%\implies &\rho_i e^{-\rho_i x_i} =\lambda B_i(1-e^{-\rho_i})\\
-%\implies &\ln\rho - \rho x_i = \ln [\lambda B_i (1-e^{-\rho_i})]\\
+\implies &\rho_i e^{-\rho_i x_i} =\lambda B_i(1-e^{-\rho_i})\\
+\implies &\ln\rho - \rho x_i = \ln [\lambda B_i (1-e^{-\rho_i})]\\
 \implies &x_i = \frac{1}{\rho_i} \ln \left[ \frac{\rho_i}{\lambda B_i(1-e^{-\rho_i})} \right] \\
 \end{split}
 \end{equation*}
 %%
 
-再将 ~$x_i$~ 代入公式 (\ref{eqn_derivate}-K+1)，则又有
+再将 ~$x_i$~ 代入\eqref{eqn:chap_cacop:derivate}中的最后一个，则又有
 %%%
 %
 \begin{equation}
@@ -545,8 +550,8 @@ b_i^* & = x_iB_i = \frac{B_i}{\rho_i} \ln \frac{\rho_i}{B_i(1-e^{-\rho_i})} \\
 \end{equation}
 综上所述，可知存在一个驻点。由二阶条件的负定及一阶条件存在上面的驻点，所以这个资源分配方案也是使基站系统的效用取得最大值的解。
 %
-\section{提出的接纳控制算法}
-\esection{Proposed CAC algorithm}
+\subsection{接纳控制算法}
+\esubsection{Proposed CAC algorithm}
 \label{sec_alg}
 
 基于上一节所得到的带宽分配方案，我们提出一个接纳控制算法。
@@ -763,7 +768,7 @@ rtPS &8& 2048 &1024 &30 &1500\\
 这些曲线表示的是在线用户的QoS水平和满意度。，我们所提出的方法明显优于ElKadi的算法。同时，我们还可看出，基准算法的平均QoS水平总是最高的，始终维持在常量最大值~$1$~。基准算法通过牺牲新连接服务质量使得在线用户服务质量得到了最大程度的保证。
 从这些仿真结果，我们清楚地看到，在一个资源受限的系统中，系统性能指标之间是存在矛盾的。通常将其中一个性能指标得到改善和提高的同时，会使得另外一个性能指标下降。譬如在线用户的QoS水平与新用户的阻塞率。从仿真的结果来看，我们所提出的算法在平衡相互矛盾的系统指标方面，比其它两种方法要好。我们的算法兼顾了新用户与在线用户的利益，并进行了很好的平衡与折衷。
 
-\section{小结}
+\section{本章小结}
 \esection{Chapter Summary}
 本章研究的是基于多媒体业务下的呼叫接纳控制问题。
 首先我们通过分析不同的多媒体业务特点，
