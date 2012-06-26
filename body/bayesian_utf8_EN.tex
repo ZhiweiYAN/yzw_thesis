@@ -13,30 +13,26 @@
 通过理论分析得知，建立适当的收益与惩罚机制，可以激励用户根据自身的业务情况做出理性的分析和决策；
 既可以保证自身的服务质量，又能让资源得到充分利用。
 %
-\section{引言}
-\esection{Introduction}
-由于无线资源稀缺，研究者在无线资源分配及管理方面做了许多意义的工作。
-近年来，博弈论做为经济学家常用的数学方法也被引入到无线网络技术研究领域，
-特别是针对Ad Hoc网络或无线传感器网络\cite{Srivastava:2005}\cite{FangBensaou2004}。
-博弈论的本质是通过数学模型来研究多个利益冲突的理性个体如何调整自己行为的理论。
-通过构造合适博弈论模型及其博弈规则，可以引导自私但又理性的个体做出既有利于自已又利于其他参与者的决策。
-例如，在多媒体码率分配问题中，用户往往为了保证自身最佳的服务质量，会过多地占用系统的资源，
-进而导致整个系统性能的下降。
-为此，学者Zhang和Liu针对这个问题，提出竞价博弈及相应的税制机制来限制用户这种过分贪婪的行为\cite{ZhangLiu2011}。
+\section{Introduction}
+In the past years, game theory is introduced into the radio resource management by researchers. 
+The theory origins from the economics, which deals with the relationship between buyers and sellers in markets.
+And now the researchers use the theory to handle the power control and channel allocation in Ad Hoc networks or wireless sensor networks \cite{Srivastava:2005}\cite{FangBensaou2004}.
+In fact, the theory is also considered as a mathematical method to describe the competing situation among selfish and reasonable users. 
+If a suitable game model with rules is built, it can guide the users in the model to make their decisions, which benefits themselves and others opponents.
+For example, for the rate allocations of video users, selfish users will over-subscribe the resource to maximize their payoff, leading to the degradation of overall resource utilization of the system. 
+Zhang and Liu proposed a pricing game with tax mechanism to limit the greedy behaviour of selfish users \cite{ZhangLiu2011}.
 
-但是，这些方法都通常会有一个比较严格的假设：
-在这类博弈中，每个博弈参与者或用户都要具有其他参与者或用户的完备信息。
-并且，在博弈过程中，设置一个集中控制的单元负责传递用户之间的各种信息。
-例如，在文献\cite{ZhangLiu2011}中，用户的各种私有信息，收益函数的参数等等都要在用户之间进行交换。
-这样会导致大量的信息在用户之间传送。
-这类博弈分析模型称之为完备信息下博弈模型。
-通常，在博弈论研究中，所有参与者知识完备的假设是一个简单而又恰当的近似。
-在有些实际的问题中，这种假设过于理想和完美。
-另一方面，
-因为随着移动互联网的发展，用户业务种类越来越多，越来越细致。
-所以，想在资源分配之前，通过集中控制单元准确获取所有用户对资源的精确需求比较困难。
-博弈论中有这样一种类型的博弈：一些参与者可能不知道其他参与者的收益。
-这种类型的博弈被称之为“不完全信息的博弈”，或者被称为“Bayesian博弈”。
+However, there is a strict assumption in these game models: all players in these games have complete information. 
+There is a central unit to exchange the information and messages among the players of the game.
+For instance, in the paper \cite{ZhangLiu2011}, all private information of players and parameters of payoff functions are transfered among users. 
+It will result in lots of messages during the game. 
+Generally, these game are called the games with complete information.
+The assumption can be think as a simple approximation of real situation. 
+But the assumption is too ideal to describe other practical problem. 
+Because the type of traffic are becoming complicated and  the accurate information of players are hardly acquired by each players.
+To handle the kind of problems, we introduce the Bayesian game theory to solve the problems.
+
+
 
 在本章中我们利用这种新的分析模型：Bayesian博弈分析模型，对系统中参与者的行为进行引导。
 这种分析模型与完备信息博弈模型不同。
