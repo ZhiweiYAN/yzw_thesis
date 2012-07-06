@@ -32,31 +32,26 @@ But the assumption is too ideal to describe other practical problem.
 Because the type of traffic are becoming complicated and  the accurate information of players are hardly acquired by each players.
 To handle the kind of problems, we introduce the Bayesian game theory to solve the problems.
 
+In the paper, we construct a new game model, called Bayesian game analysis model. 
+The model can guide the behavior of players under an incompleted information situation. 
+Each player make his reasonable decision although they do not accquire the whole and complete information of other players in the game.
 
+\section{Traffic Type and Game Model}
+\subsection{Discrete and Continous Traffic Class}
+To our knowledge, the past research addresses the traffic class as a discrete form.
+For example, the voice data is almost only one traffic over GSM networks. 
+And the other media data appear over the communication systems. 
+The different standards of the communication  specify their defined traffic classes.
+For instance, there are four classes in the 3GPP standard: conversational, streaming, interactive, and background.
+In IEEE 802.16, it includes the five classes: UGS, rtPS, ertPS, nrtPS, BE.
+The principle of traffic classification can be considered as the content of traffic or the transport characteristic of traffic.
+The voice, video, text and pictures are classified on the content of traffic. 
+The transport characteristics of traffic are bandwidth requirement, delay and jitter and so on. 
+In summary, as a view of statistic theory, all traffic classes can construct a class set or a class space $Omega$. 
+Every element in the set can be viewed as a predefined traffic class. However, the definition of traffic class cannot  describe the characteristic of traffic exactly.
+For example, for a same video sequence, distinct video encoders (MPEG4, H.264, H.265) or the encoding configurations lead to the different compressed video outputs.
+And the various traffic transport results are also obtained using different adaptive modulation coding or wireless channel models.
 
-在本章中我们利用这种新的分析模型：Bayesian博弈分析模型，对系统中参与者的行为进行引导。
-这种分析模型与完备信息博弈模型不同。
-每个用户除了对自身的情况一清二楚之外，对参加博弈的其他用户的信息并不十分了解。
-也就是说他所得到的其他用户信息是不完整的；或是说，每个用户的私有信息是受到一定程度的保护。
-
-\section{业务类型与博弈模型}
-\esection{Traffic Type and Game Model}
-\subsection{离散与连续的业务类型}
-\esubsection{Discrete and Continous Traffic Type}
-目前，绝大多数的文献对于用户业务的类型讨论都是基于离散的分类形式。
-例如，在早期的无线GSM网络中，话音几乎是唯一的业务。
-随着网络技术的发展，除了话音外，文字、图片和视频等数据业务相继出现。
-不同阶段的通信标准也根据其特点，规定了业务的种类。
-比如，3GPP定义了四种基本业务类型，即会话类业务、流媒体业务、交互类业务和背景类业务。
-IEEE802.16e中定义了这五种业务类型：UGS，rtPS，ertPS，nrtPS，BE。
-在分类的原则上，有的的分类是指从应用层的角度来看待网络承载的数据，例如视频或声音。
-有的分类是从网络传输的角度来看。不同的业务类型代表了不同业务对网络性能的要求，如对带宽、时延等等。
-假设业务分类可以从概论论的角度来看，那么用户所承载的业务类型的一切可能的结果（离散的）也就可以组成的集合是一个样本空间~$\Omega$~，
-那么空间中元素就可以对应为目前网络传输中的一种业务类型定义。
-
-然而，我们如果仔细思考就会发现，这种离散的业务分类方法是有很大的局限性：过于笼统。
-譬如，对于同一个视频片段，不同的编码器（MPEG4，H.264，H.265）或同一种编码器的不同编码设置参数都会对视频流的结果产生影响。
-对于物理层调制编码，不同的信道模型和编码方法也同样会对传送的数据产生影响。
 
 所以，我们认为除了原有的离散式的业务类型定义以外，还可以将这种离散式分类方法推广到连续式的业务分类方法。
 这可能更接近业务本来的面目。

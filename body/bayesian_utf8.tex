@@ -294,7 +294,7 @@ IEEE802.16e中定义了这五种业务类型：UGS，rtPS，ertPS，nrtPS，BE�
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[tb]
 \begin{centering}
-\includegraphics[scale=0.5]{bayesian_uniform_user_number_vs_contribute_probability.eps}
+\includegraphics[width=0.65\textwidth]{bayesian_uniform_user_number_vs_contribute_probability.eps}
 \caption{参与者数目与临界成本的关系（均匀分布）}
 \label{fig:bayesian_user_numb_vs_contr_prob}
 \end{centering}
@@ -370,7 +370,7 @@ IEEE802.16e中定义了这五种业务类型：UGS，rtPS，ertPS，nrtPS，BE�
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[tb]
 \begin{centering}
-\includegraphics[scale=0.5]{bayesian_normal_user_number_vs_contribute_probability.eps}
+\includegraphics[width=0.6\textwidth]{bayesian_normal_user_number_vs_contribute_probability.eps}
 \caption{参与者数目与临界成本的关系（正态分布）}
 \label{fig:bayesian_normal_user_numb_vs_contr_prob}
 \end{centering}
@@ -379,8 +379,8 @@ IEEE802.16e中定义了这五种业务类型：UGS，rtPS，ertPS，nrtPS，BE�
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[!tb]
 \begin{centering}
-\includegraphics[scale=0.5]{bayesian_normal_punish_parameter_vs_contribute_probability.eps}
-\caption{“慷慨”参与者数目最低要求$m$与临界成本的关系}
+\includegraphics[width=0.6\textwidth]{bayesian_normal_punish_parameter_vs_contribute_probability.eps}
+\caption{“慷慨”参与者数目最低要求$m$与临界成本的关系（正态分布）}
 \label{fig:bayesian_normal_puni_para_vs_cont_prob}
 \end{centering}
 \end{figure}
@@ -423,7 +423,7 @@ IEEE802.16e中定义了这五种业务类型：UGS，rtPS，ertPS，nrtPS，BE�
 对模型中参数进行参数估计（均值或方差） \;
 将业务模型及刚才得到的参数估计广播给所有用户 \;
 每个用户得到业务模型后，计算均衡成本~$c^*$~及选择“慷慨”的概率 \;
-按照“慷慨”的概率值做出自己的最后决策（为了保证在线用户通信不被中断，假设如果系统中已经做过“慷慨”选择的用户不再参与本次博弈）\;
+按照“慷慨”的概率值做出自己的最后决策（为了保证在线用户通信的质量，假设如果系统中已经做过“慷慨”选择的用户不再参与本次博弈）\;
 \eIf{决策为“慷慨”}{
     向资源控制与分配单元报告自己的决策和自己对资源最低要求\;
     }
@@ -444,7 +444,7 @@ IEEE802.16e中定义了这五种业务类型：UGS，rtPS，ertPS，nrtPS，BE�
     本次资源调整结束\;
 }
     转到 \bf 1\;
-\caption{基于博弈的自适应业务分布资源分配算法} 
+\caption{基于Bayesian博弈的自适应业务分布的资源分配算法} 
 \label{alg:chap_bayesian:agr_cac}
 \end{algorithm}
 
@@ -453,17 +453,17 @@ IEEE802.16e中定义了这五种业务类型：UGS，rtPS，ertPS，nrtPS，BE�
 为了验证我们所提出的博弈模型，以及提出的分配算法，
 我们参照基站分配资源的基本功能设计以下仿真模型。
 在这个仿真模型中，包括一个资源控制与分配单元和~$N$~个用户。
-这~$N$~个用户符合某个预设的业务类型分布模型，每个用户的慷慨成本为~$c_i$~。
-每个用户的对资源的需求假设带宽~$b_i$~，在64Kbps到4Mbps之间取值；
-并且，因为~$c_i$~是对用户而言要付出的成本，所以为了简单起见，假设每个用户对资源的最低需求为~$(1-c_i)b_i$~。
+这~$N$~个用户符合某个预设的业务类型分布模型，每个用户的选择“慷慨”成本为~$c_i$~。
+每个用户的资源需求带宽~$b_i$~，在64Kbps到4Mbps之间取值；
+并且，因为~$c_i$~是用户要付出的成本，所以为了简单起见，假设每个用户对资源的最低需求为~$(1-c_i)b_i$~。
 
 \subsection{仿真实验一}
 \esubsection{Simulation Experiment I}
 为了验证理论分析，我们编写了第一个仿真的脚本。
-同样，我们比较两种业务分布函数，均匀分布和正态分布。
+我们比较两种业务分布函数，均匀分布和正态分布。
 其中，正态分布的参数设置为~$\mu = 0.5, \delta^2 = 0.1$~；
 最少参与者决策“慷慨”的数目设置为~$m=4$~。
-为了能够得到一个统计意义的结果，仿真脚本每组运行了~$300$~次。
+为了能够得到一个统计意义上的结果，仿真脚本每组运行了~$300$~次。
 最后的仿真结果如
 \figref{fig:chap_bayesian:normal_bandwidth_vs_user_number}至
 \figref{fig:chap_bayesian:normal_bandwidth_vs_success_probability}
@@ -471,14 +471,14 @@ IEEE802.16e中定义了这五种业务类型：UGS，rtPS，ertPS，nrtPS，BE�
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[!tb] 
     \centering
-   \begin{minipage}[t]{0.6\linewidth} 
+   \begin{minipage}[t]{0.65\linewidth} 
     \centering 
     \includegraphics[width = \textwidth]{bayesian_normal_bandwidth_vs_user_number} 
     \caption{在线用户数目} 
     \label{fig:chap_bayesian:normal_bandwidth_vs_user_number} 
   \end{minipage}% 
 
-  \begin{minipage}[t]{0.6\linewidth} 
+  \begin{minipage}[t]{0.65\linewidth} 
     \centering 
     \includegraphics[width = \textwidth]{bayesian_normal_bandwidth_vs_generosity} 
     \caption{用户决策“慷慨”概率} 
@@ -488,14 +488,14 @@ IEEE802.16e中定义了这五种业务类型：UGS，rtPS，ertPS，nrtPS，BE�
 
 \begin{figure}[!tb] 
     \centering
- \begin{minipage}[t]{0.6\linewidth} 
+ \begin{minipage}[t]{0.65\linewidth} 
     \centering 
     \includegraphics[width = \textwidth]{bayesian_normal_bandwidth_vs_avg_benefit.eps} 
     \caption{用户平均收益} 
     \label{fig:chap_bayesian:normal_bandwidth_vs_avg_benefit} 
   \end{minipage}% 
 
-  \begin{minipage}[t]{0.6\linewidth} 
+  \begin{minipage}[t]{0.65\linewidth} 
     \centering 
     \includegraphics[width=\textwidth]{bayesian_normal_bandwidth_vs_success_probability.eps} 
     \caption{博弈成功概率} 
@@ -520,14 +520,14 @@ IEEE802.16e中定义了这五种业务类型：UGS，rtPS，ertPS，nrtPS，BE�
 但同时，我们从
 \figref{fig:chap_bayesian:normal_bandwidth_vs_avg_benefit}、
 \figref{fig:chap_bayesian:normal_bandwidth_vs_success_probability}中可以看到，
-用户的平均收益和一次博弈成功概率都会增多。
-这里，“一次博弈成功概率”是指在一次博弈过程中，至少有~$m$~个参与者愿意减少自己占用资源的数量的概率。
+用户的平均收益和一次博弈成功概率都会增加。
+这里，“一次博弈成功概率”是指在一次博弈过程中，至少有~$m$~个参与者愿意选择“慷慨”，减少自己占用资源的数量的概率。
 用户的数目多少对于博弈的结果影响很大。
-从单个用户的角度看，参与者数目增多会使得单个参与者选择“慷慨”的概率下降，
+从单个用户的角度看，参与者数目增多会使得单个参与者选择“慷慨”的概率下降。
 单个参与者从自己的利益出发，更希望其它的参与者选择“慷慨”而自身选择“自私”的情况下还能得到收益。
 但是，从集体的角度看，用户数目的增多会弥补这一问题。
-这说明，用户数目增多会激发集体的“理性”在更大程度上发挥作用，
-在保证在线用户基本满意的前提下使系统本身受益。系统可以收集更多“空闲”资源放入空闲资源池中，供下一次资源分配来使用。
+这说明，用户数目增多会激发集体的“理性”在更大程度上发挥作用。
+这样可在保证在线用户基本满意的前提下使系统本身受益。系统可以收集更多“空闲”资源放入空闲资源池中，供下一次资源分配来使用。
 %如\figref{fig:chap_bayesian:normal_bandwidth_vs_withdraw_bw} 所示。
 \subsection{仿真实验二}
 \esubsection{Simulation Experiment II}
@@ -535,21 +535,10 @@ IEEE802.16e中定义了这五种业务类型：UGS，rtPS，ertPS，nrtPS，BE�
 一个用户产生器，按照泊松流来模拟产生用户的到达。
 其中，到达率为每小时~$300$~个用户。用户在系统中的停留时间服从均值为~$120$~秒的指数分布。
 整个仿真时间持续~$2$~个小时。
-
-这个脚本让我们从时间维度上观察所提出的博弈分配算法在一个基站中起的作用。
-仿真的结果如 \figref{fig:chap_bayesian:time_vs_ongoing_user_number} 和\figref{fig:chap_bayesian:time_vs_bw_utilization}所示。
-每幅仿真结果图中有三条曲线。在基准算法（baseline）中，如果有空闲资源则分配；如果没有则拒绝用户的资源申请。
-其它两条曲线分别是采用业务类型分布为正态分布或均匀分布的博弈模型及相应的分配算法。
-这里我们仅考察系统用户的容量和资源利用率指标。
-系统开始仿真后，大约在~$30$~分钟后，指标进入相对稳定状态并略有波动。
-从仿真的结果可以看出，由于在线的用户使用了博弈的分配算法，本质上是将已经分配给用户一部分资源使得用户将其释放出来，
-所以空闲资源会得到补充，进而新的用户得以进入系统中。
-因此，从用户容量来看，明显博弈分配算法会优于比较算法。
-从系统的资源利用率上看，两种博弈的算法略好于基准算法。
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}[!tb] 
+\begin{figure}[htbp] 
    \centering
-  \begin{minipage}[t]{0.7\linewidth} 
+  \begin{minipage}[t]{0.65\linewidth} 
     \centering 
     \includegraphics[width=\textwidth]{bayesian_time_vs_ongoing_user_number.eps} 
     \caption{系统在线用户容量} 
@@ -557,18 +546,28 @@ IEEE802.16e中定义了这五种业务类型：UGS，rtPS，ertPS，nrtPS，BE�
   \end{minipage} 
 
   \centering
-  \begin{minipage}[t]{0.7\linewidth} 
+  \begin{minipage}[t]{0.65\linewidth} 
     \centering 
     \includegraphics[width=\textwidth]{bayesian_time_vs_bw_utilization.eps} 
     \caption{系统资源利用率} 
     \label{fig:chap_bayesian:time_vs_bw_utilization} 
   \end{minipage} 
 \end{figure}
+这个脚本让我们从时间维度上观察所提出的博弈分配算法在一个基站中工作情况。
+仿真的结果如 \figref{fig:chap_bayesian:time_vs_ongoing_user_number} 和\figref{fig:chap_bayesian:time_vs_bw_utilization}所示。
+每幅仿真结果图中有三条曲线。在基准算法（baseline）中，如果有空闲资源则分配；如果没有则拒绝用户的资源申请。
+其它两条曲线分别是采用业务类型分布为正态分布或均匀分布的博弈模型及相应的分配算法。
+这里我们仅考察系统用户的容量和资源利用率指标。
+系统开始仿真后，大约在~$30$~分钟后，系统进入相对稳定状态并略有波动。
+从仿真的结果可以看出，由于在线的用户使用了博弈的分配算法，本质上是将已经分配给用户一部分资源鼓励用户将其释放出来，
+所以空闲资源会得到补充，进而新的用户得以进入系统中。
+因此，从用户容量来看，明显博弈分配算法会优于Baseline算法。
+从系统的资源利用率上看，两种博弈的算法也略好于Baseline算法。
 \section{本章小结}
 \esection{Chapter Summary}
 本章针对网络中业务逐渐增多的趋势，提出通过概率连续随机变量来描述用户的业务类型。
-与传统的离散分类不同，新的方法可以更加细致地刻化用户业务特征。
-并且根据网络的实际情况，我们提出在不完备信息的情况下通过构造Bayesian博弈模型的方法来寻求使得所有用户满意的资源分配混合策略。
-通过理论的分析与仿真实验证明，所提出的业务描述方法及博弈算法，为有效地解决在多用户竞争下的资源分配问题提供一条新的途径。
+与传统的离散分类不同，新的方法可以更加细致地刻化用户的业务特征。
+并且根据网络的实际情况，我们提出在不完备信息的情况下，通过构造Bayesian博弈模型的方法来寻求使得所有用户满意的资源分配混合策略。
+通过理论的分析与仿真实验证明，所提出的业务描述方法及博弈模型和算法，为有效地解决多用户竞争下的资源分配问题提供了一条新的途径。
 
 
