@@ -18,26 +18,26 @@ In the past years, game theory is introduced into the radio resource management 
 The theory origins from the economics, which deals with the relationship between buyers and sellers in markets.
 And now the researchers use the theory to handle the power control and channel allocation in Ad Hoc networks or wireless sensor networks \cite{Srivastava:2005}\cite{FangBensaou2004}.
 In fact, the theory is also considered as a mathematical method to describe the competing situation among selfish and reasonable users. 
-If a suitable game model with rules is built, it can guide the users in the model to make their decisions, which benefits themselves and others opponents.
-For example, for the rate allocations of video users, selfish users will over-subscribe the resource to maximize their payoff, leading to the degradation of overall resource utilization of the system. 
-Zhang and Liu proposed a pricing game with tax mechanism to limit the greedy behaviour of selfish users \cite{ZhangLiu2011}.
+If a suitable game model with rules is built, it can guide the users in the model to make their decisions, which benefits themselves and other's opponents.
+For example, for the rate allocations of video users, selfish users will over-subscribe the resource to maximize their payoff, leading to the degradation of an overall resource utilization of the system. 
+Zhang and Liu proposed a pricing game with a tax mechanism to limit the greedy behavior of selfish users \cite{ZhangLiu2011}.
 
 However, there is a strict assumption in these game models: all players in these games have complete information. 
-There is a central unit to exchange the information and messages among the players of the game.
-For instance, in the paper \cite{ZhangLiu2011}, all private information of players and parameters of payoff functions are transfered among users. 
+There is a central unit to exchange the information and messages between the players of the game.
+For instance, in the paper \cite{ZhangLiu2011}, all private information of players and parameters of payoff functions are transferred among users. 
 It will result in lots of messages during the game. 
-Generally, these game are called the games with complete information.
-The assumption can be think as a simple approximation of real situation. 
-But the assumption is too ideal to describe other practical problem. 
-Because the type of traffic are becoming complicated and  the accurate information of players are hardly acquired by each players.
+Generally, these games are called the games with complete information.
+The assumption can be thought as a simple approximation of practical situation. 
+However, the assumption is too ideal to describe other practical problems. 
+Because the class of traffic are becoming complicated, and  the accurate information of players is hardly acquired by each player.
 To handle the kind of problems, we introduce the Bayesian game theory to solve the problems.
 
 In the paper, we construct a new game model, called Bayesian game analysis model. 
-The model can guide the behavior of players under an incompleted information situation. 
-Each player make his reasonable decision although they do not accquire the whole and complete information of other players in the game.
+The model can guide the behavior of players under an incomplete information situation. 
+Each player makes his reasonable decision, although they do not acquire the whole and complete information of other players in the game.
 
 \section{Traffic Type and Game Model}
-\subsection{Discrete and Continous Traffic Class}
+\subsection{Discrete and Continuous Traffic Class}
 To our knowledge, the past research addresses the traffic class as a discrete form.
 For example, the voice data is almost only one traffic over GSM networks. 
 And the other media data appear over the communication systems. 
@@ -52,26 +52,26 @@ Every element in the set can be viewed as a predefined traffic class. However, t
 For example, for a same video sequence, distinct video encoders (MPEG4, H.264, H.265) or the encoding configurations lead to the different compressed video outputs.
 And the various traffic transport results are also obtained using different adaptive modulation coding or wireless channel models.
 
+Therefore, we consider that it can be extended from the discrete definition form of traffic class to a continuous definition form.
+That is, the class of each traffic can be viewed as a random variable $X$, which satisfies a statistical distribution $F(x)$.
+The value of the random variable can correspond to a practical traffic class. 
+And then we apply the continuous traffic class definition into an analysis model of Bayesian game, and examine the effects of this new definition on system resource allocation.
+In the following sections, we will construct and analyze the proposed analysis model of Bayesian game.
 
-所以，我们认为除了原有的离散式的业务类型定义以外，还可以将这种离散式分类方法推广到连续式的业务分类方法。
-这可能更接近业务本来的面目。
-在连续的情况下，业务类型其实是一个概率意义上的随机变量~$X$~，并且服从某个概率分布~$F(x)$~。
-每一种现实存在的业务类型都可以对应这个随机的变量的一个取值。
-下面我们将这种业务分类连续定义思想应用到Bayesian博弈的分析模型中，并考察业务类型对博弈结果的影响。
 
-\subsection{Bayesian博弈模型}
-\esubsection{Bayesian Game Model}
-假设在一个无线网络基站的覆盖范围内，目前有~$N$~个在线用户正在共享无线资源进行通信。
-为了能够更加公平且有效的使用资源，基站控制器会在有新的用户进入的时候，
-触发一次资源调整的方案。调整的目的是让用户根据目前自身的业务情况，重新申请合适的资源数量，
-避免一些用户长期大量占用资源。
-例如，在IEEE802.16标准中，
-基站控制器可以通过引导各个用户投票来竞争所需要的资源。
-但是由于资源有限，随着用户的数目逐渐增多，竞争就会加剧。
-有时会出现先接受服务的用户为了保证自身的服务质量，申请多于自身需求资源且不加以释放。
-如果对这种贪婪用户的情况不能有效地加以处理，那么结果会让整个系统的资源利用率恶化。
-为了能从机制上规范所有用户的资源使用行为，改变其自身的资源过多占用策略。
-我们希望通过Bayesian博弈的方式，引导用户根据自身真实的需求进行理性的资源申请和使用。
+\subsection{Bayesian Game Model}
+We assume that there are $N$ users or players who are sharing the resource provided by a communication system.
+Once a new player applies the entry permit, the control unit of the system will trigger a resource allocation and adjustment procedure.
+The target of the procedure is to make players determine the current resource application, and prevent some players from oversubscribing system resource.
+Some practical communication standards have the similar functions. 
+For example, the users in IEEE 802.16 networks apply their bandwidth requirement through a polling mechanism guided by the controller of a base station.
+Obviously, since the resource provided by the base station is limited, the competition among users becomes toucher with the increasing user number.
+Some players might occupy the more resource than his practical requirement to main the high level of quality of service.
+If the greedy behavior of users is not controlled well, all users in the system will suffer the worse communication quality.
+Furthermore, the utilization of the system   deteriorates quickly.
+So we proposed a Bayesian game model and its resource allocation mechanism to address the problem. 
+The model can guide the players to make the reasonable decision about resource application according to their real resource requirements.
+
 
 对于我们博弈模型，我们首先做如下的假设：
 \begin{itemize}
