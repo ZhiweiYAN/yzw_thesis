@@ -14,53 +14,47 @@
 既可以保证自身的服务质量，又能让资源得到充分利用。
 %
 \section{Introduction}
-In the past years, game theory is introduced into the radio resource management by researchers. 
-The theory origins from the economics, which deals with the relationship between buyers and sellers in markets.
-And now the researchers use the theory to handle the power control and channel allocation in Ad Hoc networks or wireless sensor networks \cite{Srivastava:2005}\cite{FangBensaou2004}.
-In fact, the theory is also considered as a mathematical method to describe the competing situation among selfish and reasonable users. 
-If a suitable game model with rules is built, it can guide the users in the model to make their decisions, which benefits themselves and other's opponents.
+Game theory origins from the economics, and handles the relationship between buyers and sellers in economical markets.
+Recently, the theory has been also introduced into the radio resource management by researchers. 
+The researchers build some game models that deal with the issues about power control and channel allocation in Ad Hoc networks or wireless sensor networks \cite{Srivastava:2005}\cite{FangBensaou2004}.
+In fact, the models is also considered as a mathematical method to describe the competing situation among selfish users and reasonable users. 
+If a game model with suitable rules is built, it can guide the users in the model to make reasonable decisions that benefits those users themselves and other's opponents.
 For example, for the rate allocations of video users, selfish users will over-subscribe the resource to maximize their payoff, leading to the degradation of an overall resource utilization of the system. 
 Zhang and Liu proposed a pricing game with a tax mechanism to limit the greedy behavior of selfish users \cite{ZhangLiu2011}.
 
-However, there is a strict assumption in these game models: all players in these games have complete information. 
-There is a central unit to exchange the information and messages between the players of the game.
-For instance, in the paper \cite{ZhangLiu2011}, all private information of players and parameters of payoff functions are transferred among users. 
-It will result in lots of messages during the game. 
+However, there is such a strict assumption in these game models: all players in the games have complete information, which includes the private information of players, system status and so on. 
+Meanwhile, there is a central unit to exchange the information and messages between the players of the game.
+For instance, in the paper \cite{ZhangLiu2011}, all private information of players including all parameters of payoff functions are transferred among players. 
 Generally, these games are called the games with complete information.
 The assumption can be thought as a simple approximation of practical situation. 
-However, the assumption is too ideal to describe other practical problems. 
-Because the class of traffic are becoming complicated, and  the accurate information of players is hardly acquired by each player.
-To handle the kind of problems, we introduce the Bayesian game theory to solve the problems.
+In the paper, we consider another kind of games with incomplete information,
+because the class of traffic of players in these communication systems are becoming complicated, and the accurate information of each player is hardly acquired by other players.
+To handle the kind of problems, we introduce the Bayesian game theory, and construct a new game model, called Bayesian game analysis model. 
+The model can describe the behaviors of players under an incomplete information situation. 
+ Although they do not acquire the whole and complete information of other players in the game, each player still makes his reasonable decision,.
 
-In the paper, we construct a new game model, called Bayesian game analysis model. 
-The model can guide the behavior of players under an incomplete information situation. 
-Each player makes his reasonable decision, although they do not acquire the whole and complete information of other players in the game.
-
-\section{Traffic Type and Game Model}
+\section{Traffic Class and Game Model}
 \subsection{Discrete and Continuous Traffic Class}
-To our knowledge, the past research addresses the traffic class as a discrete form.
+To our knowledge, the past lectures addresses the traffic class as a discrete form.
 For example, the voice data is almost only one traffic over GSM networks. 
-And the other media data appear over the communication systems. 
-The different standards of the communication  specify their defined traffic classes.
+When the other media data appear over the communication systems,
+the different standards of the communication  specify their defined traffic classes.
 For instance, there are four classes in the 3GPP standard: conversational, streaming, interactive, and background.
 In IEEE 802.16, it includes the five classes: UGS, rtPS, ertPS, nrtPS, BE.
 The principle of traffic classification can be considered as the content of traffic or the transport characteristic of traffic.
 The voice, video, text and pictures are classified on the content of traffic. 
 The transport characteristics of traffic are bandwidth requirement, delay and jitter and so on. 
-In summary, as a view of statistic theory, all traffic classes can construct a class set or a class space $Omega$. 
+In summary, as a view of statistic theory, all traffic classes can construct a class set or a class space $\Omega$, which includes a limited number of elements. 
 Every element in the set can be viewed as a predefined traffic class. However, the definition of traffic class cannot  describe the characteristic of traffic exactly.
 For example, for a same video sequence, distinct video encoders (MPEG4, H.264, H.265) or the encoding configurations lead to the different compressed video outputs.
-And the various traffic transport results are also obtained using different adaptive modulation coding or wireless channel models.
 
-Therefore, we consider that it can be extended from the discrete definition form of traffic class to a continuous definition form.
-That is, the class of each traffic can be viewed as a random variable $X$, which satisfies a statistical distribution $F(x)$.
-The value of the random variable can correspond to a practical traffic class. 
-And then we apply the continuous traffic class definition into an analysis model of Bayesian game, and examine the effects of this new definition on system resource allocation.
-In the following sections, we will construct and analyze the proposed analysis model of Bayesian game.
+Therefore, we consider that the definition can be extended from the discrete form of traffic class to a continuous form.
+That is, the class of each traffic can be viewed as a random variable $X$, which satisfies a statistical continuous distribution $F(x)$.
+The value of the random variable corresponds to a practical traffic class. 
+And then we apply the continuous traffic class definition into an analysis model of Bayesian game, and examine the effects of this new definition on  resource allocation and management.
 
-
-\subsection{Bayesian Game Model}
-We assume that there are $N$ users or players who are sharing the resource provided by a communication system.
+\subsection{Proposed Bayesian Game Model}
+We assume that there are $N$ users or players who are sharing the bandwidth resource provided by a communication system.
 Once a new player applies the entry permit, the control unit of the system will trigger a resource allocation and adjustment procedure.
 The target of the procedure is to make players determine the current resource application, and prevent some players from oversubscribing system resource.
 Some practical communication standards have the similar functions. 
@@ -72,53 +66,47 @@ Furthermore, the utilization of the system   deteriorates quickly.
 So we proposed a Bayesian game model and its resource allocation mechanism to address the problem. 
 The model can guide the players to make the reasonable decision about resource application according to their real resource requirements.
 
-
-对于我们博弈模型，我们首先做如下的假设：
+To the game model, there are the following assumptions:
 \begin{itemize}
-    \item 假设博弈参与者业务类型可以与“参与者成本”相对应。也就是说，我们使用“参与者成本”这个随机变量来表征参与者的业务类型特征。
-    \item 假设代表参与者成本的随机变量是独立同分布的，并且其累积概率分布函数~$P(\cdot)$~在区间~$[C_{\min}=0, C_{\max}=1]$~是连续增函数，
-    \item 假设每个参与者自身的成本的具体取值是私有的知识，其他的参与者并不知道。
-    这里需要注意是，参与者虽然不知道其他参与者成本随机变量的具体数值，但是知道这个随机变量的分布函数。
-    之所以做这样假设的原因是，在实际中我们是通过统计的方法获得参与者类型的概率分布。这个信息是公共知识。
-    \item 假设模型中的参与者的收益函数也是公共知识。这个信息被所有博弈参与者提前广播通知到的。
+    \item Assume that the class of players is denoted by so-called 'player cost', which is a random variable.
+    \item Assume that the random variable of player cost are independent and follow the same statistic distribution.
+        The accumulative distribution function $P(\cdot)$ is a increasing function with the interval ~$[C_{\min}=0, C_{\max}=1]$.
+    \item Assume the cost of a player is a private knowledge  which other players in the game do not know.
+        It should be noticed that other players do not know the exact cost value of a player, but the distribution function of player cost.
+        That is, the distribution function can be found through plenty of samples in a practical condition.
+    \item The payoff function of a player is also known for every players, which can be broadcast ed in advance.
 \end{itemize}
 
-整个资源分配的过程分成两个步骤。
-第一步，是用户选择与博弈阶段。
-资源分配单元要征求所有~$N$~个博弈参与者的意见，是否参与本次的资源分配调整过程。
-每个参与者都要在这个博弈过程中做出这样的决策：是否同意根据目前自身的情况，只分配最低限度的资源占用数量，从而释放出剩余的资源。
-相应的，参与者有两种选择：“慷慨”(Generosity)或是“自私”（selfishness）。
-如果选择“慷慨”，系统将按他的所需要的最低资源需求量进行配给。
-如果选择“自私”，系统将按他目前申请的资源需求量进行配给。
-第二步，资源分配的实施过程。资源分配单元按照参与者在第一步的决定分配物理意义上的无线资源，如带宽或子信道。
+The procedure of resource allocation is divided into two phrases:
+In the first phrase, players in the game choose their choice between 'Generosity' and 'Selfishness'.
+Here, the choice 'generosity' means that the player agree on decreasing his resource demand. 
+And he will release its redundancy occupied resources and apply his the minimum resource need.
+On the other hand, the choice 'selfishness' denotes that a player is unwilling to decrease his resource demand, and he applies his resource demand according to his need.  In the second phrase, the resource allocation controller allocates the overall resource among these players according to their decisions.
 
-首先，我们定义博弈的策略。
-显然，参与者在第一步中的选择是关键。
-这种选择形式是典型的~$0-1$~决策。
-对于任意一个参与者而言，他的策略选择可以用变量~$s_i$~来描述，如\eqref{eqn:chap_bayesian_strategy_definition}所示。
+Obviously, 'Be generosity or not to be', that is the important point in the first phrase. It can be considered as $0-1$ decision problem.
+For any player, his strategy is described by the function $s_i$, shown in \eqref{eqn:chap_bayesian_strategy_definition}.
 \begin{align}
     s_i = \begin{cases}
-        1, \qquad\text{慷慨}\\
-        0, \qquad\text{自私}\\
+        1, \qquad\text{Generosity}\\
+        0, \qquad\text{Selfishness}\\
     \end{cases}
     \label{eqn:chap_bayesian_strategy_definition}
 \end{align}
-其中，此函数的定义域是成本区间~$[C_{\min}, C_{\max}]$~，值域是集合~$\{0,1\}$~中取任意一个值。
-“~$1$~”表示参与者愿意“慷慨”；“~$0$~”表示参与者“自私”；
-~$i$~表示参与者的序号索引。
+where the interval of a player cost is $[C_{\min}, C_{\max}]$，and the value set is $\{0,1\}$。
+$1$ denotes generosity and $0$ denotes selfishness. 
+~$i$~ is the index of a player。
 
-然后，我们定义博弈中的参与者收益。
-从前面的叙述中可知，在资源有限的情况下，这种博弈本质是一种零和博弈。
-每一个自私的参与者希望别的参与者选择“慷慨”，
-而自身选择“自私”，不改变目前资源的占用数量。
-如果有参与者~$i$~选择“慷慨”，那么我们认为其他选择“自私”的参与者都会因他的“慷慨的行为”而获益~$b=1$~。
-而这名博弈参与者所得的收益为~$b-c_i= 1-c_i$~。
-显然在此情况下，选择“慷慨”的参与者收益要小于选择“自私”的参与者收益。
-但是，为了鼓励参与者选择“慷慨”而且研究选择“慷慨”的参与者数目对博弈结果的影响，我们做如下的假定：
-如果选择“慷慨”的参与者数目小于$m$； 其它的参与者都选择“自私”，
-不愿意“牺牲”自己的利益，那么所有参与者的获益都将是~$b$~为~$0$~。
+Then, we define the payoff of a player.
+Under the resource limited condition, the game is a zero-sum game. 
+A player hopes that other players choose 'generosity' while he choose the choice 'selfishness'.  
+Thus, if there are some players choose 'generosity', those players who choose 'selfishness' will benefit from the generosity decisions.
+We denote the benefit of a 'selfishness' player $b=1$。
+The payoff of 'generosity' players is $b-c_i= 1-c_i$。
+Because of $c_i>0$, the payoff of the generosity players are less than the payoff of the selfishness players. 
+However, in order to encourage the players to choose 'generosity', we define a punish mechanism:
+If the number of the generosity players is less than $m$ that is set in advance, the payoffs of all the players are zero, ~$b=0$~。
 
-那么，对于参与者~$i$~来说，他的收益函数定义为\eqref{eqn:chap_bayesian_player_payoff}：
+So, for a player ~$i$~，the his payoff is defined as \eqref{eqn:chap_bayesian_player_payoff}：
 \begin{equation}
  u_i(s_i, s_{-i}, c_i, m) = s_i\cdot (1 - c_i) + (1-s_i) \cdot \Phi(s_{-i},m)
 \label{eqn:chap_bayesian_player_payoff}     
