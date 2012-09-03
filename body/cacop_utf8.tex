@@ -125,19 +125,20 @@
 \subsection{QoS水平映射模型与带宽资源分配}
 \esubsection{QoS Level Mapping Model and Resource Allocation}
 在以往的大多数文献中，也出现了一些关于接纳控制方面的QoS研究工作。
-他们对用户或系统的QoS评价指标一般直接从网络底层，如物理层或MAC层，直接获得。
+他们对用户或系统的QoS评价指标一般从网络底层，如物理层或MAC层，直接获得。
 譬如，带宽资源的利用率、掉话率或呼叫中断概率等等。
-但是很少有从应用层QoS来研究呼叫接纳控制的。
-我们认为，对于用户从应用层感受到的QoS与底层网络QoS参数是区别的。
-如果一个通信网络是以用户服务为中心的话，那么
+很少有从应用层QoS来研究呼叫接纳控制的。
+实际上，对于用户从应用层感受到的QoS与底层网络QoS参数是区别的。
+如果一个通信网络是以用户服务质量满意程度为设计原则的话，那么
 对于业务连接的QoS评价也应该最好从应用层来评价。
 但是，由于目前的通信网络是基于分层结构原则来设计的，上层如果需要传递给下层新的信息，就要大量修改或重新制定分层设计中的协议。
-这对目前通信网络的结构冲击太大，会造成网络的大规模改造，网络的实际布署困难很大。
+这样的改进对目前通信网络的结构冲击太大，需要对目前的通信网络进行大规模的改造，网络的实际布署困难很大。
 因此，
 我们提出可以通过一个预先构造好的QoS的映射模型，利用底层当前所能获得的参数信息将上层QoS参数估计出来。
-这样的话，就可以最大程度地兼容现有的通信网络。
+这样就可以最大程度地兼容现有的通信网络。
 对于业务连接而言，最重要的链路层网络参数就是它们所分配到的带宽资源 ~$\mathbf{b}$~。
-下面，我们结合具体的业务类型实例，对带宽资源与各项业务QoS之间的映射模型做详细的分析。
+如果通常这样一个简单的参数来估计用户的服务质量水平呢？ 
+下面，我们结合具体的业务类型实例，对连接所分配到的带宽资源与各项业务QoS之间的映射关系做详细的分析。
 
 \begin{enumerate}[(1)]
     \item UGS业务与QoS评价：
@@ -154,7 +155,7 @@
 R = R_0 − I_s − I_d − I_e + A 
 \end{equation}
 其中，~$R_0$~ 表示基本的信噪比SNR。
-~$I_s$~ 表示对于话音信号的损失之和。
+~$I_s$~ 表示对于话音信号而言的损失之和。
 ~$I_d$~ 表示延时对通信的损害。
 ~$I_e$~ 表示由于低码率的编码方式对话音质量的影响。
 ~$A$~ 是一个优势因子（advantage factor），表示用户的容忍度。
@@ -166,13 +167,15 @@ R = 93. 4 - I_d ( T_a ) -I_e ( codec, loss )
 其中，~$I_d$~是一个单程延时函数。
 %（在我们例子中，我们假设资源是以Kbps的单位进行分配的，同时分配的延时较小可以被忽略。）
 ~$I_e$~ 代表编码器的类型及丢包情况。
-我们通过E模型计算器来得到不同的丢包状况下的话音质量R因子的值\cite{ITU:EModel:Caculator}。 
+通过E模型计算器可得到不同的丢包状况下的话音质量R因子的值\cite{ITU:EModel:Caculator}。 
 结果如表\ref{tb:R_factor}所示。
 从表中的结果数据可以看出，话音业务对带宽资源极为敏感而且对丢包容忍度较低。
 根据ITU提供的参考标准，R因子如果小于~$50$~则表明话音质量很差，用户很不满意。
 
 \begin{table}[tb]
 %\caption{R-Factor vs. Packet Loss} \label{tb:R_factor}
+\setlength{\abovecaptionskip}{2pt}
+\setlength{\belowcaptionskip}{8pt}
 \caption{R因子与丢包率} \label{tb:R_factor}
 \begin{center}
 \wuhao
@@ -186,7 +189,7 @@ R-因子: &93.2& 84.6& 71.3& 61.5& 54.1& 48.2& 45.2& 29.9\\
 \end{center}
 \end{table}
 
-据此，我们尝试定义UGS业务的服务质量评估公式，如\eqref{eqn:chap_cacop:metric_voice}所示。
+因此，UGS业务的服务质量评估公式可以定义为，如\eqref{eqn:chap_cacop:metric_voice}所示。
 \begin{equation}
 \label{eqn:chap_cacop:metric_voice}
 \alpha^{UGS}=
@@ -214,7 +217,7 @@ R-因子: &93.2& 84.6& 71.3& 61.5& 54.1& 48.2& 45.2& 29.9\\
 \item rtPS业务与QoS评价： 
 rtPS应用中最典型的是视频应用。
 在视频传输或编码研究中，峰值信噪比（peak signal-to-noise ratio，PSNR）是最常见的视频质量评价方法。
-它所采用的方法是将原始图像~$I$~与受损的重建图像~$K$~之间做逐像素的比较，
+它采用的方法是将原始图像~$I$~与受损的重建图像~$K$~之间做逐像素的比较，
 如\eqref{eqn:chap_cacop:psnr}所示。 
 %
 \begin{align}
@@ -234,19 +237,19 @@ MSE = \frac{1}{MN} \sum_{i=0}^{M-1}\sum_{j=0}^{N-1} \left[I(i,j) - K(i,j)\right]
 尽管PSNR在视频编码和解码研究领域广泛使用，但是它却不能直接在接纳控制单元中使用。
 原因有两方面。一方面是，如果要想得到视频帧的PSNR的值，就要对压缩视频解码并恢复为YUV的图像帧。
 这就意味着在MAC层中要嵌入视频解码单元。这一要求不太现实。
-另一方面，PSNR的计算要有参考帧的图像。它是指压缩前的原始视频图像。
-在一个通信网络中，这些数据对于接纳控制单元而言是不可能提前得到的。
-而我们在数据链路层或MAC层所能得到的最重要的信息就是带宽分配的情况~$b$~，以及业务连接对带宽需求的申请情况~$B$~。
+另一方面，PSNR的计算要有参考帧的图像。它是指压缩前的原始视频图像（Raw Picture）。
+在一个通信网络中，这些数据对于接纳控制单元而言是不可能得到的。
+而在数据链路层或MAC层所能得到的最重要的两个基本信息就是最终的带宽分配的情况~$b$~，以及业务连接对带宽需求的申请情况~$B$~。
 
-最简单的方案是，我们可以类比网络吞吐量的比值，将~$\frac{b}{B}$~当做是评估视频连接的QoS。不幸的是，视频质量与比值~$\frac{b}{B}$~并不是简单的线性关系
+最简单的方案是，可以类比网络吞吐量的定义，将~$\frac{b}{B}$~当做是评估视频连接的QoS。不幸的是，视频质量与比值~$\frac{b}{B}$~并不是简单的线性关系
  \cite{He1013856}。
-我们要寻找别的替代方案。这个替代方案要能够反应出服务质量与视频质量PSNR的关系，又能在数据链路或MAC层中方便地实现。
+所以，要寻找别的替代方案。这个替代方案要能够反应出服务质量与视频质量PSNR的关系，又能在数据链路或MAC层中方便地实现。
 我们发现，率失真优化（rate distortion optimization，RDO）思想可以引入到我们的问题中来。
 率失真优化是一种研究码率与压缩视频质量关系的方法
 \cite{He1013856}\cite{E-H-Yang.TIP.2007} \cite{J-Y-Liu.ICIP.2009} 。
 这种方法的目的是要建立视频的失真（损失）与所分配的码率之间的关系模型。
 通过考察这个模型来对编码的码率做出指导。
-从资源分配的角度看，视频质量的确与带宽分配之间的存在着类似的紧密联系。
+从资源分配的角度看，视频质量与带宽分配之间也存在着类似的紧密联系。
 为了能够找到一个合适的模型来描述视频质量与带宽分配之间的关系，我们尝试构造并比较了一些典型的拟合模型，对一些标准视频序列做了大量测试，详见附录1。 测试的结果比较类似。 例如，表\ref{tb:chap_cacop:fit_functions}就是结果之一。
 \begin{table}[tb]
 \caption{拟合模型与结果（以Foreman为例）} 
@@ -282,7 +285,7 @@ ID& $f(x)$ & SSE & Adjusted R-square\\
 同时，它与最好多项式模型差距不大。
 三是，指数模型可以涵盖其它类型的业务。
 这样我们可以用统一的模型来表达多种业务的服务质量。
-在下面小节中，我们将会看到这一点。
+在接下来的内容中，我们将会解释这一点。
 
 为了能兼容其它的业务，这里我们将指数模型进行归一化的处理，如
 \eqref{eqn:chap_cacop:qos_level_users}所示。
@@ -294,13 +297,13 @@ ID& $f(x)$ & SSE & Adjusted R-square\\
 ~$\alpha^{rtPS}$~ 表示归一化后的视频流或rtPS数据流的服务质量QoS。
 ~$PSNR_b$~ 和 ~$PSNR_B$~ 分别表示编码的码率为~$b$~ 和 ~$B$~的视频质量。
 ~$\rho$~ 代表 rtPS连接的数据流特征值。
-每一个rtPS流都会有自己的特征值~$\rho$~。我们假定它在传输之前可以确定下来。
+每一个rtPS流都会有自己的特征值~$\rho$~。假定它在传输之前可以在编码器编码的过程中确定下来。
 ~$e^{-\rho \frac{b}{B}}$~部分表示失真。
 ~$1- e^{-\rho \frac{b}{B}}$~表示连接的QoS值。
 分母~$1-e^{-\rho}$~是用来做归一化处理而引入的。
-~$b$~ 表示当前连接所分配到的带宽数量，并且要求它大于它的最低带宽要求~$B_{\min}$~。
+~$b$~ 表示当前连接所分配到的带宽数量，通常要求它大于它的最低带宽要求~$B_{\min}$~。
 ~$B$~表示当前连接需求的带宽数量。
-为了进一步验证此模型有效，我们对不同标准视频序列按不同码率编码，结果如 \ref{fig:chap_cacop:qos_rate_cac}所示。
+为了进一步验证此模型有效，我们对不同标准视频序列按不同码率编码，结果如图 \ref{fig:chap_cacop:qos_rate_cac}所示。
 图中的各项参数也是归一化后的。
 为了便于比较，我们在结果图中增画一条~$\rho=4$~的曲线。
 从图中各条曲线可以看到，所提出的以带宽参数值~$b,B$~及业务特征值~$\rho$~为基础的服务质量评估的模型可以用做rtPS或视频连接的服务质量的估计。
@@ -317,7 +320,7 @@ ID& $f(x)$ & SSE & Adjusted R-square\\
 HTTP（Hypertext Transfer Protocol）是互联网数据传输中最重要的应用层协议之一\cite{Fielding_1999}。 
 由于其简捷、快速的方式特点，适用于分布式超媒体信息系统。
 FTP是用于在网络上进行文件传输的一套标准协议。它也属于网络协议组的应用层。用于Internet上的控制文件的双向传输。
-同时，它也是一个应用程序（Application）。用户可以通过它把自己的计算机与运行FTP协议的服务器相连，访问和下载服务器上的程序和信息 \cite{Postel_Reynolds_1985}。
+同时，它也是一个应用程序（Application）。用户可以通过它把自己的计算机与运行FTP协议的服务器相连，访问和下载服务器上的程序和数据 \cite{Postel_Reynolds_1985}。
 这两类业务应用的共同点是用户对服务质量的要求取决于在发送端发送数据的总量与接收端已接收数据量的多少。
 所以，我们把这类应用的服务质量简单地定义为\eqref{eqn:chap_cacop:BE_metric} 。
 %
@@ -328,26 +331,27 @@ FTP是用于在网络上进行文件传输的一套标准协议。它也属于�
 %
 其中，~$b$~是分配得到的带宽资源，~$B$~是对于BE类应用而言所需的带宽资源。
 它们的比值就可以表示这类应用连接的服务质量水平。
-对于最后一类业务nrtPS，我们假定他们的业务与BE的类型类似，也用 \eqref{eqn:chap_cacop:BE_metric} 表示。
+为了简单起见，对于业务nrtPS，假定此类业务特征与BE的类型类似，也用 \eqref{eqn:chap_cacop:BE_metric} 表示。
 \end{enumerate}
 
-综上所述，因为各类业务的服务质量的计算公式差别不大，下面我们将它们总结一下。
-我们注意到\eqref{eqn:chap_cacop:qos_level_users}在业务特征值~$\rho$~趋向于$0$时存在极限，
-且恰好是BE业务的服务质量计算公式。 我们也因而可以假设这类业务的特征值$\rho$很小。
+综上所述，因为各类业务的服务质量计算公式差别不大，下面将它们总结一下。
+我们注意到\eqref{eqn:chap_cacop:qos_level_users}在业务特征值~$\rho$~趋向于$0$时存在极限，如\eqref{eqn:BE_limit}所示。
+而且，它恰好是BE业务的服务质量计算公式。 所以，可以假设这类业务的特征值$\rho$很小。
 %
 \begin{equation}
 \label{eqn:BE_limit}
 \lim\limits_{\rho \to 0 } \frac{1- e^{-\rho \frac{b}{B} }}{1-e^{-\rho}} = \frac{b}{B}
 \end{equation}
 
-所以我们将\eqref{eqn:chap_cacop:BE_metric}改写为\eqref{eqn:chap_cacop:BE_metric_2}
+所以我们将\eqref{eqn:chap_cacop:BE_metric}改写为\eqref{eqn:chap_cacop:BE_metric_2}。
 %
 \begin{equation}
 \label{eqn:chap_cacop:BE_metric_2}
 \alpha^{others} = \frac{b}{B} = \frac{1- e^{-\rho \frac{b}{B} }}{1-e^{-\rho}} \quad \text{if} \quad \rho \to 0
 \end{equation}
 %
-最后我们将各种业务类型的服务质量评估公式整理后，可得\eqref{eqn:chap_cacop:alltype_metric}
+
+最后，将各种业务类型的服务质量评估公式整理后，可得\eqref{eqn:chap_cacop:alltype_metric}。
 %
 \begin{equation}
 \alpha = 
@@ -359,7 +363,7 @@ FTP是用于在网络上进行文件传输的一套标准协议。它也属于�
 \label{eqn:chap_cacop:alltype_metric}
 \end{equation}
 
-\section{基于QoS水平映射模型的资源分配的优化与相应的接纳控制算法}
+\section{基于QoS映射模型的资源分配优化与接纳控制算法}
 \esection{Optimum of Resource Allocation and CAC alogorithm with QoS Level Mapping Model}
 \subsection{资源分配的优化}
 \esubsection{Optimum of Resource Allocation}
