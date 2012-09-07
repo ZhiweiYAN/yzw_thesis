@@ -2,14 +2,14 @@
 \chapter{基于议价博弈的多用户资源分配策略}
 \echapter{Bargaining Game on Resource Allocation for Multiple Users}
 %\label{chap_nash_bargain}
-在带宽资源受限的无线网络中，多用户的多媒体应用，诸如视频点播、在线游戏或网页浏览等都十分常见。
-用户对资源的需求存在着天然的竞争性。
-为了能够保证每个用户业务的正常进行，系统资源分配的算法需求照顾到每个应用的不同服务质量要求。
-博弈论作为在经济学中已经普遍使用的一门数学理论，近年来也被用来解决无线资源管理的问题。
-本章我们提出的基于议价的合作博弈模型，
+在带宽资源受限的无线网络中，多用户的多媒体应用，诸如视频播放、在线游戏或网页浏览等都十分常见。
+多个用户对资源的需求存在着天然的竞争性。
+为了能够保证每个用户业务的正常进行，系统资源分配的算法需求照顾到系统中每个应用的不同服务质量要求。
+博弈论作为在经济学中已经普遍使用的一门数学理论，近年来也被引入到无线通信领域，特别是用来解决无线资源管理的问题。
+在本章中，我们提出了基于议价的合作博弈模型来描述系统中用户之间的竞争状况。通过对这个模型的求解，
 可公平地把系统资源分配给网络中的每个用户。
-所提到的纳什议价解是一个公平且优化的资源分配解决方案。
-这个解决方案既可以使系统资源充分利用，又能保证每个用户资源分配的公平性。
+所得到的纳什议价解是一个公平且优化的资源分配解决方案。
+这个方案既可以使系统资源充分利用，又能保证每个用户资源分配的公平性。
 
 \section{引言}
 \esection{Introduction}
@@ -18,32 +18,35 @@
 它最初提出的原因是为了要解决在经济活动中，双边垄断市场结构下的价格决定问题。
 例如，对于日常经济活动中的房屋买卖问题。
 博弈的一方是卖房者，另一方是买房者。
-双方都基于一个共同的利益基础，以一个合适的价格来完成房屋产权的转移。
-然而，这里存在着一个潜在的冲突和矛盾：卖房者期望一个高的卖出价格的同时，买房者却期望一个低的买入价格。
-但是，与此同时，双方也都不想失去可能因合作而获得的收益机会，
+双方都基于一个共同的利益基础，希望以一个合适的价格来完成房屋产权的转移。
+然而，这个过程中存在着一个潜在的冲突和矛盾：当卖房者期望一个高的卖出价格的同时，买房者却期望一个低的买入价格。
+与此同时，双方也都不想失去可能因合作而获得的收益机会，
 那么，他们一定会寻找一个方法来解决这个矛盾。
 在传统的经济学供给需求分析框架中，我们不能确切地知道最终的均衡价格到底在什么位置。
-传统的理论只是模糊地说，均衡价格取决于博弈双方的谈判能力，也就是所谓的“议价能力”。
+传统的经济学理论只是模糊地说，均衡价格取决于博弈双方的谈判能力，也就是所谓的“议价能力”。
 但是议价能力的具体描述取决于一些比较模糊的因素，例如双方的谈判次数、市场对谈判的期望等等。
-议价理论的出现，使得经济学家们可以用数理的方式解决这些类似的问题。
+最终，博弈议价理论的出现，使得人们可以用数理的方式解决这些类似的问题。
 
 议价理论在博弈理论的研究中十分重要，它更加完善地考虑到了个人理性与集体理性的问题。
+
 \begin{itemize}
 \item 个人理性：对于博弈双方而言，
-双方在议价解下所得的效用要必须高于双方不进行或放弃博弈所得的效用。
-也就是说博弈者为了得到更高的收益主动地进行议价博弈。
-\item 集体理性：议价最终结果应该是具有帕累托最优性质。
-任何一方都不可能在不损害对方利益的情况下增加自己的收益。
+双方在议价解下所得的效用要必须高于双方不进行博弈或放弃博弈所得的效用。
+也就是说博弈者为了得到更高的收益而主动地进行议价博弈。
+\item 集体理性：议价最终结果应该具有帕累托（Pareto）最优性质。
+在达到最终的议价结果时，任何一方都不可能在不损害对方利益的情况下增加自己的收益。
 \end{itemize}
+
 例如，如\figref{fig:chap_bargain:bargain_basic_concept}所示。
 其中，~$u_1$~与~$u_2$~表示议价双方各自的收益。
 集合~$\phi$~是所有可能出现的效用向量~$\mathbf{u}=(u_1,u_2)$~的集合。
-~$\mathbf{d}=(u_1^d, u_2^d)$~表示博弈双方如果不能达成合作协议时，最终双方取得的效用向量。
+~$\mathbf{d}=(u_1^d, u_2^d)$~表示博弈双方提前约定如果不能达成合作协议时，最终双方取得的效用向量。
 扇形区域~$BdC$~表示所有符合个人理性的效用向量集合，而集合的边界弧线ABCD表示符合集体理性的效用向量集合。
 两者的交集弧BC是可能的议价区域，包括了所有可能达到的议价解。
 不难理解，BC弧上所有的点都具有帕累托最优的性质。
 但是最终的议价解将出现在什么位置就不得而知。
-如果想获得唯一的议价解，就需要对上述议价问题附加一些其他的条件（我们将在小节 \ref{subsec:chap_nash:math_analysis} 中继续讨论）。
+如果想获得唯一的议价解，就需要对上述议价问题附加一些其他的条件。
+接下来，我们先建立一个议价的博弈模型，然后再讨论这些附加的条件。
 \begin{figure}[!tb] 
     \centering
    \begin{minipage}[t]{0.65\linewidth} 
@@ -59,18 +62,22 @@
 \esection{Game Model of Resource Allocation}
 \subsection{议价博弈建模}
 \esubsection{Modelling the Bargaining Game}
-类似的，如果在一个资源受限的无线网络系统中，存在有~$n$~个用户。
-他们以合作的方式或“议价”的方式来分配网络所提供的资源，例如带宽。
+假设在一个资源受限的无线网络系统中，存在有~$n$~个用户。
+他们以合作的方式或“议价”的方式来分配网络所提供的带宽资源。
 每一个用户都有自己的效用函数~$U_i(b_i)$~。
 效用函数由它当前分配到的带宽~$b_i$~、期望申请到的带宽~$B_i^{req}$~和一个最低效用~$U_i(b_{0i})$~决定。
-最低效用也被定义为分歧点（Disagreement Point）， ~$d$~；这是用户为了防止最终没能达成合作协议时预先确定会得到的效用。
-令~$\phi = \{ \mathbf{U} \} \subset R^n$~为效用的集合，其中，~$\mathbf{U} =( u_1 =U_1(b_1), \ldots, u_n = U_n(b_n))$~。令~$\mathbf{d} = (d_1, \ldots, d_n)$~是用户的分歧点，其中，~$d_i = U_i(b_{0i})$~。
-所以，此博弈问题可定义为 ~$(\mathbf{\phi,d})$~。
-接下来我们来描述博弈的细节。
+这里，我们假设最低效用被定义为分歧点（Disagreement Point）， ~$d$~。 
+分歧点的设置是用户之间为了防止最终没能达成合作协议时预先确定的的效用收益。
+令~$\phi = \{ \mathbf{U} \} \subset R^n$~为效用的集合。
+其中，~$\mathbf{U} =( u_1 =U_1(b_1), \ldots, u_n = U_n(b_n))$~。
+令~$\mathbf{d} = (d_1, \ldots, d_n)$~是用户的分歧点。
+其中，~$d_i = U_i(b_{0i})$~。
+所以，此博弈问题定义为 ~$(\mathbf{\phi,d})$~。
+接下来我们来描述此博弈的细节。
 
 首先定义博弈参与者的效用。
-在前面章节（呼叫接纳控制算法）中，我们曾经定义过服务质量水平。
-此处我们延用指数函数归一化形式来定义用户连接的QoS水平，如\eqref{eqn:chap_nash:qos_definition} 所示。
+在第 \ref{chap_cacop} 章（呼叫接纳控制算法）中，我们曾经定义过服务质量水平。
+此处我们仍旧延用指数函数归一化形式来定义用户连接的QoS水平，如\eqref{eqn:chap_nash:qos_definition} 所示。
 \begin{equation}
 QoS = \frac{1- e^{-\rho \frac{b}{B} }}{1-e^{-\rho}}, \rho > 0
 \label{eqn:chap_nash:qos_definition}
@@ -88,23 +95,15 @@ QoS = \frac{1- e^{-\rho \frac{b}{B} }}{1-e^{-\rho}}, \rho > 0
 \end{align}
 其中，下标~$i$~是指系统中的第~$i$~个博弈参与者。
 因为~$b_i\ge 0$~，且~$B_i^{req}$~和~$\rho$~都大于零，所以~$U_i(b_i)\ge0$~。
-另一方面，由于系统的资源是有限的，所以要求满足条件，~$\sum_i^n b_i \le B_{total}$~
+另一方面，由于系统的资源是有限的，所以要求满足约束条件，~$\sum_i^n b_i \le B_{total}$~
 其中，~$B_{total}$~是系统所能提供的资源数量。
 对于分歧点，我们假设每个博弈参与者有一个最低资源要求~$B_i^{\min}$~，
-令~$B_{0i} = B_i^{\min} $~，~$d_i = \rho_i \frac{B_i^{\min}}{B_i}$~。同时也要求~$b_i > B_i^{\min}$~。
+令~$B_{0i} = B_i^{\min} $~，~$d_i = \rho_i \frac{B_i^{\min}}{B_i}$~。
+同时，也要求~$b_i$~大于$B_i^{\min}$~。
 
 \subsection{议价博弈解的定义与分析}
 \label{subsec:chap_nash:math_analysis}
 \esubsection{Definition and Analysis of Bargainning Solution}
-\begin{figure}[!tb] 
-    \centering
-   \begin{minipage}[t]{0.5\linewidth} 
-    \centering 
-    \includegraphics[width = \textwidth]{chap_nash_2_dim_nash_bargain.eps} 
-    \caption{两用户议价解示意图} 
-    \label{fig:chap_bargain:2_dim_nash_bargain} 
-  \end{minipage}%
-\end{figure}
 
 我们先定义议价博弈的数学形式，然后再分析它的解的情况。
 博弈的解从数学上的表示，其实是一个映射函数，即，~$F: \mathbf{\phi} \rightarrow R^n$~，
@@ -117,10 +116,21 @@ QoS = \frac{1- e^{-\rho \frac{b}{B} }}{1-e^{-\rho}}, \rho > 0
     \label{eqn:chap_nash:points_bargain}
 \end{align}
 其中，~$\alpha_i$~表示议价能力，且满足~$\sum_{i=1}^n \alpha_i = 1$~。
-~$\mathbf{r}_i, i= 1,\dots,n$~是~$n$~维空间中一个点。~$\mathbf{s} = \alpha_i \mathbf{r}_i$~可理解为多维空间的一个超平面，且与集合~$\phi$~只有一个交点，此平面也称为支撑平面（supporting plane），记为 ~$S$~。
+~$\mathbf{r}_i, i= 1,\dots,n$~是~$n$~维空间中一个点。~$\mathbf{s} = \alpha_i \mathbf{r}_i$~为多维空间的一个超平面。
+如果与集合~$\phi$~只有一个交点，此平面也称为支撑平面（supporting plane），记为 ~$S$~。
 如果以分歧点为起始点，画出~$n$~条与空间坐标轴平行的线，那么这些平行线与平面~$S$~的交点就是~$\mathbf{r}_i, i= 1,\dots,n$~。
-所有满足上述条件的点的集合记作~$B$~，博弈论中也称之为可行集。
+所有满足上述条件的点的集合记作~$B$~，博弈论中称为可行集~$\mathbf{B}$。
 例如在二维情况下，如\figref{fig:chap_bargain:2_dim_nash_bargain}所示。这个超平面退化为一条支撑线（supporting line），而这些点~$\mathbf{r}_i, i= 1,2$~就是与过分歧点与横轴平行的线、与纵轴平行的线的交点。
+
+\begin{figure}[!tb] 
+    \centering
+   \begin{minipage}[t]{0.6\linewidth} 
+    \centering 
+    \includegraphics[width = \textwidth]{chap_nash_2_dim_nash_bargain.eps} 
+    \caption{两用户议价解示意图} 
+    \label{fig:chap_bargain:2_dim_nash_bargain} 
+  \end{minipage}%
+\end{figure}
 
 综上所述，议价博弈的符合帕累托最优的解可以写为\eqref{eqn:chap_nash:game_solution}，
 \begin{align}
@@ -129,15 +139,18 @@ QoS = \frac{1- e^{-\rho \frac{b}{B} }}{1-e^{-\rho}}, \rho > 0
 \end{align}
 注意，点~$\mathbf{s}$~也是集合~$\phi$~边界上的点。
 
-前面提到，在此情况下，符合帕累托最优的议价解不止一个，经济学家纳什提出如果满足一些条件，
+前面提到，在此情况下，符合帕累托最优的议价解不止一个。
+经济学家纳什提出如果满足一些条件，
 那么就可以确定一个唯一的、更合理的解\cite{Nash_1950}。
 
 这些条件也称之为纳什公理约束。
-此处，我们以两个参与者为例来解释。
-在一个议价博弈过程中存在有两个参与者。
-每个博弈的参与者都追求使自己的效用最大化的选择。
-我们把它们分别记为~$u_1$~和~$u_2$~。
-记号~$\phi$~表示效用向量~$\mathbf{u}=(u_1, u_2)$~的非空紧凸集合（Closed and bounded）。
+这里，我们以两个参与者为例来解释一下这些约束的意义。
+如果在一个议价博弈过程中存在有两个参与者。
+他们在博弈中可以有多种的选择。
+两者的选择会共同造成各自所得到的效用。
+很明显，他们都会追求使自己的效用最大化的选择。
+各自的效用分别记为~$u_1$~和~$u_2$~。
+类似前面的定义，记号~$\phi$~表示效用向量~$\mathbf{u}=(u_1, u_2)$~的非空紧凸集合（Closed and bounded）。
 并且，双方附加一个条件：如果博弈双方不能达成一个有约束力的协议的话，
 那么，双方将会得到效用~$\mathbf{b}=(d1, d2)$~。
 效用向量~$\mathbf{d}$~也被称作“分歧点”（disagreement points）。
@@ -165,12 +178,12 @@ QoS = \frac{1- e^{-\rho \frac{b}{B} }}{1-e^{-\rho}}, \rho > 0
 公理四描述了如果用户有相同的“分歧点”和效用函数，那么它们的效用一定相同。
 比如，对称博弈中博弈双方有完全相同的策略可能性及相同的议价能力。
 公理五表明如果效用变换函数如果是线性的，那么最终议价解是不变的。
-公理六表明如果在一个集合的议价解在一个小的子集内找到，这个子集的解也就是这个集合的解。
-如果逐步从原来的可行集中排除一些无关选择，并不改变最终的议价解。
-这在议价的过程中可以解释为博弈双方可以自愿地相互让步。
-而它的数学含义是，议价解仅仅依赖于~$\mathbf{u}^*$~邻域中可行集右上边界的形状。
+公理六表明如果在一个集合的最终议价解在一个小的子集内找到，这个子集的解也就是这个集合的解。
+也就是说，如果逐步从原来的可行集中排除一些无关选择，并不改变最终的议价解。
+这条公理在议价的过程中可以解释为博弈双方会出现自愿地相互让步。
+这些公理所描述的本质数学含义其实是：议价解仅仅依赖于~$\mathbf{u}^*$~邻域中可行集右上边界的形状。
 
-如果满足以上公理的情况下，
+如果一个博弈问题满足以上公理，
 可以证明纳什议价的唯一解便是使纳什积最大化的效用向量\cite{Nash_1950}，即
 \begin{align}
 \mathbf{u}^* = \arg \max \prod_i^n (u_i-d_i)
@@ -180,13 +193,13 @@ QoS = \frac{1- e^{-\rho \frac{b}{B} }}{1-e^{-\rho}}, \rho > 0
 \subsection{议价博弈模型求解}
 \esubsection{Solution of Game Model}
 由博弈的定义可看出，我们博弈模型首先可以满足公理一、二、四。
-因为公理三、五和六所描述的内容，从数学上来讲要求效用集合是凸集。
-所以，我们下面证明所定义的资源分配的效用向量集合~$\mathbf{\phi}$~是凸集（convex set)。
+因为公理三、五和六所描述的内容，从数学定义上来讲要求效用集合是凸集。
+所以，接下来我们证明根据\eqref{eqn:chap_nash:utility_definition}所定义的资源分配的效用向量集合~$\mathbf{\phi}$~是凸集（convex set)。
 
-定理：如果效用向量集合~$\mathbf{\phi}$~中的元素如\eqref{eqn:chap_nash:utility_definition}所定义，那么它是一个凸集。
+定理：如果效用向量集合~$\mathbf{\phi}$~中的元素如\eqref{eqn:chap_nash:utility_definition}所定义，那么这个集合是一个凸集。
 
 证明：我们知道，如果一个集合~$\mathbf{\phi}$~是凸集，
-那么对这个集合中的任意两个元素，~$\mathbf{x}$~和~$\mathbf{y}$~，以及一个任意的数~$\theta$~， ~$0\le \theta\le 1$~来说，凸组合~$\mathbf{z}=\theta \mathbf{x} + (1-\theta) \mathbf{y}$~所构成的元素也属于集合~$\mathbf{\phi}$~。
+那么对于这个集合中的任意两个元素，~$\mathbf{x}$~和~$\mathbf{y}$~，以及一个任意的数~$\theta$~， ~$0\le \theta\le 1$~来说，凸组合~$\mathbf{z}=\theta \mathbf{x} + (1-\theta) \mathbf{y}$~所构成的元素也属于集合~$\mathbf{\phi}$~。
 
 我们用大写记号~$\mathbf{X}$~ 和~$\mathbf{Y}$~表示博弈效用集合中的任意两个元素，则有
 \begin{align*}
@@ -197,18 +210,19 @@ QoS = \frac{1- e^{-\rho \frac{b}{B} }}{1-e^{-\rho}}, \rho > 0
     %\label{eqn:chap_nash:two_elements}
 \end{align*}
 其中，~$(b_1, b_2, \ldots, b_n)$~和 ~$(b_1^\prime, b_2^\prime, \ldots, b_n^\prime)$~是分配的资源数量，且满足~$b_i \ge 0$~ ，~$b_i^\prime \ge 0$~, ~$i = 1, \ldots, n$~。
-则有，
+
+那么，可以推导出 $b_i， b_i^\prime$,
 \begin{align*}
     U(b_i) &= \rho_i \frac{b_i}{B_i^{req}} \Rightarrow b_i = \frac{U(b_i)B_i^{req}}{\rho_i} \\
     U(b_i^\prime) & \rho_i \frac{b_i^\prime} {B_i^{req}} \Rightarrow b_i^\prime = \frac{U(b_i^\prime) B_i^{req}}{\rho_i}
 \end{align*}
-由于资源是受限的，所以还要满足下面的不等式关系
+又由于资源是受限的，所以还要满足下面的不等式关系
 \begin{align*}
     \sum_{i=1}^n b_i \le B_{total} \Rightarrow \sum_{i=1}^n \frac{U(b_i)B_i^{req}}{\rho_i} \le B_{total}\\
     \sum_{i=1}^n b_i^\prime \le B_{total}\Rightarrow \sum_{i=1}^n \frac{U(b_i^\prime)B_i^{req}}{\rho_i} \le B_{total}
     %\label{eqn:chap_nash:in-equation}
 \end{align*}
-接下来对于凸组合~$\mathbf{Z}$~ 则有，
+接下来对于凸组合~$\mathbf{Z}$~来说，则有，
 \begin{align*}
     \mathbf{Z} = \left( \theta U(b_1) + (1-\theta) U(b_1^\prime),    \theta U(b_2) + (1-\theta) U(b_2^\prime), \right. \\
     \ldots,  \left. \theta U(b_n) + (1-\theta) U(b_n^\prime) \right)
@@ -221,25 +235,26 @@ QoS = \frac{1- e^{-\rho \frac{b}{B} }}{1-e^{-\rho}}, \rho > 0
 为了证明\eqref{eqn:chap_nash:proof_z_in_s} 成立，则让
 \begin{align*}
     &\sum_{i=1}^{n} \frac{ \theta U(b_i) + (1-\theta) U(b_i^\prime)}{\rho_i} B_i^{req} - B_{total} \\
-    &= \theta \sum_{i=1}^n \frac{U(b_i)B_i^{req}}{\rho_i} + (1-\theta) \frac{U(b_i^\prime)B_i^{req}}{\rho_i} -B_{total} \\
+    &= \theta \sum_{i=1}^n \frac{U(b_i)B_i^{req}}{\rho_i} + (1-\theta) \sum_{i=1}^n \frac{U(b_i^\prime)B_i^{req}}{\rho_i} -B_{total} \\
     &\le \theta B_{total} + (1-\theta)B_{total} - B_{total}\\
     & \le 0
 \end{align*}
 所以，
 凸组合~$\mathbf{Z}$~也是属于集合~$\mathbf{\phi}$~的，集合~$\mathbf{\phi}$~是凸集。证明完毕。
 
-同时，我们还注意到，由于~$b_i$~的定义域是~$[0,B_i^{req}]$~，且~$B_i^{req}$~不会是零，所以集合
-~$\mathbf{\phi}$~也是有界且是闭的（bounded and close)。又因最终的纳什议价解是在凸集的边界上，我们的博弈模型也是满足其它公理的描述。
+同时，我们还注意到，由于~$b_i$~的定义域是有界闭区间~$[B_i^{min},B_i^{req}]$~，所以集合
+~$\mathbf{\phi}$~也是有界且是闭的（bounded and close)。又因最终的纳什议价解是在凸集的边界上，我们的博弈模型满足除对称性公理外的其它公理的约束。
 
-对于资源的分配而言，由于假设博弈参与者的业务不同，所以，博弈参与者对于资源需求程度也就有所不同。
-在议价博弈中，如果假设博弈的参与者在博弈过程中的议价能力不同，那么这样的假设会使得对称性公理不能满足。
+对于资源的分配而言，由于会出现博弈参与者的业务不同，所以，博弈参与者对于资源需求程度也就有所不同。
+在议价博弈中，博弈的参与者对资源需求程度的不同其实表现为博弈过程中的议价能力不同。
+那么，这样的情况会使得对称性公理不能满足。
 一般我们把不满足对称性公理的议价解称之为非对称纳什议价解（Asymmetric Nash Bargaining Solution）
 或称作一般纳什议价解（Generalized  Nash  Solution）。
-经济学家已经证明，不满足对称公理的非对称纳什议价解仍可以唯一地确定下来\cite{Osborne_Rubinstein_1994}。
-最终的解也同样可以通过使纳什积最大化来求得。
+并且，经济学家已经证明，不满足对称公理的非对称纳什议价解仍可以唯一地确定下来\cite{Osborne_Rubinstein_1994}。
+最终的解同样可以通过使纳什积最大化来求得。
 
-综上所述，我们可以将求解纳什议价解的过程，
-转化为求解纳什积的最大化问题，如\eqref{eqn:chap_nash:maximum_problem} 所定义。
+至此，我们可知，求解一般纳什议价解（GNS）的过程可转化为求解纳什积的最大化问题，
+如\eqref{eqn:chap_nash:maximum_problem} 所定义。
 \begin{align}
     \mathbf{b}^* &= \arg \max G(\mathbf{U}, \mathbf{d}) = \prod_{i=1}^n (U(b_i) - d_i)^{\alpha_i} = \prod_{i=1}^{n} \left(\rho_i \frac{b_i}{B_i^{req}} - \rho_i \frac{B_i^{\min}}{B_i^{req}} \right)^{\alpha_i} \notag\\
     & s.t. \quad \sum_i^n b_i \le B_{total} 
@@ -247,15 +262,18 @@ QoS = \frac{1- e^{-\rho \frac{b}{B} }}{1-e^{-\rho}}, \rho > 0
 \end{align}
 
 
-为了简化求解的过程，我们对~$G(\mathbf{U}, \mathbf{d})$~两边取自然对数，则有
+下面，我们来简要描述求解的过程。
+
+首先，我们对~$G(\mathbf{U}, \mathbf{d})$~两边取自然对数，则有
 \begin{align}
-    \ln G(\mathbf{U}, \mathbf{d}) &= \sum_{i=1}^{n} \ln \left(\rho_i \frac{b_i}{B_i^{req}} - \rho_i \frac{B_i^{\min}}{B_i^{req}} \right)^{\alpha_i} \notag \notag\\
+    \ln G(\mathbf{U}, \mathbf{d}) &= \sum_{i=1}^{n} \ln \left[ \left(\rho_i \frac{b_i}{B_i^{req}} - \rho_i \frac{B_i^{\min}}{B_i^{req}} \right)^{\alpha_i} \right] \notag \notag\\
+    &= \sum_{i=1}^{n} \alpha_i\ln \left[ \frac{\rho_i}{B_i^{req}} \left( b_i - B_i^{\min} \right) \right] \notag \\
     &= \sum_{i=1}^n \left[ \alpha_i \ln \left( \frac{\rho_i}{B_i^{req}} \right) + \alpha_i \ln \left( b_i - B_i^{\min} \right) \right] \notag\\
     &= \sum_{i=1}^n \alpha_i \ln \left( \frac{\rho_i}{B_i^{req}} \right) + \sum_{i=1}^n  \alpha_i \ln \left(b_i - B_i^{\min} \right) 
     \label{eqn:chap_nash:ln_format}
 \end{align}
 因为~$\rho_i, \alpha_i, B_i^{req}$~均是预先已知的系数，所以，\eqref{eqn:chap_nash:ln_format} 第一项为常数。
-则，上面优化问题可改写等价的问题为
+所以，上面优化问题又可改写等价的问题为
 \begin{align}
     \mathbf{b}^* &= \arg \max Q(\mathbf{U}, \mathbf{d}) = \sum_{i=1}^n  \alpha_i \ln \left( b_i - B_i^{\min} \right) \notag\\
     & s.t. \quad \sum_i^n b_i \le B_{total} 
@@ -328,7 +346,7 @@ QoS = \frac{1- e^{-\rho \frac{b}{B} }}{1-e^{-\rho}}, \rho > 0
     \label{eqn:chap_nash:nbs}
 \end{align}
 
-\subsection{模型中的议价能力对资源分配的影响}
+\subsection{议价能力对资源分配的影响分析}
 \esubsection{Power of Bargaining Game}
 由\eqref{eqn:chap_nash:nbs}知，
 %纳什议价解与资源比例分配算法的结果十分类似。
