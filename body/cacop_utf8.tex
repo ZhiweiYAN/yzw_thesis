@@ -365,8 +365,11 @@ FTP是用于在网络上进行文件传输的一套标准协议。它也属于�
 
 \section{基于QoS映射模型的资源分配优化与接纳控制算法}
 \esection{Optimum of Resource Allocation and CAC alogorithm with QoS Level Mapping Model}
+上一节中，我们对不同媒体的业务特征进行了细致地分析，并且对他们进行了归一化的处理。
+接下来，我们来讨论在多业务的情况下，分配方案的优化问题及相应的接纳控制算法。
 \subsection{资源分配的优化}
 \esubsection{Optimum of Resource Allocation}
+
 接纳控制的本质是为了保证各个连接良好的通信服务质量，防止新连接占用资源后对在线连接产生负面的影响。
 一个好的接纳控制方法应该在充分利用资源的前提下，保证用户的服务质量最大化。
 因此，可以将这个问题归结为一个如下的优化问题。
@@ -562,7 +565,7 @@ b_i^* & = x_iB_i = \frac{B_i}{\rho_i} \ln \frac{\rho_i}{B_i(1-e^{-\rho_i})} \\
 \subsection{接纳控制算法}
 \esubsection{Proposed CAC algorithm}
 \label{sec_alg}
-
+%%算法描述
 \begin{algorithm}[htbp]
 \SetAlgoLined
 % assume ~$B_{ava}=0$~\;
@@ -596,7 +599,6 @@ b_i^* & = x_iB_i = \frac{B_i}{\rho_i} \ln \frac{\rho_i}{B_i(1-e^{-\rho_i})} \\
 \caption{提出的接纳控制算法 (NQoSCAC)} \label{alg:chap_cacop:agr_cac}
 \end{algorithm}
 
-
 根据上一节所得到的带宽分配方案，我们提出一个接纳控制算法，称之为NQoSCAC， （Normalized QoS CAC ）。
 在此算法中，涉及到两个常见的假设。 一是假设分配到资源数量应该大于业务所需的最小数量，即
 ~$b_i^* \ge B_i^{\min}$~. 
@@ -627,7 +629,6 @@ b_i^* & = x_iB_i = \frac{B_i}{\rho_i} \ln \frac{\rho_i}{B_i(1-e^{-\rho_i})} \\
 正是因此原因，算法会尽可能将基站系统的整体效用保持在较高的水平的基础；同时，也兼顾了单个连接的需求。
 算法的详细流程如流程{\bf{ 算法 \ref{alg:chap_cacop:agr_cac}}} 所示。
 其中，步骤7、8、9用来将那些需求保护的连接排除出分配方案中。
-%%算法描述
 
 
 \section{仿真实验与结果分析}
