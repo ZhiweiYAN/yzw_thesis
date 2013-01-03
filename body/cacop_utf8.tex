@@ -164,13 +164,13 @@ R = R_0 − I_s − I_d − I_e + A
 R = 93. 4 - I_d ( T_a ) -I_e ( codec, loss )
 \label{eqn:chap_cacop:FactorR_simple}
 \end{equation}
-其中，~$I_d$~是一个单程延时函数。
+其中，~$I_d$~是一个单程延时~$T_a$~函数。
 %（在我们例子中，我们假设资源是以Kbps的单位进行分配的，同时分配的延时较小可以被忽略。）
 ~$I_e$~ 代表编码器的类型及丢包情况。
 通过E模型计算器可得到不同的丢包状况下的话音质量R因子的值\cite{ITU:EModel:Caculator}。 
 结果如表\ref{tb:R_factor}所示。
 从表中的结果数据可以看出，话音业务对带宽资源极为敏感而且对丢包容忍度较低。
-根据ITU提供的参考标准，R因子如果小于~$50$~则表明话音质量很差，用户很不满意。
+根据ITU提供的参考标准，R因子如果小于~$50$~则表明话音质量很差，用户不满意。
 
 \begin{table}[tb]
 %\caption{R-Factor vs. Packet Loss} \label{tb:R_factor}
@@ -198,9 +198,10 @@ R-因子: &93.2& 84.6& 71.3& 61.5& 54.1& 48.2& 45.2& 29.9\\
 0 &\text{others}
 \end{cases}
 \end{equation}
-其中，~$\alpha^{UGS}$~ UGS业务流的服务质量QoS的值。
+其中，~$\alpha^{UGS}$~ 表示UGS业务流的服务质量QoS的值。
 ~$b$~是所分配到的带宽；
-~$B$~表示此话音连接根据业务需要，申请的带宽资源数量。
+~$B$~表示此话音连接根据业务需要，想要申请的带宽资源数量。
+从这个公式可以看出，话音业务对申请带宽的数量要求苛刻，必须充分满足，不能打折扣。
 为了表示简洁，
 我们改写为Delta函数的形式，
 \eqref{eqn:chap_cacop:Dirac_UGS}所示。
