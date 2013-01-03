@@ -324,14 +324,14 @@ HTTP（Hypertext Transfer Protocol）是互联网数据传输中最重要的应�
 FTP是用于在网络上进行文件传输的一套标准协议。它也属于网络协议组的应用层。用于Internet上的控制文件的双向传输。
 同时，它也是一个应用程序（Application）。用户可以通过它把自己的计算机与运行FTP协议的服务器相连，访问和下载服务器上的程序和数据 \cite{Postel_Reynolds_1985}。
 这两类业务应用的共同点是用户对服务质量的要求取决于在发送端发送数据的总量与接收端已接收数据量的多少。
-所以，我们把这类应用的服务质量简单地定义为\eqref{eqn:chap_cacop:BE_metric} 。
+所以，我们可以把这类应用的服务质量定义为\eqref{eqn:chap_cacop:BE_metric} 。
 %
 \begin{equation}
 \label{eqn:chap_cacop:BE_metric}
 \alpha^{others} = \frac{b}{B}
 \end{equation}
 %
-其中，~$b$~是分配得到的带宽资源，~$B$~是对于BE类应用而言所需的带宽资源。
+类似的，公式中~$b$~是分配得到的带宽资源，~$B$~是对于BE类应用而言所起要申请的带宽资源。
 它们的比值就可以表示这类应用连接的服务质量水平。
 为了简单起见，对于业务nrtPS，假定此类业务特征与BE的类型类似，也用 \eqref{eqn:chap_cacop:BE_metric} 表示。
 \end{enumerate}
