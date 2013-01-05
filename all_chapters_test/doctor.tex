@@ -1,0 +1,149 @@
+% multiple1902 <multiple1902@gmail.com>
+% doctor.tex
+% Copyright 2011~2012, multiple1902 (Weisi Dai)
+% https://code.google.com/p/xjtuthesis/
+% 
+% It is strongly recommended that you read documentations located at
+%   http://code.google.com/p/xjtuthesis/wiki/Landing?tm=6
+% in advance of your compilation if you have not read them before.
+%
+% This work may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either version 1.3
+% of this license or (at your option) any later version.
+% The latest version of this license is in
+%   http://www.latex-project.org/lppl.txt
+% and version 1.3 or later is part of all distributions of LaTeX
+% version 2005/12/01 or later.
+%
+% This work has the LPPL maintenance status `maintained'.
+% 
+% The Current Maintainer of this work is Weisi Dai.
+%
+\documentclass[
+    doctor,
+    truefont,
+    %nofont, % remember to manally set the fonts
+    pdflinks,
+    %colorlinks,
+    %compact,
+    ]{xjtuthesis}
+
+\usepackage[vlined,ruled,linesnumbered]{algorithm2e}    
+\usepackage{booktabs}
+\renewcommand{\eqref}[1]{公式（\ref{#1}）}
+\newcommand{\figref}[1]{图~\ref{#1}~}
+\renewcommand{\algorithmcfname}{\bf ~算法~ }
+
+
+\ifnum 4>3
+%明审
+\def\authornames{\BlindPeerReviewOFF}
+\def\swithON{\BlindPeerReviewOFF}
+\else
+%盲审
+\def\authornames{\BlindPeerReview}
+\def\swithON{\BlindPeerReviewON}
+\fi
+\graphicspath{{figures/}}
+
+\begin{document}
+
+\input{../body/meta.tex}
+
+\xjtuchead
+\xjtuehead
+\xjtucinfopage
+\xjtueinfopage
+\xjtutoc
+\xjtutoe
+\clearpage
+
+\input{../body/denotation_utf8.tex}
+
+\xjtucontent
+
+\parskip 0.5mm plus 1pt
+
+\input{../body/preface_utf8.tex}
+
+%\input{../body/handover_utf8.tex}
+%
+\input{../body/cacop_utf8.tex}
+%
+\input{../body/nash_bargaining_utf8.tex}
+%
+\input{../body/bayesian_utf8.tex}
+%
+\input{../body/handover_utf8.tex}
+%
+\input{../body/conclusions_utf8.tex}
+
+\xjtuendcontent
+\bibliographystyle{GBT7714-2005NLang-UTF8}
+\xjtubib{../reference/Mendeley_Collection}
+
+%\xjtuappendix
+	\xjtuspchapter{附录}{附录 \quad 视频特征拟合结果}{Appendix }
+    \input{../body/appendix.tex}
+
+%\xjtuendappendix
+
+\xjtuspchapter{致谢}{致\qquad 谢}{Acknowledgements}
+
+\ifx\authornames\swithON
+    \input{../body/ack_utf8.tex}
+%明审
+\else
+%盲审
+\fi
+
+    
+
+\xjtuspchapter{攻读博士期间取得的研究成果}{攻读博士期间取得的研究成果}{Achievements}
+
+\ifx\authornames\swithON
+{\leftskip=3ex\parindent=-3ex
+%      \begin{enumerate}[{[}1{]}]
+[1] Yan  ZW , Liu GZ , Su R. Call Admission Control Scheme with Normalized Quality of Sevice Metric in IEEE802.16 Networks[J].  Wireless Communication and Mobile Computing.  Accpted (SCI 源).
+
+[2] Yan ZW. Optimal Call Admission Control Solution with Normalized Multimedia QoS[J]. Asian Transactions on Fundamentals of Electronics, Communication \& Multimedia, 2012, 2(2): 1-7.
+
+%\item Yan  ZW , Liu GZ , Su R. Call Admission Control Scheme with Multimedia 
+%Scheduling Service in WiMAX Network[J].  Advances in Multimedia International Journal, 2012, 3(1). 
+
+[3] Yan ZW ,  Huang L, Kuo CCJ .   Seamless high-velocity handover support in mobile WiMAX networks[C] //  The 11th IEEE  International Conference on Communication Systems (ICCS).  IEEE Computer Society, 2008:1680 -1684 (EI)
+
+%:20091411996161
+[4] Yan  ZW , Liu GZ , Su R, etal  A simulation
+mechanism for video delivery researches[C]// Fourth International Conference on Communications and Networking in China. Xian, China: IEEE Press, 2009: 300-304 (EI)
+
+%:20095112557688
+[5] 刘贵忠, 苏睿, 燕志伟, 陈晓闽, 张庆, 陈立水.  面向 H.264/AVC 视频编解码器的实时视频网络传输仿真系统[C] //第二届和谐人机环境联合学术会议(HHME06)-第15届中国多媒体学术会议（NCMT06）会议论文集, 清华大学出版社, 2007.
+%\end{enumerate}
+%明审
+
+}
+\else
+%盲审v
+    \begin{enumerate}[{[}1{]}]
+    	\item  Call Admission Control Scheme with Normalized QoS Metric
+in IEEE802.16 Networks[J].  Wireless Communication and Mobile Computing.
+	\item Optimal Call Admission Control Solution with Normalized Multimedia QoS[J]. Asian Transactions on Fundamentals of Electronics, Communication \& 
+Multimedia, 2012, 2(2): 1-7.
+	%\item Call Admission Control Scheme with Multimedia 
+%Scheduling Service in WiMAX Network[J].  Advances in Mutimedia International Journal, 2012, 3(1). 
+        \item Seamless high-velocity handover support in mobile
+WiMAX networks[C].  The 11th IEEE  International Conference on Communication Systems (ICCS).  IEEE Computer Society, 2008:1680 -1684 (EI)
+	\item A simulation
+mechanism for video delivery researches[C]. Fourth International Conference on Communications and Networking in China. IEEE Press, 2009: 300-304(EI)
+	\item 面向 H.264/AVC 视频编解码器的实时视频网络传输仿真系统[C].第二届和谐人机环境联合学术会议(HHME06)-第15届中国多媒体学术会议（NCMT06）会议论文集, 清华大学出版社, 2007.
+    \end{enumerate}
+\fi
+
+
+
+\xjtuacademicintegrity
+
+
+\end{document}
+
